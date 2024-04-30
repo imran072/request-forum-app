@@ -1,3 +1,19 @@
-#logintitle h1{
-    color: blueviolet;
+/*background picture */
+body {
+    background-image: url(ev.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+#logInTitle h1{
+    color: rgb(43, 58, 226);
 }
+
+/*adjusting the breaking point of the input form*/
+@media (min-width: 992px) {
+    .col-md-9 input.form-control-sm {
+        width: calc(30% - 1px); /* Adjust the width as needed */
+    }
+}
+
