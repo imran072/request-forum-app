@@ -110,24 +110,16 @@ section.search {
   }
 
   /* adjustments for smaller screens */
-  @media (max-width: 600px) {
-    .header-buttons {
-        padding: 5px 10px;
-        font-size: 12px;
-    }
-
-    .search-fields {
-        margin: 5px 0;
-        width: 100%; 
-    }
-
-    /* adjusts layout vertically */
-    .search-area {
-        display: flex;
+@media (max-width: 768px) {
+    .form-row {
         flex-direction: column;
-        align-items: center;
+    }
+    .form-row select, .form-row input[type="text"], .form-row button {
+        width: 100%; /* makes each input take the full width */
+        margin-top: 8px; /* adds spacing between stacked elements */
     }
 }
+
 
 
 form {
@@ -174,15 +166,19 @@ button:hover {
     margin-right: 20px; 
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    background-color: #add8e6; /* Light blue color */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center align items horizontally */
+    justify-content: center; /* Center align items vertically */
 }
-
 
 .ev-ads-slider .ad img {
-    width: 80%; 
-    height: auto; 
-    object-fit: cover; 
-    display: block; 
+    max-width: 100%; /* Ensures image does not exceed the container width */
+    height: auto; /* Keeps the aspect ratio of the image */
+    margin-bottom: 10px; /* Space between the image and the text below it */
 }
+
 
 
 .ev-ads-slider .info {

@@ -5,24 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EV Marketplace</title>
 <link rel="stylesheet" href="../static/css/main_webpage.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="../js/scripts.js"></script>
 
+<!-- nav bar -->
 </head>
 <body>
-<header>
-    <nav>
-        <a href="/">
-            <img src="../img/Website_Logo.png" alt="EV Marketplace" id="website_logo">
-        </a>
-        <ul>
-            <li><a href="#">Vehicles</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#">Signup</a></li>
-            <li><a href="#" class="sell">Sell My EV</a></li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a href="/">
+                <img src="../img/Website_Logo.png" alt="EV Marketplace" id="website_logo" class="navbar-brand">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="#">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Signup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#" class="sell">Sell My EV</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
 
 <section class="search" 
 style="background-image: url('../img/background.jpg'); 
@@ -144,6 +152,14 @@ background-position: center;">
                 <h3>Tesla Model S</h3>
                 <p>$28000</p>
                 <p>Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.</p>
+            </div>
+        </div>
+        <div class="ad">
+            <img src="../img/car_models/Toyota_Camry.png" alt="Toyota_Camry">
+            <div class="info">
+                <h3>Toyota Camry</h3>
+                <p>$20000</p>
+                <p>Toyota Electrified - Towards the future</p>
             </div>
         </div>
         <!-- Repeat for each EV ad -->
