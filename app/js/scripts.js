@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const evSlider = document.querySelector('.ev-ads-slider .slide');
     const ads = Array.from(evSlider.querySelectorAll('.ad'));
-    const slideInterval = setInterval(shiftAd, 3000);
+    const slideInterval = setInterval(shiftAd, 5000);
 
     function shiftAd() {
         evSlider.appendChild(ads.shift()); // Move the first ad to the end
