@@ -6,124 +6,98 @@
     <title>EV Marketplace - Advanced Search</title>
     <link rel="stylesheet" href="../static/css/main_webpage.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="../js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/scripts.js"></script>
 </head>
-<body>
+
+<body class="d-flex flex-column min-vh-100">
     <!-- nav bar -->
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a href="/">
-                <img src="../img/Website_Logo.png" alt="EV Marketplace" id="website_logo" class="navbar-brand">
+            <a href="index.html">
+                <img src="../static/img/Website_Logo.png" alt="EV Marketplace" id="website_logo" class="navbar-brand">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="#">Vehicles</a></li>
+                    <li class="nav-item"><a class="nav-link" href="search.html">Vehicles</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Signup</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="signup.html">Signup</a></li>
                     <li class="nav-item"><a class="nav-link" href="#" class="sell">Sell My EV</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
+
    <!-- search bar -->
-<section class="search" 
-style="background-image: url('../img/background.jpg'); 
-background-size: cover; 
-background-position: center;">
-    <form>
-        <div class="form-row">
-            <select name="make" id="make">
-                <option value="any" selected>Any make</option>
-                <option value="Audi">Audi</option>
-                <option value="Bentley">Bentley</option>
-                <option value="BMW">BMW</option>
-                <option value="BYD">BYD</option>
-                <option value="Chery">Chery</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Fiat">Fiat</option>
-                <option value="Fisker">Fisker</option>
-                <option value="Ford">Ford</option>
-                <option value="Honda">Honda</option>
-                <option value="Hyundai">Hyundai</option>
-                <option value="JAC Motors">JAC Motors</option>
-                <option value="Jaguar">Jaguar</option>
-                <option value="Kia">Kia</option>
-                <option value="Lexus">Lexus</option>
-                <option value="Maserati">Maserati</option>
-                <option value="Mahindra">Mahindra</option>
-                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                <option value="MG">MG</option>
-                <option value="Mitsubishi">Mitsubishi</option>
-                <option value="Nissan">Nissan</option>
-                <option value="Peugeot">Peugeot</option>
-                <option value="Porsche">Porsche</option>
-                <option value="Opel">Opel</option>
-                <option value="Renault">Renault</option>
-                <option value="Suzuki">Suzuki</option>
-                <option value="Tesla">Tesla</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Volvo">Volvo</option>
-                <option value="Volkswagen">Volkswagen</option>
-            </select>
-            <select name="model" id="model">
-                <option value="any">Any Model</option>
-            </select>
-            <select name="distance" id="distance">
-                <option value="distance">Distance</option>
-                <option value="5">5 km</option>
-                <option value="10">10 km</option>
-                <option value="15">15 km</option>
-                <option value="20">20 km</option>
-                <option value="30">30 km</option>
-                <option value="40">40 km</option>
-                <option value="50">50 km</option>
-                <option value="75">75 km</option>
-                <option value="100">100 km</option>
-                <option value="150">150 km</option>
-                <option value="200">200 km</option>
-            </select>
-            
-            <input type="text" name="postcode" placeholder="Postcode">
-            <select name="price" id="price">
-                <option value="maxcdn">Max Price</option>
-                <option value="$1000">$1000</option>
-                <option value="$2000">$2000</option>
-                <option value="$3000">$3000</option>
-                <option value="$4000">$4000</option>
-                <option value="$5000">$5000</option>
-                <option value="$6000">$6000</option>
-                <option value="$7000">$7000</option>
-                <option value="$8000">$8000</option>
-                <option value="$9000">$9000</option>
-                <option value="$10000">$10000</option>
-                <option value="$11000">$11000</option>
-                <option value="$12000">$12000</option>
-                <option value="$13000">$13000</option>
-                <option value="$14000">$14000</option>
-                <option value="$15000">$15000</option>
-                <option value="$16000">$16000</option>
-                <option value="$17000">$17000</option>
-                <option value="$18000">$18000</option>
-                <option value="$19000">$19000</option>
-                <option value="$20000">$20000</option>
-                <option value="$25000">$25000</option>
-                <option value="$30000">$30000</option>
-                <option value="$35000">$35000</option>
-                <option value="$40000">$40000</option>
-                <option value="$45000">$45000</option>
-                <option value="$50000">$50000</option>
-            </select>
+   <div class="content-wrapper">
+    <main>
+        <div class="content">
+        <section class="filters">
+            <div class="filter-group">
+                <label for="seller-type">Seller Type:</label>
+                <select id="seller-type">
+                    <option value="">All</option>
+                    <option value="dealer">Dealer</option>
+                    <option value="private">Private</option>
+                </select>
+            </div>
+        
+            <div class="filter-group">
+                <label for="keywords">Keywords:</label>
+                <input type="text" id="keywords" placeholder="Enter keywords">
+            </div>
+        
+            <div class="filter-group">
+                <h3>Make / Model</h3>
+                <select id="make">
+                    <option value="make">All Makes</option>
+                    <!-- options from js -->
+                </select>
+                <select id="model">
+                    <option value="model">All Models</option>
+                    <!-- options from js -->
+                </select>
+            </div>
+        
+            <div class="filter-group">
+                <h3>Price</h3>
+                <input type="number" id="min-price" placeholder="Min Price">
+                <input type="number" id="max-price" placeholder="Max Price">
+            </div>
+        
+            <div class="filter-group">
+                <label for="monthly">Monthly:</label>
+                <input type="number" id="monthly" placeholder="Monthly Price">
+            </div>
+        
+            <div class="filter-group">
+                <label for="distance">Distance:</label>
+                <input type="number" id="distance" placeholder="Distance">
+            </div>
+        
+            <div class="filter-group">
+                <h3>Mileage</h3>
+                <input type="number" id="min-mileage" placeholder="Min Mileage">
+                <input type="number" id="max-mileage" placeholder="Max Mileage">
+            </div>
+        
+            <div class="filter-group">
+                <h3>Year</h3>
+                <input type="number" id="min-year" placeholder="From Year">
+                <input type="number" id="max-year" placeholder="To Year">
+            </div>
+        </section>
         </div>
-        <div class="form-row">
-            <button type="submit">Find My EV</button>
-        </div>
-    </form>
-</section>
+        
+
+                <button type="submit">Search</button>
+            </form>
+        </main>
 
 <!-- footer -->
 <footer class="site-footer">
