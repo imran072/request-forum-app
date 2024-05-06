@@ -1,16 +1,19 @@
 body, html {
     margin: 0;
-    padding: 0;
-    width: 100%;
     height: 100%;
-    font-family: 'Arial', sans-serif;
-}
+}  
 
 header {
     background: #f8f8f8;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Add this line */
+}
 .container {
     width: 80%; 
     margin: 0 auto; 
@@ -20,6 +23,12 @@ header {
     width: 100%; 
     max-width: 1200px; 
     margin: 20px;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Base styles */
@@ -264,4 +273,98 @@ button:hover {
 
 .footer-links a:hover {
     text-decoration: underline; 
+}
+
+
+
+/* Search.html filters */
+
+.filters {
+    float: left;
+    width: 20%;
+    padding: 20px;
+    background-color: #f2f2f2;
+    box-sizing: border-box;
+}
+
+.filter-group {
+    margin-bottom: 20px;
+}
+
+.filter-group h3 {
+    margin-top: 0;
+}
+
+.filter-group label,
+.filter-group input,
+.filter-group select {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Add this line */
+}
+
+main {
+    flex: 1; /* Add this line */
+}
+
+footer {
+    flex-shrink: 0; /* Add this line */
+}
+
+
+.accordion-button {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem; /* Rounded corners for the button */
+    padding: 0.5rem 1rem; /* Padding around text */
+    font-size: 16px; /* Appropriate text size */
+    text-align: left; /* Align text to the left */
+}
+
+.accordion-button:not(.collapsed) {
+    color: #0d6efd; /* Change text color when expanded */
+    background-color: #e9ecef; /* Slightly different background when active */
+    border-color: #ccc;
+}
+
+.accordion-button:focus {
+    box-shadow: none; /* Remove focus outline to maintain the clean look */
+}
+
+.accordion-body {
+    padding: 1rem; /* Padding inside the collapsible body */
+}
+
+.select-custom {
+    display: block;
+    width: 100%; /* Full width */
+    padding: 0.375rem 0.75rem; /* Padding inside the select box */
+    font-size: 1rem; /* Font size */
+    font-weight: 400; /* Font weight */
+    line-height: 1.5; /* Line height */
+    color: #495057; /* Text color */
+    background-color: #fff; /* Background color */
+    background-clip: padding-box;
+    border: 1px solid #ced4da; /* Border color */
+    appearance: none; /* Remove default styles */
+    border-radius: 0.25rem; /* Rounded borders */
+    margin-bottom: 1rem; /* Space below each select */
+}
+
+/* Custom arrow */
+.select-custom::-ms-expand {
+    display: none; /* For IE11 and below */
 }
