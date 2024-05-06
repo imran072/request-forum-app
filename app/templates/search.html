@@ -1,70 +1,99 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehicles Search</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/main_webpage.css') }}">
-</head>
-<body>
-    <!-- nav bar -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Vehicles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ url_for('signup') }}">Signup</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" class="sell">Sell My EV</a></li>
-                </ul>
+{% extends 'default.html' %}
+
+{% block title %}Vehicles - EV Marketplace{% endblock %}
+
+{% block content %}
+<!-- search bar -->
+<main class="flex-grow-1">
+    <section class="search"
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
+    background-size: cover;
+    background-position: center;">
+        <form method="get" action="{{ url_for('vehicles') }}">
+            <div class="form-row row-1">
+                <select name="make" id="make">
+                    <option value="any" selected>Any Make</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+                <select name="model" id="model">
+                    <option value="any">Any Model</option>
+                </select>
+                <select name="year" id="year">
+                    <option value="any" selected>Any Year</option>
+                    {% for yr in years %}
+                        <option value="{{ yr }}">{{ yr }}</option>
+                    {% endfor %}
+                </select>
+                <select name="mileage" id="mileage">
+                    <option value="any" selected>Any Mileage</option>
+                    {% for mile in mileage %}
+                        <option value="{{ mile }}">{{ mile }} km</option>
+                    {% endfor %}
+                </select>
             </div>
-        </nav>
-    </header>
+            <div class="form-row row-2">
+                <select name="top_speed" id="top_speed">
+                    <option value="any" selected>Any Top Speed</option>
+                    {% for speed in top_speed %}
+                        <option value="{{ speed }}">{{ speed }} km/h</option>
+                    {% endfor %}
+                </select>
+                <select name="acceleration" id="acceleration">
+                    <option value="any" selected>Any Acceleration</option>
+                    {% for acc in acceleration %}
+                        <option value="{{ acc }}">0-100 km/h in {{ acc }} seconds</option>
+                    {% endfor %}
+                </select>
+                <select name="price" id="price">
+                    <option value="any" selected>Max Price</option>
+                    {% for price in prices %}
+                        <option value="{{ price }}">${{ price }}</option>
+                    {% endfor %}
+                </select>
+                <select name="color" id="color">
+                    <option value="any" selected>Any Color</option>
+                    {% for color in colors %}
+                        <option value="{{ color }}">{{ color }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row find-button">
+                <button type="submit">Find My EV</button>
+            </div>
+        </form>
+    </section>
 
-    <!-- search bar -->
-    <main class="flex-grow-1">
-        <section class="search"
-        style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
-        background-size: cover;
-        background-position: center;">
-            <form>
-                <div class="form-row">
-                    <select name="make" id="make">
-                        <option value="any" selected>Any make</option>
-                        {% for make in makes %}
-                            <option value="{{ make }}">{{ make }}</option>
-                        {% endfor %}
-                    </select>
-                    <select name="model" id="model">
-                        <option value="any">Any Model</option>
-                    </select>
-                    <select name="distance" id="distance">
-                        <option value="distance">Distance</option>
-                        {% for dist in distances %}
-                            <option value="{{ dist }}">{{ dist }} km</option>
-                        {% endfor %}
-                    </select>
-
-                    <input type="text" name="postcode" placeholder="Postcode">
-                    <select name="price" id="price">
-                        <option value="max_price">Max Price</option>
-                        {% for price in prices %}
-                            <option value="{{ price }}">${{ price }}</option>
-                        {% endfor %}
-                    </select>
+    <!-- Display Filtered Cars -->
+    {% if vehicles %}
+    <section class="vehicle-results">
+        <div class="vehicle-summary">
+            <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
+            <div class="tags">
+                {% for tag in tags %}
+                    <button>{{ tag }} <span>&times;</span></button>
+                {% endfor %}
+                <button>Clear All</button>
+            </div>
+        </div>
+        <div class="vehicle-grid">
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card">
+                <img src="{{ url_for('static', filename='img/car_models/' + vehicle['image']) }}" alt="{{ vehicle['model'] }}">
+                <div class="vehicle-info">
+                    <h3>{{ vehicle['make'] }} {{ vehicle['model'] }}</h3>
+                    <p>{{ vehicle['price'] }}</p>
+                    <p>{{ vehicle['year'] }} - {{ vehicle['miles'] }} miles</p>
+                    <p>Location: {{ vehicle['location'] }}</p>
+                    <p>Seller: {{ vehicle['seller'] }} - {{ vehicle['email'] }}</p>
                 </div>
-                <div class="form-row">
-                    <button type="submit">Find My EV</button>
-                </div>
-            </form>
-        </section>
-    </main>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>
