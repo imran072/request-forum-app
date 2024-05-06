@@ -1,12 +1,6 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
 app = Flask(__name__)
-
-cars = [
-    {"make": "Tesla", "model": "Model S 100D Long Range", "price": "£79,995", "year": 2019, "miles": 2000, "location": "Hitchin", "seller": "E-Cars", "email": "simon@thecaragents.com", "image": "Tesla_Model_S_100D_Long_Range.png"},
-    {"make": "Tesla", "model": "Model S E 85D", "price": "£47,995", "year": 2016, "miles": 32000, "location": "Humberston", "seller": "E-Cars", "email": "jdcleve@btopneworld.com", "image": "Tesla_Model_S_E_85D.png"},
-    {"make": "Tesla", "model": "Model S E 85D", "price": "£44,995", "year": 2016, "miles": 28000, "location": "Humberston", "seller": "E-Cars", "email": "jdcleve@btopneworld.com", "image": "Tesla_Model_S_E_85D.png"}
-]
 
 @app.route('/')
 def index():
@@ -22,17 +16,17 @@ def index():
 
     return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
 
-@app.route('/vehicles', methods=['GET'])
+@app.route('/vehicles')
 def vehicles():
-    make = request.args.get('make', '')
-    model = request.args.get('model', '')
-    price = request.args.get('price', '')
-    # Add more filters as needed
+    makes = ['Audi', 'Bentley', 'BMW', 'BYD', 'Chery', 'Chevrolet', 'Fiat', 'Fisker', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Kia', 'Lexus', 'Maserati', 'Mahindra', 'Mercedes-Benz', 'MG', 'Mitsubishi', 'Nissan', 'Peugeot', 'Porsche', 'Opel', 'Renault', 'Suzuki', 'Tesla', 'Toyota', 'Volvo', 'Volkswagen']
+    years = list(range(2000, 2024))
+    mileage = ['5000', '10000', '15000', '20000', '25000', '30000', '35000', '40000', '45000', '50000']
+    top_speed = ['120', '150', '180', '200', '220', '240', '260']
+    acceleration = ['3', '4', '5', '6', '7', '8', '9', '10']
+    prices = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 25000, 30000, 35000, 40000, 45000, 50000]
+    colors = ['Red', 'Blue', 'Green', 'Black', 'White', 'Silver', 'Gray', 'Yellow']
 
-    filtered_cars = [car for car in cars if (make.lower() in car['make'].lower() or make == 'any') and
-                                           (model.lower() in car['model'].lower() or model == 'any') and
-                                           (price in car['price'] or price == 'any')]
-    return render_template('search.html', vehicles=filtered_cars)
+    return render_template('search.html', makes=makes, years=years, mileage=mileage, top_speed=top_speed, acceleration=acceleration, prices=prices, colors=colors)
 
 @app.route('/login')
 def login():
