@@ -51,4 +51,3 @@ class SearchHistory(db.Model):
     search_parameters = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
-db.create_all()  # Make sure to call this only in the right context, such as at the end of your application setup
