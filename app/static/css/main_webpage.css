@@ -395,3 +395,59 @@ button:hover {
     color: #555;
 }
 
+/* styles for login page */
+/* Background */
+.bg-login {
+    background-image: url('../img/background.jpg');
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Login Panel */
+.login-panel {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Form Controls */
+.form-control {
+    margin-bottom: 20px;
+    height: 50px;
+    padding-left: 10px;
+}
+
+/* Buttons */
+.login-btn, .google-btn, .facebook-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.login-btn {
+    background-color: #007BFF;
+    color: white;
+}
+
+.google-btn {
+    background-color: #de5246;
+    color: white;
+}
+
+.facebook-btn {
+    background-color: #3b5998;
+    color: white;
+}
+
+.login-btn:hover, .google-btn:hover, .facebook-btn:hover {
+    opacity: 0.9;
+}
