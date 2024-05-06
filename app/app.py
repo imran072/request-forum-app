@@ -1,6 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
+
+cars = [
+    {"make": "Tesla", "model": "Model S 100D Long Range", "price": "£79,995", "year": 2019, "miles": 2000, "location": "Hitchin", "seller": "E-Cars", "email": "simon@thecaragents.com", "image": "Tesla_Model_S_100D_Long_Range.png"},
+    {"make": "Tesla", "model": "Model S E 85D", "price": "£47,995", "year": 2016, "miles": 32000, "location": "Humberston", "seller": "E-Cars", "email": "jdcleve@btopneworld.com", "image": "Tesla_Model_S_E_85D.png"},
+    {"make": "Tesla", "model": "Model S E 85D", "price": "£44,995", "year": 2016, "miles": 28000, "location": "Humberston", "seller": "E-Cars", "email": "jdcleve@btopneworld.com", "image": "Tesla_Model_S_E_85D.png"}
+]
 
 @app.route('/')
 def index():
@@ -16,9 +22,17 @@ def index():
 
     return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
 
-@app.route('/search')
-def search():
-    return render_template('search.html')
+@app.route('/vehicles', methods=['GET'])
+def vehicles():
+    make = request.args.get('make', '')
+    model = request.args.get('model', '')
+    price = request.args.get('price', '')
+    # Add more filters as needed
+
+    filtered_cars = [car for car in cars if (make.lower() in car['make'].lower() or make == 'any') and
+                                           (model.lower() in car['model'].lower() or model == 'any') and
+                                           (price in car['price'] or price == 'any')]
+    return render_template('search.html', vehicles=filtered_cars)
 
 @app.route('/login')
 def login():
