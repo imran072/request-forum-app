@@ -46,11 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 modelSelect.add(option);
             });
         }
-        // distance
-        document.getElementById('distance').onchange = function() {
-        console.log('Distance changed to: ' + this.value + ' km');
-        };
-     };
+    };
 });
 
 // ev ads
@@ -60,8 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const slideInterval = setInterval(shiftAd, 5000);
 
     function shiftAd() {
-        evSlider.appendChild(ads.shift()); // Move the first ad to the end
-        ads.push(evSlider.lastElementChild); // Keep the array updated
+        evSlider.appendChild(ads.shift()); // moves first ad to the end
+        ads.push(evSlider.lastElementChild); // updates the array
     }
 });
 

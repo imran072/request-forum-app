@@ -12,7 +12,7 @@ header {
 body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Add this line */
+    min-height: 100vh;
 }
 .container {
     width: 80%; 
@@ -31,7 +31,7 @@ body {
     flex-direction: column;
 }
 
-/* Base styles */
+/* base styles */
 .header-buttons {
     padding: 10px 20px;
 }
@@ -80,6 +80,7 @@ nav ul li {
     color: white;
 }
 
+/* index.html */
 /* search bar */
 .background-image {
     width: 100%;
@@ -103,20 +104,45 @@ section.search {
     margin-top: 20px; 
   }
   
-  .search form {
+.search form {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 900px;
-    padding: 0 20px;
-  }
+    gap: 10px;
+}
   
-  .form-row {
+.search .form-row {
     display: flex;
-    justify-content: center; 
-    margin-bottom: 10px;
-  }
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.search .find-button {
+    margin-top: 10px;
+}
+
+.search select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.search button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search button:hover {
+    background-color: #0056b3;
+}
 
   /* adjustments for smaller screens */
 @media (max-width: 768px) {
@@ -124,8 +150,8 @@ section.search {
         flex-direction: column;
     }
     .form-row select, .form-row input[type="text"], .form-row button {
-        width: 100%; /* makes each input take the full width */
-        margin-top: 8px; /* adds spacing between stacked elements */
+        width: 100%;
+        margin-top: 8px;
     }
 }
 
@@ -175,17 +201,17 @@ button:hover {
     margin-right: 20px; 
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
-    background-color: #add8e6; /* Light blue color */
+    background-color: #add8e6; 
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align items horizontally */
-    justify-content: center; /* Center align items vertically */
+    align-items: center; 
+    justify-content: center;
 }
 
 .ev-ads-slider .ad img {
-    max-width: 100%; /* Ensures image does not exceed the container width */
-    height: auto; /* Keeps the aspect ratio of the image */
-    margin-bottom: 10px; /* Space between the image and the text below it */
+    max-width: 100%; 
+    height: auto; 
+    margin-bottom: 10px; 
 }
 
 
@@ -278,93 +304,94 @@ button:hover {
 
 
 /* Search.html filters */
-
-.filters {
-    float: left;
-    width: 20%;
-    padding: 20px;
-    background-color: #f2f2f2;
-    box-sizing: border-box;
+.vehicle-results {
+    margin: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 
-.filter-group {
-    margin-bottom: 20px;
+.vehicle-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
 
-.filter-group h3 {
-    margin-top: 0;
+.tags {
+    display: flex;
+    gap: 5px;
 }
 
-.filter-group label,
-.filter-group input,
-.filter-group select {
-    display: block;
-    width: 100%;
-    margin-bottom: 5px;
+.tags button {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-
-body, html {
-    height: 100%;
-    margin: 0;
+.sort-by {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-body {
+.sort-by select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+.vehicle-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.vehicle-card {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Add this line */
+    width: 250px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
-main {
-    flex: 1; /* Add this line */
+.vehicle-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
 }
 
-footer {
-    flex-shrink: 0; /* Add this line */
+.vehicle-info {
+    padding: 10px;
+    text-align: center;
 }
 
-
-.accordion-button {
-    background-color: white;
-    color: black;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem; /* Rounded corners for the button */
-    padding: 0.5rem 1rem; /* Padding around text */
-    font-size: 16px; /* Appropriate text size */
-    text-align: left; /* Align text to the left */
+.vehicle-info h3 {
+    margin-bottom: 10px;
 }
 
-.accordion-button:not(.collapsed) {
-    color: #0d6efd; /* Change text color when expanded */
-    background-color: #e9ecef; /* Slightly different background when active */
-    border-color: #ccc;
+.vehicle-info p {
+    margin-bottom: 10px;
 }
 
-.accordion-button:focus {
-    box-shadow: none; /* Remove focus outline to maintain the clean look */
+.vehicle-details {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
 }
 
-.accordion-body {
-    padding: 1rem; /* Padding inside the collapsible body */
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9em;
+    color: #555;
 }
 
-.select-custom {
-    display: block;
-    width: 100%; /* Full width */
-    padding: 0.375rem 0.75rem; /* Padding inside the select box */
-    font-size: 1rem; /* Font size */
-    font-weight: 400; /* Font weight */
-    line-height: 1.5; /* Line height */
-    color: #495057; /* Text color */
-    background-color: #fff; /* Background color */
-    background-clip: padding-box;
-    border: 1px solid #ced4da; /* Border color */
-    appearance: none; /* Remove default styles */
-    border-radius: 0.25rem; /* Rounded borders */
-    margin-bottom: 1rem; /* Space below each select */
-}
-
-/* Custom arrow */
-.select-custom::-ms-expand {
-    display: none; /* For IE11 and below */
-}
