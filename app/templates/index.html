@@ -1,208 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Marketplace</title>
-<link rel="stylesheet" href="../static/css/main_webpage.css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="../static/js/scripts.js"></script>
-</head>
+{% extends 'default.html' %}
 
-<body class="d-flex flex-column min-vh-100">
-    <!-- nav bar -->
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a href="index.html">
-                <img src="../static/img/Website_Logo.png" alt="EV Marketplace" id="website_logo" class="navbar-brand">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="search.html">Vehicles</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                    <li class="nav-item"><a class="nav-link" href="signup.html">Signup</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#" class="sell">Sell My EV</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+{% block title %}Home - EV Marketplace{% endblock %}
+
+{% block content %}
 
     <!-- search bar -->
     <main class="flex-grow-1">
-<section class="search" 
-style="background-image: url('../static/img/background.jpg'); 
-background-size: cover; 
-background-position: center;">
-    <form>
-        <div class="form-row">
-            <select name="make" id="make">
-                <option value="any" selected>Any make</option>
-                <option value="Audi">Audi</option>
-                <option value="Bentley">Bentley</option>
-                <option value="BMW">BMW</option>
-                <option value="BYD">BYD</option>
-                <option value="Chery">Chery</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Fiat">Fiat</option>
-                <option value="Fisker">Fisker</option>
-                <option value="Ford">Ford</option>
-                <option value="Honda">Honda</option>
-                <option value="Hyundai">Hyundai</option>
-                <option value="JAC Motors">JAC Motors</option>
-                <option value="Jaguar">Jaguar</option>
-                <option value="Kia">Kia</option>
-                <option value="Lexus">Lexus</option>
-                <option value="Maserati">Maserati</option>
-                <option value="Mahindra">Mahindra</option>
-                <option value="Mercedes-Benz">Mercedes-Benz</option>
-                <option value="MG">MG</option>
-                <option value="Mitsubishi">Mitsubishi</option>
-                <option value="Nissan">Nissan</option>
-                <option value="Peugeot">Peugeot</option>
-                <option value="Porsche">Porsche</option>
-                <option value="Opel">Opel</option>
-                <option value="Renault">Renault</option>
-                <option value="Suzuki">Suzuki</option>
-                <option value="Tesla">Tesla</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Volvo">Volvo</option>
-                <option value="Volkswagen">Volkswagen</option>
-            </select>
-            <select name="model" id="model">
-                <option value="any">Any Model</option>
-            </select>
-            <select name="distance" id="distance">
-                <option value="distance">Distance</option>
-                <option value="5">5 km</option>
-                <option value="10">10 km</option>
-                <option value="15">15 km</option>
-                <option value="20">20 km</option>
-                <option value="30">30 km</option>
-                <option value="40">40 km</option>
-                <option value="50">50 km</option>
-                <option value="75">75 km</option>
-                <option value="100">100 km</option>
-                <option value="150">150 km</option>
-                <option value="200">200 km</option>
-            </select>
-            
-            <input type="text" name="postcode" placeholder="Postcode">
-            <select name="price" id="price">
-                <option value="maxcdn">Max Price</option>
-                <option value="$1000">$1000</option>
-                <option value="$2000">$2000</option>
-                <option value="$3000">$3000</option>
-                <option value="$4000">$4000</option>
-                <option value="$5000">$5000</option>
-                <option value="$6000">$6000</option>
-                <option value="$7000">$7000</option>
-                <option value="$8000">$8000</option>
-                <option value="$9000">$9000</option>
-                <option value="$10000">$10000</option>
-                <option value="$11000">$11000</option>
-                <option value="$12000">$12000</option>
-                <option value="$13000">$13000</option>
-                <option value="$14000">$14000</option>
-                <option value="$15000">$15000</option>
-                <option value="$16000">$16000</option>
-                <option value="$17000">$17000</option>
-                <option value="$18000">$18000</option>
-                <option value="$19000">$19000</option>
-                <option value="$20000">$20000</option>
-                <option value="$25000">$25000</option>
-                <option value="$30000">$30000</option>
-                <option value="$35000">$35000</option>
-                <option value="$40000">$40000</option>
-                <option value="$45000">$45000</option>
-                <option value="$50000">$50000</option>
-            </select>
-        </div>
-        <div class="form-row">
-            <button type="submit">Find My EV</button>
-        </div>
-    </form>
-</section>
+    <section class="search" 
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); 
+    background-size: cover; 
+    background-position: center;">
+        <form>
+            <div class="form-row">
+                <select name="make" id="make">
+                    <option value="any" selected>Any make</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+                <select name="model" id="model">
+                    <option value="any">Any Model</option>
+                </select>
+                <select name="distance" id="distance">
+                    <option value="distance">Distance</option>
+                    {% for dist in distances %}
+                        <option value="{{ dist }}">{{ dist }} km</option>
+                    {% endfor %}
+                </select>
+                
+                <input type="text" name="postcode" placeholder="Postcode">
+                <select name="price" id="price">
+                    <option value="max_price">Max Price</option>
+                    {% for price in prices %}
+                        <option value="{{ price }}">${{ price }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row">
+                <button type="submit">Find My EV</button>
+            </div>
+        </form>
+    </section>
 
-<!-- ev ads -->
-<section class="ev-ads-slider">
-    <div class="slide">
-        <div class="ad">
-            <img src="../static/img/car_models/Tesla_Model_3.png" alt="Tesla_Model_3">
-            <div class="info">
-                <h3>Tesla Model 3</h3>
-                <p>$25000</p>
-                <p>Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.</p>
+    <!-- ev ads -->
+    <section class="ev-ads-slider">
+        <div class="slide">
+            {% for ad in ads %}
+            <div class="ad">
+                <img src="{{ url_for('static', filename='img/car_models/' + ad.image) }}" alt="{{ ad.alt }}">
+                <div class="info">
+                    <h3>{{ ad.name }}</h3>
+                    <p>${{ ad.price }}</p>
+                    <p>{{ ad.description }}</p>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        <div class="ad">
-            <img src="../static/img/car_models/Toyota_Camry.png" alt="Toyota_Camry">
-            <div class="info">
-                <h3>Toyota Camry</h3>
-                <p>$20000</p>
-                <p>Toyota Electrified - Towards the future</p>
-            </div>
+    </section>
+
+    <!-- brand logo slideshow -->
+    <div class="brand-slider">
+        <div class="slide">
+            {% for brand_logo in brand_logos %}
+                <img src="{{ url_for('static', filename='img/brand_logos/' + brand_logo) }}" alt="{{ brand_logo.split('.')[0] }}">
+            {% endfor %}
         </div>
-        <div class="ad">
-            <img src="../static/img/car_models/Tesla_Model_X.png" alt="Tesla_Model_S">
-            <div class="info">
-                <h3>Tesla Model S</h3>
-                <p>$28000</p>
-                <p>Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.</p>
-            </div>
-        </div>
-        <div class="ad">
-            <img src="../static/img/car_models/Toyota_Camry.png" alt="Toyota_Camry">
-            <div class="info">
-                <h3>Toyota Camry</h3>
-                <p>$20000</p>
-                <p>Toyota Electrified - Towards the future</p>
-            </div>
-        </div>
-        <!-- additional ev ads -->
     </div>
-</section>
-
-<!-- brand logo slideshow -->
-<div class="brand-slider">
-    <div class="slide">
-        <img src="../static/img/brand_logos/Tesla.png" alt="Tesla">
-        <img src="../static/img/brand_logos/Honda.png" alt="Honda">
-        <img src="../static/img/brand_logos/Fisker.png" alt="Fisker">
-        <img src="../static/img/brand_logos/Ford.png" alt="Ford">
-        <img src="../static/img/brand_logos/Audi.png" alt="Audi">
-        <img src="../static/img/brand_logos/Renault.png" alt="Renault">
-        <img src="../static/img/brand_logos/Toyota.png" alt="Toyota">
-        <img src="../static/img/brand_logos/Volvo.png" alt="Volvo">
-        <img src="../static/img/brand_logos/Maserati.png" alt="Maserati">
-        <img src="../static/img/brand_logos/Nissan.png" alt="Nissan">
-        <img src="../static/img/brand_logos/Mahindra.png" alt="Mahindra">
-        <img src="../static/img/brand_logos/Kia.png" alt="Kia">
-        <img src="../static/img/brand_logos/Jaguar.png" alt="Jaguar">
-        <img src="../static/img/brand_logos/Hyundai.png" alt="Hyundai">
-        <img src="../static/img/brand_logos/BYD.png" alt="BYD">
-        <img src="../static/img/brand_logos/Volkswagen.png" alt="Volkswagen">
-        <img src="../static/img/brand_logos/Bentley.png" alt="Bentley">
-        <img src="../static/img/brand_logos/BMW.png" alt="BMW">
-    </div>
-</div>
-</main>
-
-
-<footer class="site-footer">
-    <div class="footer-content">
-        <p>EVM - all copyrights reserved © 2024</p>
-        <ul class="footer-links">
-            <li><a href="#terms">Terms and Conditions</a></li>
-            <li><a href="#privacy">Privacy Policy</a></li>
-            <li><a href="#cookie">Cookie Policy</a></li>
-        </ul>
-    </div>
-</footer>
+    {% endblock %}
+    </main>
 
 </body>
 </html>

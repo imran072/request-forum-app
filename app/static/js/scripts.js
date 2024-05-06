@@ -1,4 +1,3 @@
-// Any model
 document.addEventListener('DOMContentLoaded', function() {
     var makeSelect = document.getElementById('make');
     var modelSelect = document.getElementById('model');
@@ -77,6 +76,3 @@ document.addEventListener('DOMContentLoaded', function() {
         logos.push(slider.lastElementChild); // updates the array
     }
 });
-
-
-
