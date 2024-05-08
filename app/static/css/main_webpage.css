@@ -397,15 +397,22 @@ button:hover {
 
 /* styles for login page */
 /* Background */
-.bg-login {
+#login-s {
     background-image: url('../img/background.jpg');
     height: 100vh;
     background-size: cover;
     background-position: center;
 }
 
+.card.shadow-2-strong {
+    /* CSS properties */
+    border-radius: 1rem;
+    background-color: rgba(255, 255, 255, 0.411);
+    min-width: 500px;
+}
+
 /* Login Panel */
-.login-panel {
+/* #login-panel {
     background-color: rgba(255, 255, 255, 0.95);
     padding: 40px;
     border-radius: 8px;
@@ -415,15 +422,51 @@ button:hover {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
-}
+} */
 
 /* Form Controls */
-.form-control {
+/* #placeholder {
     margin-bottom: 20px;
     height: 50px;
     padding-left: 10px;
+} */
+
+.form-outline.mb-4{
+    position: relative;
+
 }
 
+.fa.fa-user{
+    position: absolute; 
+    left: 10px; top: 50%; 
+    transform: translateY(-50%);
+
+}
+
+.form-control.form-control-lg{
+    padding-left: 35px; 
+    background-color: rgba(255, 255, 255, 0.561);
+}
+
+.fa.fa-lock{
+    position: absolute; 
+    left: 10px; top: 50%; 
+    transform: translateY(-50%);
+}
+
+.form-check.d-flex.justify-content-start.mb-4{
+    display: inline-block;
+}
+
+a.form-check-label{
+    margin-left: 99px;
+}
+
+.btn.btn-primary.btn-lg.btn-block{
+    background-color: rgba(255, 255, 255, 0.561);
+    border: hidden;
+    color: rgba(0, 0, 0, 0.537);
+}
 /* Buttons */
 .login-btn, .google-btn, .facebook-btn {
     width: 100%;
