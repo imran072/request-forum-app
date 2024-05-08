@@ -4,30 +4,32 @@
 
 {% block content %}
 <main class="flex-grow-1">
-    <section class="search"
-    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
-    background-size: cover;
-    background-position: center;">
+    <section class="vehicle-filter">
         <form method="get" action="{{ url_for('main.vehicles') }}">
-            <div class="form-row row-1">
+            <div class="filter-group">
+                <label for="make">Make / Model</label>
                 <select name="make" id="make">
-                    <option value="any" {% if make == 'any' %}selected{% endif %}>Any Make</option>
+                    <option value="any" {% if make == 'any' %}selected{% endif %}>All Makes</option>
                     {% for m in makes %}
                         <option value="{{ m }}" {% if m == make %}selected{% endif %}>{{ m }}</option>
                     {% endfor %}
                 </select>
                 <select name="model" id="model">
-                    <option value="any" {% if model == 'any' %}selected{% endif %}>Any Model</option>
+                    <option value="any" {% if model == 'any' %}selected{% endif %}>All Models</option>
                     {% for mdl in models %}
                         <option value="{{ mdl }}" {% if mdl == model %}selected{% endif %}>{{ mdl }}</option>
                     {% endfor %}
                 </select>
-                <select name="year" id="year">
-                    <option value="any" {% if year == 'any' %}selected{% endif %}>Any Year</option>
-                    {% for yr in years %}
-                        <option value="{{ yr }}" {% if yr == year %}selected{% endif %}>{{ yr }}</option>
-                    {% endfor %}
-                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price">Price</label>
+                <div class="price-range">
+                    <input type="number" name="min_price" placeholder="(min)" min="0" value="{{ min_price if min_price != 'any' else '' }}">
+                    <input type="number" name="max_price" placeholder="(max)" min="0" value="{{ max_price if max_price != 'any' else '' }}">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="mileage">Mileage</label>
                 <select name="mileage" id="mileage">
                     <option value="any" {% if mileage_value == 'any' %}selected{% endif %}>Any Mileage</option>
                     {% for mile in mileage %}
@@ -35,25 +37,33 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row row-2">
+            <div class="filter-group">
+                <label for="year">Year</label>
+                <div class="year-range">
+                    <input type="number" name="from_year" placeholder="(from)" min="1900" value="{{ from_year if from_year != 'any' else '' }}">
+                    <input type="number" name="to_year" placeholder="(to)" min="1900" value="{{ to_year if to_year != 'any' else '' }}">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="top_speed">Top Speed</label>
                 <select name="top_speed" id="top_speed">
                     <option value="any" {% if top_speed_value == 'any' %}selected{% endif %}>Any Top Speed</option>
                     {% for speed in top_speed %}
                         <option value="{{ speed }}" {% if speed == top_speed_value %}selected{% endif %}>{{ speed }} km/h</option>
                     {% endfor %}
                 </select>
+            </div>
+            <div class="filter-group">
+                <label for="acceleration">Acceleration</label>
                 <select name="acceleration" id="acceleration">
                     <option value="any" {% if acceleration_value == 'any' %}selected{% endif %}>Any Acceleration</option>
                     {% for acc in acceleration %}
                         <option value="{{ acc }}" {% if acc == acceleration_value %}selected{% endif %}>0-100 km/h in {{ acc }} seconds</option>
                     {% endfor %}
                 </select>
-                <select name="price" id="price">
-                    <option value="any" {% if price_value == 'any' %}selected{% endif %}>Max Price</option>
-                    {% for price in prices %}
-                        <option value="{{ price }}" {% if price == price_value %}selected{% endif %}>${{ price }}</option>
-                    {% endfor %}
-                </select>
+            </div>
+            <div class="filter-group">
+                <label for="color">Color</label>
                 <select name="color" id="color">
                     <option value="any" {% if color == 'any' %}selected{% endif %}>Any Color</option>
                     {% for clr in colors %}
@@ -61,16 +71,12 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row find-button">
-                <button type="submit">Find My EV</button>
-            </div>
+            <button type="submit" class="filter-button">Find My EV</button>
         </form>
     </section>
 
-    <!-- displays filtered cars -->
     {% if vehicles %}
-    <section class="vehicle-results">
-        <div class="vehicle-summary">
+    <section class="vehicle-results" >
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
             <div class="tags">
                 {% if make != 'any' %}<button>{{ make }} <span>&times;</span></button>{% endif %}
@@ -78,13 +84,13 @@
                 <button>Clear All</button>
             </div>
         </div>
-        <div class="vehicle-grid">
+        <div class="vehicle-grid" >
             {% for vehicle in vehicles %}
             <div class="vehicle-card">
                 <div class="vehicle-info">
                     <h3>{{ vehicle.make }} {{ vehicle.model }}</h3>
                     <p>${{ vehicle.price }}</p>
-                    <p>{{ vehicle.year }} - {{ vehicle.mileage }} miles</p>
+                    <p>{{ vehicle.year }} - {{ vehicle.mileage }} km</p>
                     <p>Top Speed: {{ vehicle.top_speed }} km/h</p>
                     <p>Acceleration: 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
                     <p>Location: {{ vehicle.seller.name }} - {{ vehicle.seller.email }}</p>
@@ -94,4 +100,5 @@
         </div>
     </section>
     {% endif %}
+</main>
 {% endblock %}

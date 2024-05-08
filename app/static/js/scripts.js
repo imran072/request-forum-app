@@ -48,27 +48,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 });
-
-// ev ads
-document.addEventListener('DOMContentLoaded', function() {
-    const evSlider = document.querySelector('.ev-ads-slider .slide');
-    const ads = Array.from(evSlider.querySelectorAll('.ad'));
-    const slideInterval = setInterval(shiftAd, 5000);
-
-    function shiftAd() {
-        evSlider.appendChild(ads.shift()); // moves first ad to the end
-        ads.push(evSlider.lastElementChild); // updates the array
-    }
-});
-
-// brand logo slider
-document.addEventListener('DOMContentLoaded', function() {
-    const slider = document.querySelector('.brand-slider .slide');
-    const logos = Array.from(slider.querySelectorAll('img'));
-    const slideInterval = setInterval(shiftLogo, 3000);
-
-    function shiftLogo() {
-        slider.appendChild(logos.shift());
-        logos.push(slider.lastElementChild); // updates the array
-    }
-});

@@ -53,8 +53,8 @@ def vehicles():
     makes = [v.make for v in Vehicle.query.distinct(Vehicle.make)]
     models = [v.model for v in Vehicle.query.distinct(Vehicle.model)]
     years = sorted({v.year for v in Vehicle.query.distinct(Vehicle.year)})
-    mileage_options = [10000, 20000, 30000, 40000]
-    top_speed_options = [150, 200, 250, 300]
+    mileage_options = [5000, 10000, 15000, 20000, 25000, 30000, 35000, 40000, 50000, 60000, 70000, 80000]
+    top_speed_options = [100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300]
     acceleration_options = [3.2, 5.6, 7.8]
     price_options = [30000, 40000, 50000]
     color_options = ['Red', 'Blue', 'Black']
