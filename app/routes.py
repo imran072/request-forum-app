@@ -66,15 +66,6 @@ def search_vehicles():
     vehicles = query.all()
     return render_template('search_results.html', vehicles=vehicles)
 
-
-@main.route('/login')
-def login():
-    return render_template('login.html')
-
-@main.route('/signup')
-def signup():
-    return render_template('signup.html')
-
 @main.route('/contactus')
 def contactus():
     return render_template('contactus.html')
