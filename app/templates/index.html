@@ -9,7 +9,7 @@
     style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
     background-size: cover;
     background-position: center;">
-        <form>
+        <form method="get" action="{{ url_for('main.vehicles') }}">
             <div class="form-row">
                 <select name="make" id="make">
                     <option value="any" selected>Any make</option>

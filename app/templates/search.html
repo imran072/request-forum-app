@@ -76,7 +76,8 @@
     </section>
 
     {% if vehicles %}
-    <section class="vehicle-results" >
+    <section class="vehicle-results">
+        <div class="vehicle-summary">
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
             <div class="tags">
                 {% if make != 'any' %}<button>{{ make }} <span>&times;</span></button>{% endif %}
@@ -84,7 +85,7 @@
                 <button>Clear All</button>
             </div>
         </div>
-        <div class="vehicle-grid" >
+        <div class="vehicle-grid">
             {% for vehicle in vehicles %}
             <div class="vehicle-card">
                 <div class="vehicle-info">
