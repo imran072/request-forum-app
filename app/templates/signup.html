@@ -1,4 +1,3 @@
-<!-- login.html -->
 {% extends 'default.html' %}
 
 {% block title %}
@@ -7,7 +6,7 @@ Signup | EV Marketplace
 
 {% block content %}
 <main>
-    <section class="vh-100" style="background-image: url('../static/img/background.jpg');background-size: cover;background-position: center;">
+    <section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');background-size: cover;background-position: center;">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -15,52 +14,44 @@ Signup | EV Marketplace
               <div class="card-body p-5 text-center">
     
                 <h2 class="mb-5">Sign up</h2>
-    
-                <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
-                  <i class="fa fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                  <input type="Email" id="typeEmailX-2" class="form-control form-control-lg" style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);" placeholder="Email" />
-                </div>
-                <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
-                    <i class="fa fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                    <input type="Username" id="Usernameinput" class="form-control form-control-lg" style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);" placeholder="Username" />
-                  </div>
-                
-    
-                <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
-                  <i class="fa fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                  <input type="Password" id="password_input" class="form-control form-control-lg" style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);" placeholder="Password"/>
-                </div>
-    
-    
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit" style="background-color: rgb(255, 255, 255);border: hidden;color: rgb(0, 0, 0);">Register</button>
-    
+                <form method="POST" action="{{ url_for('auth.signup') }}">
+                    {{ form.hidden_tag() }}
+
+                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+                      <i class="fa fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.email(class="form-control form-control-lg", placeholder="Email", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
+                      {% if form.email.errors %}
+                          {% for error in form.email.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+                      <i class="fa fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.username(class="form-control form-control-lg", placeholder="Username", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
+                      {% if form.username.errors %}
+                          {% for error in form.username.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+                      <i class="fa fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.password(class="form-control form-control-lg", placeholder="Password", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
+                      {% if form.password.errors %}
+                          {% for error in form.password.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: rgb(255, 255, 255);border: hidden;color: rgb(0, 0, 0);">Register</button>
+                </form>
                 <hr class="my-4">
-    
-                <!-- <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-secondary mb-2" style="background-color: #de5246; border: hidden;"
-                  type="submit"><i class="fab fa-google me-2"></i> Login with google</button><br/><br/>
-                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-lg btn-block btn-primary mb-2" style="background-color: #3b5998;border: hidden;"
-                  type="submit"><i class="fab fa-facebook-f me-2"></i>Login with facebook</button>
-    -->
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    
-
-    <section id="footer">
-      <footer class="footer fixed-bottom bg-body-tertiary">
-          <div class="container text-center pt-2">
-              <div class="row gx-5">
-                  <div class="col">
-                      <h6>EV Marketplace - all copyright reserved ©2024</h6>
-                  </div>
-              </div>
-          </div>
-      </footer>
-  </section>
-
 </main>
-      
 {% endblock %}
