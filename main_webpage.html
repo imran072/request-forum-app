@@ -1,74 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EV Marketplace</title>
-<link rel="stylesheet" href="main_webpage.css">
-<script src="scripts.js"></script>
-</head>
-<body>
-<header>
-    <nav>
-        <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">Login</a></li>
-            <li><a href="#" class="sell">Sell My EV</a></li>
-        </ul>
-    </nav>
-</header>
+{% extends 'default.html' %}
 
-<section class="search">
-    <form>
-        <select name="make" id="make">
-        <option value="any" selected>Any make</option>
-        <option value="Audi">Audi</option>
-        <option value="Bentley">Bentley</option>
-        <option value="BMW">BMW</option>
-        <option value="BYD">BYD</option>
-        <option value="Chery">Chery</option>
-        <option value="Chevrolet">Chevrolet</option>
-        <option value="Fiat">Fiat</option>
-        <option value="Fisker">Fisker</option>
-        <option value="Ford">Ford</option>
-        <option value="Honda">Honda</option>
-        <option value="Hyundai">Hyundai</option>
-        <option value="JAC Motors">JAC Motors</option>
-        <option value="Jaguar">Jaguar</option>
-        <option value="Kia">Kia</option>
-        <option value="Lexus">Lexus</option>
-        <option value="Maserati">Maserati</option>
-        <option value="Mahindra">Mahindra</option>
-        <option value="Mercedes-Benz">Mercedes-Benz</option>
-        <option value="MG">MG</option>
-        <option value="Mitsubishi">Mitsubishi</option>
-        <option value="Nissan">Nissan</option>
-        <option value="Peugeot">Peugeot</option>
-        <option value="Porsche">Porsche</option>
-        <option value="Opel">Opel</option>
-        <option value="Renault">Renault</option>
-        <option value="Suzuki">Suzuki</option>
-        <option value="Tesla">Tesla</option>
-        <option value="Toyota">Toyota</option>
-        <option value="Volvo">Volvo</option>
-        <option value="Volkswagen">Volkswagen</option>
-        </select>
-        <select name="model" id="model">
-            <option value="any">Any Model</option>
-        </select>
-        <input type="text" name="distance" placeholder="Distance">
-        <input type="text" name="postcode" placeholder="Postcode">
-        <select name="price" id="price">
-            <option value="">Max Price</option>
+{% block title %}Home - EV Marketplace{% endblock %}
 
-        </select>
-        <select name="monthly" id="monthly">
-            <option value="">Monthly (to)</option>
+{% block content %}
 
-        </select>
-        <button type="button">More Options</button>
-        <button type="submit">Find My EV</button>
-    </form>
-</section>
+    <!-- search bar -->
+    <main class="flex-grow-1">
+    <section class="search" 
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); 
+    background-size: cover; 
+    background-position: center;">
+        <form>
+            <div class="form-row">
+                <select name="make" id="make">
+                    <option value="any" selected>Any make</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+                <select name="model" id="model">
+                    <option value="any">Any Model</option>
+                </select>
+                <select name="distance" id="distance">
+                    <option value="distance">Distance</option>
+                    {% for dist in distances %}
+                        <option value="{{ dist }}">{{ dist }} km</option>
+                    {% endfor %}
+                </select>
+                
+                <input type="text" name="postcode" placeholder="Postcode">
+                <select name="price" id="price">
+                    <option value="max_price">Max Price</option>
+                    {% for price in prices %}
+                        <option value="{{ price }}">${{ price }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row">
+                <button type="submit">Find My EV</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ev ads -->
+    <section class="ev-ads-slider">
+        <div class="slide">
+            {% for ad in ads %}
+            <div class="ad">
+                <img src="{{ url_for('static', filename='img/car_models/' + ad.image) }}" alt="{{ ad.alt }}">
+                <div class="info">
+                    <h3>{{ ad.name }}</h3>
+                    <p>${{ ad.price }}</p>
+                    <p>{{ ad.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- brand logo slideshow -->
+    <div class="brand-slider">
+        <div class="slide">
+            {% for brand_logo in brand_logos %}
+                <img src="{{ url_for('static', filename='img/brand_logos/' + brand_logo) }}" alt="{{ brand_logo.split('.')[0] }}">
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    </main>
+
 </body>
 </html>
