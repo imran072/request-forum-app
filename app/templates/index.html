@@ -1,0 +1,73 @@
+{% extends 'default.html' %}
+
+{% block title %}Home - EV Marketplace{% endblock %}
+
+{% block content %}
+
+    <!-- search bar -->
+    <main class="flex-grow-1">
+    <section class="search" 
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); 
+    background-size: cover; 
+    background-position: center;">
+        <form>
+            <div class="form-row">
+                <select name="make" id="make">
+                    <option value="any" selected>Any make</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+                <select name="model" id="model">
+                    <option value="any">Any Model</option>
+                </select>
+                <select name="distance" id="distance">
+                    <option value="distance">Distance</option>
+                    {% for dist in distances %}
+                        <option value="{{ dist }}">{{ dist }} km</option>
+                    {% endfor %}
+                </select>
+                
+                <input type="text" name="postcode" placeholder="Postcode">
+                <select name="price" id="price">
+                    <option value="max_price">Max Price</option>
+                    {% for price in prices %}
+                        <option value="{{ price }}">${{ price }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row">
+                <button type="submit">Find My EV</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- ev ads -->
+    <section class="ev-ads-slider">
+        <div class="slide">
+            {% for ad in ads %}
+            <div class="ad">
+                <img src="{{ url_for('static', filename='img/car_models/' + ad.image) }}" alt="{{ ad.alt }}">
+                <div class="info">
+                    <h3>{{ ad.name }}</h3>
+                    <p>${{ ad.price }}</p>
+                    <p>{{ ad.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- brand logo slideshow -->
+    <div class="brand-slider">
+        <div class="slide">
+            {% for brand_logo in brand_logos %}
+                <img src="{{ url_for('static', filename='img/brand_logos/' + brand_logo) }}" alt="{{ brand_logo.split('.')[0] }}">
+            {% endfor %}
+        </div>
+    </div>
+    {% endblock %}
+    </main>
+
+</body>
+</html>

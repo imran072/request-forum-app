@@ -1,0 +1,99 @@
+{% extends 'default.html' %}
+
+{% block title %}Vehicles - EV Marketplace{% endblock %}
+
+{% block content %}
+<!-- search bar -->
+<main class="flex-grow-1">
+    <section class="search"
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
+    background-size: cover;
+    background-position: center;">
+        <form method="get" action="{{ url_for('main.vehicles') }}">
+            <div class="form-row row-1">
+                <select name="make" id="make">
+                    <option value="any" selected>Any Make</option>
+                    {% for make in makes %}
+                        <option value="{{ make }}">{{ make }}</option>
+                    {% endfor %}
+                </select>
+                <select name="model" id="model">
+                    <option value="any">Any Model</option>
+                </select>
+                <select name="year" id="year">
+                    <option value="any" selected>Any Year</option>
+                    {% for yr in years %}
+                        <option value="{{ yr }}">{{ yr }}</option>
+                    {% endfor %}
+                </select>
+                <select name="mileage" id="mileage">
+                    <option value="any" selected>Any Mileage</option>
+                    {% for mile in mileage %}
+                        <option value="{{ mile }}">{{ mile }} km</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row row-2">
+                <select name="top_speed" id="top_speed">
+                    <option value="any" selected>Any Top Speed</option>
+                    {% for speed in top_speed %}
+                        <option value="{{ speed }}">{{ speed }} km/h</option>
+                    {% endfor %}
+                </select>
+                <select name="acceleration" id="acceleration">
+                    <option value="any" selected>Any Acceleration</option>
+                    {% for acc in acceleration %}
+                        <option value="{{ acc }}">0-100 km/h in {{ acc }} seconds</option>
+                    {% endfor %}
+                </select>
+                <select name="price" id="price">
+                    <option value="any" selected>Max Price</option>
+                    {% for price in prices %}
+                        <option value="{{ price }}">${{ price }}</option>
+                    {% endfor %}
+                </select>
+                <select name="color" id="color">
+                    <option value="any" selected>Any Color</option>
+                    {% for color in colors %}
+                        <option value="{{ color }}">{{ color }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-row find-button">
+                <button type="submit">Find My EV</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- displays filtered cars -->
+    {% if vehicles %}
+    <section class="vehicle-results">
+        <div class="vehicle-summary">
+            <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
+            <div class="tags">
+                {% for tag in tags %}
+                    <button>{{ tag }} <span>&times;</span></button>
+                {% endfor %}
+                <button>Clear All</button>
+            </div>
+        </div>
+        <div class="vehicle-grid">
+            {% for vehicle in vehicles %}
+            <div class="vehicle-card">
+                <img src="{{ url_for('static', filename='img/car_models/' + vehicle['image']) }}" alt="{{ vehicle['model'] }}">
+                <div class="vehicle-info">
+                    <h3>{{ vehicle['make'] }} {{ vehicle['model'] }}</h3>
+                    <p>{{ vehicle['price'] }}</p>
+                    <p>{{ vehicle['year'] }} - {{ vehicle['miles'] }} miles</p>
+                    <p>Location: {{ vehicle['location'] }}</p>
+                    <p>Seller: {{ vehicle['seller'] }} - {{ vehicle['email'] }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+{% endblock %}
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
