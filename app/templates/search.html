@@ -3,7 +3,6 @@
 {% block title %}Vehicles - EV Marketplace{% endblock %}
 
 {% block content %}
-<!-- search bar -->
 <main class="flex-grow-1">
     <section class="search"
     style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
@@ -12,50 +11,53 @@
         <form method="get" action="{{ url_for('main.vehicles') }}">
             <div class="form-row row-1">
                 <select name="make" id="make">
-                    <option value="any" selected>Any Make</option>
-                    {% for make in makes %}
-                        <option value="{{ make }}">{{ make }}</option>
+                    <option value="any" {% if make == 'any' %}selected{% endif %}>Any Make</option>
+                    {% for m in makes %}
+                        <option value="{{ m }}" {% if m == make %}selected{% endif %}>{{ m }}</option>
                     {% endfor %}
                 </select>
                 <select name="model" id="model">
-                    <option value="any">Any Model</option>
+                    <option value="any" {% if model == 'any' %}selected{% endif %}>Any Model</option>
+                    {% for mdl in models %}
+                        <option value="{{ mdl }}" {% if mdl == model %}selected{% endif %}>{{ mdl }}</option>
+                    {% endfor %}
                 </select>
                 <select name="year" id="year">
-                    <option value="any" selected>Any Year</option>
+                    <option value="any" {% if year == 'any' %}selected{% endif %}>Any Year</option>
                     {% for yr in years %}
-                        <option value="{{ yr }}">{{ yr }}</option>
+                        <option value="{{ yr }}" {% if yr == year %}selected{% endif %}>{{ yr }}</option>
                     {% endfor %}
                 </select>
                 <select name="mileage" id="mileage">
-                    <option value="any" selected>Any Mileage</option>
+                    <option value="any" {% if mileage_value == 'any' %}selected{% endif %}>Any Mileage</option>
                     {% for mile in mileage %}
-                        <option value="{{ mile }}">{{ mile }} km</option>
+                        <option value="{{ mile }}" {% if mile == mileage_value %}selected{% endif %}>{{ mile }} km</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-row row-2">
                 <select name="top_speed" id="top_speed">
-                    <option value="any" selected>Any Top Speed</option>
+                    <option value="any" {% if top_speed_value == 'any' %}selected{% endif %}>Any Top Speed</option>
                     {% for speed in top_speed %}
-                        <option value="{{ speed }}">{{ speed }} km/h</option>
+                        <option value="{{ speed }}" {% if speed == top_speed_value %}selected{% endif %}>{{ speed }} km/h</option>
                     {% endfor %}
                 </select>
                 <select name="acceleration" id="acceleration">
-                    <option value="any" selected>Any Acceleration</option>
+                    <option value="any" {% if acceleration_value == 'any' %}selected{% endif %}>Any Acceleration</option>
                     {% for acc in acceleration %}
-                        <option value="{{ acc }}">0-100 km/h in {{ acc }} seconds</option>
+                        <option value="{{ acc }}" {% if acc == acceleration_value %}selected{% endif %}>0-100 km/h in {{ acc }} seconds</option>
                     {% endfor %}
                 </select>
                 <select name="price" id="price">
-                    <option value="any" selected>Max Price</option>
+                    <option value="any" {% if price_value == 'any' %}selected{% endif %}>Max Price</option>
                     {% for price in prices %}
-                        <option value="{{ price }}">${{ price }}</option>
+                        <option value="{{ price }}" {% if price == price_value %}selected{% endif %}>${{ price }}</option>
                     {% endfor %}
                 </select>
                 <select name="color" id="color">
-                    <option value="any" selected>Any Color</option>
-                    {% for color in colors %}
-                        <option value="{{ color }}">{{ color }}</option>
+                    <option value="any" {% if color == 'any' %}selected{% endif %}>Any Color</option>
+                    {% for clr in colors %}
+                        <option value="{{ clr }}" {% if clr == color %}selected{% endif %}>{{ clr }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -71,22 +73,21 @@
         <div class="vehicle-summary">
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
             <div class="tags">
-                {% for tag in tags %}
-                    <button>{{ tag }} <span>&times;</span></button>
-                {% endfor %}
+                {% if make != 'any' %}<button>{{ make }} <span>&times;</span></button>{% endif %}
+                {% if model != 'any' %}<button>{{ model }} <span>&times;</span></button>{% endif %}
                 <button>Clear All</button>
             </div>
         </div>
         <div class="vehicle-grid">
             {% for vehicle in vehicles %}
             <div class="vehicle-card">
-                <img src="{{ url_for('static', filename='img/car_models/' + vehicle['image']) }}" alt="{{ vehicle['model'] }}">
                 <div class="vehicle-info">
-                    <h3>{{ vehicle['make'] }} {{ vehicle['model'] }}</h3>
-                    <p>{{ vehicle['price'] }}</p>
-                    <p>{{ vehicle['year'] }} - {{ vehicle['miles'] }} miles</p>
-                    <p>Location: {{ vehicle['location'] }}</p>
-                    <p>Seller: {{ vehicle['seller'] }} - {{ vehicle['email'] }}</p>
+                    <h3>{{ vehicle.make }} {{ vehicle.model }}</h3>
+                    <p>${{ vehicle.price }}</p>
+                    <p>{{ vehicle.year }} - {{ vehicle.mileage }} miles</p>
+                    <p>Top Speed: {{ vehicle.top_speed }} km/h</p>
+                    <p>Acceleration: 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
+                    <p>Location: {{ vehicle.seller.name }} - {{ vehicle.seller.email }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -94,6 +95,3 @@
     </section>
     {% endif %}
 {% endblock %}
-<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-</body>
-</html>

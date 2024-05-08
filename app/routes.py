@@ -1,11 +1,7 @@
-from flask import Blueprint, render_template
-from flask import render_template, request, url_for
+from flask import Blueprint, render_template, url_for, request
 from .models import Vehicle
-from .forms import SearchForm
-from . import db
 
 main = Blueprint('main', __name__)
-
 
 @main.route('/')
 def index():
@@ -22,17 +18,71 @@ def index():
     print(url_for('main.index'))
     return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
 
-@main.route('/vehicles')
+@main.route('/vehicles', methods=['GET'])
 def vehicles():
-    makes = ['Audi', 'Bentley', 'BMW', 'BYD', 'Chery', 'Chevrolet', 'Fiat', 'Fisker', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Kia', 'Lexus', 'Maserati', 'Mahindra', 'Mercedes-Benz', 'MG', 'Mitsubishi', 'Nissan', 'Peugeot', 'Porsche', 'Opel', 'Renault', 'Suzuki', 'Tesla', 'Toyota', 'Volvo', 'Volkswagen']
-    years = list(range(2000, 2024))
-    mileage = ['5000', '10000', '15000', '20000', '25000', '30000', '35000', '40000', '45000', '50000']
-    top_speed = ['120', '150', '180', '200', '220', '240', '260']
-    acceleration = ['3', '4', '5', '6', '7', '8', '9', '10']
-    prices = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 25000, 30000, 35000, 40000, 45000, 50000]
-    colors = ['Red', 'Blue', 'Green', 'Black', 'White', 'Silver', 'Gray', 'Yellow']
+    make = request.args.get('make', 'any')
+    model = request.args.get('model', 'any')
+    year = request.args.get('year', 'any')
+    mileage = request.args.get('mileage', 'any')
+    top_speed = request.args.get('top_speed', 'any')
+    acceleration = request.args.get('acceleration', 'any')
+    price = request.args.get('price', 'any')
+    color = request.args.get('color', 'any')
 
-    return render_template('search.html', makes=makes, years=years, mileage=mileage, top_speed=top_speed, acceleration=acceleration, prices=prices, colors=colors)
+    query = Vehicle.query
+
+    if make != 'any':
+        query = query.filter_by(make=make)
+    if model != 'any':
+        query = query.filter_by(model=model)
+    if year != 'any':
+        query = query.filter_by(year=int(year))
+    if mileage != 'any':
+        query = query.filter(Vehicle.mileage <= int(mileage))
+    if top_speed != 'any':
+        query = query.filter(Vehicle.top_speed >= int(top_speed))
+    if acceleration != 'any':
+        query = query.filter(Vehicle.acceleration <= float(acceleration))
+    if price != 'any':
+        query = query.filter(Vehicle.price <= float(price))
+    if color != 'any':
+        query = query.filter_by(color=color)
+
+    vehicles = query.all()
+
+    makes = [v.make for v in Vehicle.query.distinct(Vehicle.make)]
+    models = [v.model for v in Vehicle.query.distinct(Vehicle.model)]
+    years = sorted({v.year for v in Vehicle.query.distinct(Vehicle.year)})
+    mileage_options = [10000, 20000, 30000, 40000]
+    top_speed_options = [150, 200, 250, 300]
+    acceleration_options = [3.2, 5.6, 7.8]
+    price_options = [30000, 40000, 50000]
+    color_options = ['Red', 'Blue', 'Black']
+
+    return render_template(
+        'search.html',
+        make=make,
+        model=model,
+        year=year,
+        mileage_value=mileage,
+        top_speed_value=top_speed,
+        acceleration_value=acceleration,
+        price_value=price,
+        color=color,
+        vehicles=vehicles,
+        makes=makes,
+        models=models,
+        years=years,
+        mileage=mileage_options,
+        top_speed=top_speed_options,
+        acceleration_options=acceleration_options,
+        prices=price_options,
+        colors=color_options
+    )
+
+@main.route('/contactus')
+def contactus():
+    return render_template('contactus.html')
 
 @main.route('/login')
 def login():
@@ -41,7 +91,3 @@ def login():
 @main.route('/signup')
 def signup():
     return render_template('signup.html')
-
-@main.route('/contactus')
-def contactus():
-    return render_template('contactus.html')
