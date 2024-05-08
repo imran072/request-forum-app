@@ -7,23 +7,45 @@ Login | EV Marketplace
 {% block head %}
 {{ super() }}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_webpage.css') }}">
 {% endblock %}
 
 {% block content %}
-<main class="bg-login">
-    <div class="login-panel">
-        <form action="{{ url_for('main.login') }}" method="POST">
-            <h2 class="text-center mb-4">Login</h2>
-            <input type="email" class="form-control" name="email" placeholder="Email or Account Name" required>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-            <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="rememberMe">
-                <label class="form-check-label" for="rememberMe">Remember password</label>
+<main class="bg-login" id="login-s">
+    <section class="login-s">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong">
+              <div class="card-body p-5 text-center">
+    
+                <h2 class="mb-5">Login</h2>
+    
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <i class="fa fa-user"></i>
+                  <input type="email" id="emailInput" class="form-control form-control-lg" placeholder="Email or Account Name" />
+                </div>
+                
+                <div data-mdb-input-init class="form-outline mb-4">
+                  <i class="fa fa-lock"></i>
+                  <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password"/>
+                </div>
+    
+                <!-- Checkbox -->
+                <div class="form-check d-flex justify-content-start mb-4">
+                  <input class="form-check-input" type="checkbox" value="" id="form1Example3" />
+                  <label class="form-check-label" for="form1Example3"> Remember password </label>
+                  <a href="/reset-password" class="form-check-label">Forgot password?</a>
+                </div>
+    
+                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+    
+                <hr class="my-4">
+              </div>
             </div>
-            <button type="submit" class="btn login-btn">Login</button>
-            <a href="#" class="text-center d-block mt-2">Forgot password?</a>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
 </main>
 {% endblock %}
