@@ -1,37 +1,22 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, url_for, request
 from .models import Vehicle
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    makes = ['Tesla', 'BMW', 'Nissan']
-    prices = [20000, 40000, 60000]
-    distances = [100, 200, 300]
-
+    makes = ['Audi', 'Bentley', 'BMW', 'BYD', 'Chery', 'Chevrolet', 'Fiat', 'Fisker', 'Ford', 'Honda', 'Hyundai', 'Jaguar', 'Kia', 'Lexus', 'Maserati', 'Mahindra', 'Mercedes-Benz', 'MG', 'Mitsubishi', 'Nissan', 'Peugeot', 'Porsche', 'Opel', 'Renault', 'Suzuki', 'Tesla', 'Toyota', 'Volvo', 'Volkswagen']
+    distances = [5, 10, 15, 20, 30, 40, 50, 75, 100, 150, 200]
+    prices = [1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 11000, 12000, 13000, 14000, 15000, 16000, 17000, 18000, 19000, 20000, 25000, 30000, 35000, 40000, 45000, 50000]
     ads = [
-        {
-            'name': 'Tesla Model S 100D Long Range',
-            'price': 79995.0,
-            'description': 'All Glass Panoramic Roof, Premium Interior and Lighting.',
-            'image': 'tesla_model_s_100d_long_range.jpg',
-            'alt': 'Tesla Model S 100D Long Range'
-        },
-        {
-            'name': 'Tesla Model S E 85D',
-            'price': 47995.0,
-            'description': 'All Glass Panoramic Roof, Alloy Wheels.',
-            'image': 'tesla_model_s_e_85d.jpg',
-            'alt': 'Tesla Model S E 85D'
-        }
+        {'name': 'Tesla Model 3', 'price': 25000, 'description': 'Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.', 'image': 'Tesla_Model_3.png', 'alt': 'Tesla_Model_3'},
+        {'name': 'Toyota Camry', 'price': 20000, 'description': 'Toyota Electrified - Towards the future', 'image': 'Toyota_Camry.png', 'alt': 'Toyota_Camry'},
+        {'name': 'Tesla Model S', 'price': 28000, 'description': 'Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.', 'image': 'Tesla_Model_X.png', 'alt': 'Tesla_Model_S'}
     ]
+    brand_logos = ['Tesla.png', 'Honda.png', 'Fisker.png', 'Ford.png', 'Audi.png', 'Renault.png', 'Toyota.png', 'Volvo.png', 'Maserati.png', 'Nissan.png', 'Mahindra.png', 'Kia.png', 'Jaguar.png', 'Hyundai.png', 'BYD.png', 'Volkswagen.png', 'Bentley.png', 'BMW.png']
 
-    brand_logos = [
-        'tesla_logo.png',
-        'bmw_logo.png'
-    ]
-
-    return render_template('index.html', makes=makes, prices=prices, distances=distances, ads=ads, brand_logos=brand_logos)
+    print(url_for('main.index'))
+    return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
 
 @main.route('/vehicles', methods=['GET'])
 def vehicles():
@@ -53,22 +38,31 @@ def vehicles():
         query = query.filter_by(make=make)
     if model != 'any':
         query = query.filter_by(model=model)
-    if from_year != 'any':
+    if from_year != 'any' and from_year.isdigit():
         query = query.filter(Vehicle.year >= int(from_year))
-    if to_year != 'any':
+    if to_year != 'any' and to_year.isdigit():
         query = query.filter(Vehicle.year <= int(to_year))
-    if year != 'any':
+    if year != 'any' and year.isdigit():
         query = query.filter(Vehicle.year == int(year))
-    if mileage != 'any':
+    if mileage != 'any' and mileage.isdigit():
         query = query.filter(Vehicle.mileage <= int(mileage))
-    if top_speed != 'any':
+    if top_speed != 'any' and top_speed.isdigit():
         query = query.filter(Vehicle.top_speed >= int(top_speed))
     if acceleration != 'any':
-        query = query.filter(Vehicle.acceleration <= float(acceleration))
+        try:
+            query = query.filter(Vehicle.acceleration <= float(acceleration))
+        except ValueError:
+            pass
     if min_price != 'any':
-        query = query.filter(Vehicle.price >= float(min_price))
+        try:
+            query = query.filter(Vehicle.price >= float(min_price))
+        except ValueError:
+            pass
     if max_price != 'any':
-        query = query.filter(Vehicle.price <= float(max_price))
+        try:
+            query = query.filter(Vehicle.price <= float(max_price))
+        except ValueError:
+            pass
     if color != 'any':
         query = query.filter_by(color=color)
 
@@ -82,6 +76,8 @@ def vehicles():
     acceleration_options = [3.2, 5.6, 7.8]
     price_options = [30000, 40000, 50000]
     color_options = ['Red', 'Blue', 'Black']
+
+    vehicles_found = len(vehicles) > 0
 
     return render_template(
         'search.html',
@@ -97,6 +93,7 @@ def vehicles():
         max_price=max_price,
         color=color,
         vehicles=vehicles,
+        vehicles_found=vehicles_found,
         makes=makes,
         models=models,
         years=years,

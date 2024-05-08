@@ -75,7 +75,7 @@
         </form>
     </section>
 
-    {% if vehicles %}
+    {% if vehicles_found %}
     <section class="vehicle-results">
         <div class="vehicle-summary">
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
@@ -98,6 +98,12 @@
                 </div>
             </div>
             {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <section class="vehicle-results">
+        <div class="vehicle-summary">
+            <p>No vehicles found. Try adjusting your filters.</p>
         </div>
     </section>
     {% endif %}
