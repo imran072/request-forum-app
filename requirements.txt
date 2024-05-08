@@ -2,4 +2,5 @@ Flask
 Flask-SQLAlchemy
 Flask-Migrate
 Werkzeug
-Flask-WTF
+Flask-Testing
+python-dotenv
