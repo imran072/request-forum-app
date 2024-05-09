@@ -127,3 +127,12 @@ def login():
 @main.route('/signup')
 def signup():
     return render_template('signup.html')
+
+@main.route('/sell-ev', methods=['GET', 'POST'])
+def sell_ev():
+    if request.method == 'POST':
+        pass
+
+    color_options = ['Red', 'Blue', 'Black', 'Green', 'Silver', 'Bronze', 'Dark Blue', 'Dark Gray', 'Yellow', 'Orange', 'Purple', 'Grey', 'White', 'Zircon Blue', 'Storm White', 'Diamond Black']
+
+    return render_template('selling.html', color_options=color_options)

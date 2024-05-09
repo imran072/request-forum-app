@@ -1,0 +1,75 @@
+{% extends 'default.html' %}
+
+{% block title %}Sell Your EV{% endblock %}
+
+{% block content %}
+<div class="container my-5 flex-grow-1">
+  <h1 class="text-center mb-4">Sell Your EV</h1>
+  <form method="post" action="{{ url_for('main.sell_ev') }}" class="vertical-sell-ev-form">
+    <div class="row">
+      <label for="title" class="category_name">Ad Title:</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for your ad" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="make" class="category_name">Make:</label>
+      <div class="option_name">
+        <select class="form-select" id="make" name="make" required>
+          <option value="">Select Make</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <label for="model" class="category_name">Model:</label>
+      <div class="option_name">
+        <select class="form-select" id="model" name="model" required>
+          <option value="">Select Model</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <label for="price" class="category_name">Sale Price ($):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="price" name="price" placeholder="Enter sale price in AUD" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="mileage" class="category_name">Mileage (km):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="mileage" name="mileage" placeholder="Enter mileage in km" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="year" class="category_name">Year:</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="year" name="year" placeholder="Enter manufacturing year" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="top_speed" class="category_name">Top Speed (kph):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="top_speed" name="top_speed" placeholder="Enter top speed in kph" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="acceleration" class="category_name">Acceleration (0-100 kph):</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="acceleration" name="acceleration" placeholder="Enter seconds" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="color" class="category_name form-label-left">Color:</label>
+      <div class="option_name">
+        <select class="form-select" id="color" name="color" required>
+          {% for color in color_options %}
+          <option value="{{ color }}">{{ color }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,5 +1,6 @@
 body, html {
     margin: 0;
+    padding: 0;
     height: 100%;
 }  
 
@@ -270,6 +271,7 @@ button:hover {
 }
 
 /* footer */
+
 .site-footer {
     background-color: #004e89;
     color: #ffffff;
@@ -303,7 +305,15 @@ button:hover {
     text-decoration: underline; 
 }
 
+footer a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
 
+footer a:hover {
+    text-decoration: underline;
+}
 
 /* Search.html filters */
 .vehicle-filter {
@@ -371,6 +381,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+
 /* Vehicle Grid Styles */
 .vehicle-results {
     float: right;
@@ -415,7 +426,28 @@ button:hover {
     margin-bottom: 20px;
 }
 
+/* selling.html */
+.vertical-sell-ev-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .vertical-sell-ev-form .form-control,
+  .vertical-sell-ev-form .form-select {
+      width: 100%;
+      max-width: 700px;
+  }
 
+  .vertical-sell-ev-form .row {
+    display: flex;
+    align-items: center; /* Align labels and form controls vertically */
+}
+
+
+.vertical-sell-ev-form .col-sm-2 {
+    padding-right: 35px; /* Add some spacing between label and form control */
+}
 
 /* styles for login page */
 /* Background */
