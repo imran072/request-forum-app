@@ -34,11 +34,6 @@ def vehicles():
 
     return render_template('search.html', makes=makes, years=years, mileage=mileage, top_speed=top_speed, acceleration=acceleration, prices=prices, colors=colors)
 
-@main.route('/login')
-def login():
-    return render_template('login.html')
-
-@main.route('/signup')
-def signup():
-    return render_template('signup.html')
-
+@main.route('/contactus')
+def contactus():
+    return render_template('contactus.html')

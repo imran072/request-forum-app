@@ -14,10 +14,10 @@ Signup | EV Marketplace
               <div class="card-body p-5 text-center">
     
                 <h2 class="mb-5">Sign up</h2>
-                <form method="POST" action="{{ url_for('auth.signup') }}">
+                <form method="POST" action="{{ url_for('auth.signup') }}" style="display: flex; flex-direction: column; align-items: center;">
                     {{ form.hidden_tag() }}
 
-                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
                       <i class="fa fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
                       {{ form.email(class="form-control form-control-lg", placeholder="Email", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
                       {% if form.email.errors %}
@@ -26,7 +26,8 @@ Signup | EV Marketplace
                           {% endfor %}
                       {% endif %}
                     </div>
-                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+
+                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
                       <i class="fa fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
                       {{ form.username(class="form-control form-control-lg", placeholder="Username", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
                       {% if form.username.errors %}
@@ -35,7 +36,8 @@ Signup | EV Marketplace
                           {% endfor %}
                       {% endif %}
                     </div>
-                    <div data-mdb-input-init class="form-outline mb-4" style="position: relative;">
+
+                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
                       <i class="fa fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
                       {{ form.password(class="form-control form-control-lg", placeholder="Password", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
                       {% if form.password.errors %}
@@ -44,6 +46,7 @@ Signup | EV Marketplace
                           {% endfor %}
                       {% endif %}
                     </div>
+
                     <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: rgb(255, 255, 255);border: hidden;color: rgb(0, 0, 0);">Register</button>
                 </form>
                 <hr class="my-4">

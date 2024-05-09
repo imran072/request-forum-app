@@ -1,4 +1,3 @@
-<!-- login.html -->
 {% extends 'default.html' %}
 
 {% block title %}
@@ -6,55 +5,60 @@ Login | EV Marketplace
 {% endblock %}
 
 {% block content %}
-<main class="bg-login">
-    <div class="login-panel">
-        <!-- Start of the form -->
-        <form method="POST" action="{{ url_for('auth.login') }}">
-            {{ form.hidden_tag() }}  <!-- CSRF token -->
-            <h2 class="text-center mb-4">Login</h2>
-
-            <!-- Email field -->
-            <div class="form-group">
-                {{ form.email.label(class="form-label") }}
-                {{ form.email(class="form-control", placeholder="Enter your email") }}
-                {% if form.email.errors %}
-                    {% for error in form.email.errors %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
+<main class="bg-login" id="login-s" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <section class="login-s">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="background-color: rgba(255, 255, 255, 0.85);">
+              <div class="card-body p-5 text-center">
+    
+                <h2 class="mb-5">Login</h2>
+                <form method="POST" action="{{ url_for('auth.login') }}" style="display: flex; flex-direction: column; align-items: center;">
+                    {{ form.hidden_tag() }}  <!-- CSRF token -->
+                    
+                    <!-- Email field -->
+                    <div class="form-group mb-4">
+                      <i class="fa fa-user" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.email(class="form-control form-control-lg", id="emailInput", placeholder="Email or Account Name") }}
+                      {% if form.email.errors %}
+                          {% for error in form.email.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Password field -->
+                    <div class="form-group mb-4">
+                      <i class="fa fa-lock" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.password(class="form-control form-control-lg", id="passwordInput", placeholder="Password") }}
+                      {% if form.password.errors %}
+                          {% for error in form.password.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    
+                    <!-- Error and flash message area -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </form>
+                <!-- Forgot password link -->
+                <a href="{{ url_for('auth.reset_password') }}" class="text-center mt-2">Forgot password?</a>
+                
+                <hr class="my-4">
+              </div>
             </div>
-
-            <!-- Password field -->
-            <div class="form-group">
-                {{ form.password.label(class="form-label") }}
-                {{ form.password(class="form-control", placeholder="Enter your password") }}
-                {% if form.password.errors %}
-                    {% for error in form.password.errors %}
-                        <div class="alert alert-danger">{{ error }}</div>
-                    {% endfor %}
-                {% endif %}
-            </div>
-
-            <!-- Remember me checkbox -->
-            <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="rememberMe" name="remember">
-                <label class="form-check-label" for="rememberMe">Remember me</label>
-            </div>
-
-            <!-- Submit button -->
-            <button type="submit" class="btn btn-primary">Login</button>
-
-            <!-- Error message area -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-            {% endwith %}
-        </form>
-        <!-- Forgot password link -->
-        <a href="{{ url_for('auth.forgot_password') }}" class="text-center d-block mt-2">Forgot password?</a>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
 </main>
 {% endblock %}
