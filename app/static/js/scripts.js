@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setInterval(shiftLogo, 3000);
+});
 
     // Clear individual filters
     function clearFilter(filterName) {
@@ -129,4 +130,3 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('clear-all').onclick = function() {
         clearAllFilters();
     };
-});
