@@ -35,6 +35,19 @@ document.addEventListener('DOMContentLoaded', function() {
         'Volkswagen': ['ID.4', 'ID.5', 'ID.Buzz']
     };
 
+    function populateMakesDropdown(selectedMake) {
+        makeSelect.innerHTML = '<option value="any">Any Make</option>';
+
+        var carMakes = Object.keys(carModels);
+        carMakes.forEach(make => {
+            var option = new Option(make, make);
+            if (make === selectedMake) {
+                option.selected = true;
+            }
+            makeSelect.add(option);
+        });
+    }
+
     makeSelect.onchange = function() {
         modelSelect.length = 1; // goes back to default option
 
@@ -48,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Initialize model dropdown on page load
     function initializeModels() {
         var selectedMake = makeSelect.value;
         var selectedModel = modelSelect.getAttribute('data-selected');
@@ -65,9 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    initializeModels(); // Initialize models on page load
+    populateMakesDropdown(new URLSearchParams(window.location.search).get('make'));
+    initializeModels(); // initialises models on page load
 
-    // EV ads slider
+    // ev ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
     const ads = Array.from(evSlider.querySelectorAll('.ad'));
 
@@ -79,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setInterval(shiftAd, 5000);
 
-    // Brand logo slider
+    // brand logo slider
     const brandSlider = document.querySelector('.brand-slider .slide');
     const logos = Array.from(brandSlider.querySelectorAll('img'));
 
@@ -90,43 +103,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     setInterval(shiftLogo, 3000);
+
+   
 });
 
-    // Clear individual filters
-    function clearFilter(filterName) {
-        var filterElement = document.querySelector(`[name="${filterName}"]`);
-        if (filterElement) {
-            if (filterElement.tagName === 'SELECT') {
-                filterElement.value = 'any';
-            } else {
-                filterElement.value = '';
-            }
+ // clear individual filters
+ window.clearFilter = function(filterName) {
+    var filterElement = document.querySelector(`[name="${filterName}"]`);
+    if (filterElement) {
+        if (filterElement.tagName === 'SELECT') {
+            filterElement.value = 'any';
+        } else {
+            filterElement.value = '';
         }
-        document.getElementById('filter-form').submit();
     }
+    document.getElementById('filter-form').submit();
+}
 
-    // Clear all filters
-    function clearAllFilters() {
-        var formElements = document.getElementById('filter-form').elements;
-        for (var i = 0; i < formElements.length; i++) {
-            var element = formElements[i];
-            if (element.tagName === 'SELECT') {
-                element.value = 'any';
-            } else {
-                element.value = '';
-            }
+// clear all filters
+window.clearAllFilters = function() {
+    var formElements = document.getElementById('filter-form').elements;
+    for (var i = 0; i < formElements.length; i++) {
+        var element = formElements[i];
+        if (element.tagName === 'SELECT') {
+            element.value = 'any';
+        } else {
+            element.value = '';
         }
-        document.getElementById('filter-form').submit();
     }
+    document.getElementById('filter-form').submit();
+}
 
-    // Event listeners for "x" buttons and "Clear All" button
-    document.querySelectorAll('.filter-button').forEach(button => {
-        button.onclick = function() {
-            var filterName = this.getAttribute('data-filter');
-            clearFilter(filterName);
-        };
-    });
-
-    document.getElementById('clear-all').onclick = function() {
-        clearAllFilters();
+// listeners for x buttons and clear all button
+document.querySelectorAll('.filter-button').forEach(button => {
+    button.onclick = function() {
+        var filterName = this.getAttribute('data-filter');
+        clearFilter(filterName);
     };
+});
+
+document.getElementById('clear-all').onclick = function() {
+    clearAllFilters();
+};

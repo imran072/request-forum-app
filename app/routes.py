@@ -11,12 +11,24 @@ def index():
     ads = [
         {'name': 'Tesla Model 3', 'price': 25000, 'description': 'Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.', 'image': 'Tesla_Model_3.png', 'alt': 'Tesla_Model_3'},
         {'name': 'Toyota Camry', 'price': 20000, 'description': 'Toyota Electrified - Towards the future', 'image': 'Toyota_Camry.png', 'alt': 'Toyota_Camry'},
-        {'name': 'Tesla Model S', 'price': 28000, 'description': 'Model 3 is designed for electric-powered performance, with quick acceleration, long range and fast charging.', 'image': 'Tesla_Model_X.png', 'alt': 'Tesla_Model_S'}
+        {'name': 'Tesla Model S', 'price': 28000, 'description': 'The Tesla Model S is a battery electric executive car with a liftback body style built by Tesla, Inc. since 2012. The Model S features a battery-powered dual-motor, all-wheel drive layout, although earlier versions featured a rear-motor and rear-wheel drive layout.', 'image': 'Tesla_Model_X.png', 'alt': 'Tesla_Model_S'}
     ]
     brand_logos = ['Tesla.png', 'Honda.png', 'Fisker.png', 'Ford.png', 'Audi.png', 'Renault.png', 'Toyota.png', 'Volvo.png', 'Maserati.png', 'Nissan.png', 'Mahindra.png', 'Kia.png', 'Jaguar.png', 'Hyundai.png', 'BYD.png', 'Volkswagen.png', 'Bentley.png', 'BMW.png']
 
     print(url_for('main.index'))
     return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
+
+def get_makes_from_js():
+    # read the contents of the JavaScript file
+    script_path = os.path.join(os.path.dirname(__file__), 'static', 'scripts.js')
+    with open(script_path, 'r') as f:
+        script_content = f.read()
+
+    # use regular expressions to extract the car makes from the JavaScript data
+    car_makes_pattern = r"'(\w+)': \[.*?\]"
+    makes = re.findall(car_makes_pattern, script_content)
+
+    return makes
 
 @main.route('/vehicles', methods=['GET'])
 def vehicles():

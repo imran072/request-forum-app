@@ -8,14 +8,14 @@
         <form id="filter-form" method="get" action="{{ url_for('main.vehicles') }}">
             <div class="filter-group">
                 <label for="make">Make / Model</label>
-                <select name="make" id="make">
-                    <option value="any" {% if make == 'any' %}selected{% endif %}>All Makes</option>
-                    {% for m in makes %}
-                        <option value="{{ m }}" {% if m == make %}selected{% endif %}>{{ m }}</option>
+                <select name="make" id="make" data-selected="{{ make }}">
+                    <option value="any" {% if make == 'any' %}selected{% endif %}>Any Make</option>
+                    {% for make_option in makes %}
+                        <option value="{{ make_option }}" {% if make_option == make %}selected{% endif %}>{{ make_option }}</option>
                     {% endfor %}
                 </select>
                 <select name="model" id="model" data-selected="{{ model }}">
-                    <option value="any" {% if model == 'any' %}selected{% endif %}>All Models</option>
+                    <option value="any" {% if model == 'any' %}selected{% endif %}>Any Model</option>
                 </select>
             </div>
             <div class="filter-group">
@@ -79,6 +79,8 @@
             <div class="tags">
                 {% if make != 'any' %}<button class="filter-button" data-filter="make">{{ make }} <span>&times;</span></button>{% endif %}
                 {% if model != 'any' %}<button class="filter-button" data-filter="model">{{ model }} <span>&times;</span></button>{% endif %}
+                {% if acceleration_value != 'any' %}<button class="filter-button" data-filter="acceleration">{{ acceleration_value }} <span>&times;</span></button>{% endif %}
+                {% if color != 'any' %}<button class="filter-button" data-filter="color">{{ color }} <span>&times;</span></button>{% endif %}
                 <button id="clear-all">Clear All</button>
             </div>
         </div>
