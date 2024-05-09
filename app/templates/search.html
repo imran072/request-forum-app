@@ -5,7 +5,7 @@
 {% block content %}
 <main class="flex-grow-1">
     <section class="vehicle-filter">
-        <form method="get" action="{{ url_for('main.vehicles') }}">
+        <form id="filter-form" method="get" action="{{ url_for('main.vehicles') }}">
             <div class="filter-group">
                 <label for="make">Make / Model</label>
                 <select name="make" id="make">
@@ -14,11 +14,8 @@
                         <option value="{{ m }}" {% if m == make %}selected{% endif %}>{{ m }}</option>
                     {% endfor %}
                 </select>
-                <select name="model" id="model">
+                <select name="model" id="model" data-selected="{{ model }}">
                     <option value="any" {% if model == 'any' %}selected{% endif %}>All Models</option>
-                    {% for mdl in models %}
-                        <option value="{{ mdl }}" {% if mdl == model %}selected{% endif %}>{{ mdl }}</option>
-                    {% endfor %}
                 </select>
             </div>
             <div class="filter-group">
@@ -80,9 +77,9 @@
         <div class="vehicle-summary">
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
             <div class="tags">
-                {% if make != 'any' %}<button>{{ make }} <span>&times;</span></button>{% endif %}
-                {% if model != 'any' %}<button>{{ model }} <span>&times;</span></button>{% endif %}
-                <button>Clear All</button>
+                {% if make != 'any' %}<button class="filter-button" data-filter="make">{{ make }} <span>&times;</span></button>{% endif %}
+                {% if model != 'any' %}<button class="filter-button" data-filter="model">{{ model }} <span>&times;</span></button>{% endif %}
+                <button id="clear-all">Clear All</button>
             </div>
         </div>
         <div class="vehicle-grid">
