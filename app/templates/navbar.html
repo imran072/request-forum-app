@@ -1,3 +1,4 @@
+<!-- navbar.html -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
@@ -7,11 +8,16 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.vehicles') }}">Search</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.login') }}">Login</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('main.signup') }}">Signup</a></li>
-            <li class="nav-item"><a class="nav-link" href="#" class="sell">Sell My EV</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.vehicles') }}">Search</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('auth.signup') }}">Signup</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" class="sell">Sell My EV</a></li>
         </ul>
     </div>
 </nav>

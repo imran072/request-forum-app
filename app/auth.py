@@ -1,5 +1,6 @@
 from . import db
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask_login import login_required, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from .models import User
 from .forms import SignupForm, LoginForm, ResetPasswordForm
@@ -18,7 +19,8 @@ def login():
             # Log the user in by setting session variables
             session['user_id'] = user.id
             session['username'] = user.username
-            flash('You have successfully logged in.', 'success')
+            flash('You have successfully logged in.', 'success') # category success
+            login_user(user, remember=True) # Log the user in
             return redirect(url_for('main.index'))  # Redirect to the index page
         else:
             flash('Invalid email or password.', 'error')
@@ -40,6 +42,7 @@ def reset_password():
 
 
 @auth.route('/logout')
+@login_required
 def logout():
     session.pop('user', None)
     return redirect(url_for('auth.login'))
