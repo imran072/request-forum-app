@@ -22,6 +22,10 @@ def create_app():
     def load_user(user_id):
         return User.query.get(int(user_id))
     
+    @app.context_processor
+    def inject_user():
+        return dict(user=current_user) # inject user to all templates
+    
     # Configuration
     app.config['SECRET_KEY'] = 'your_secret_key_here'
     

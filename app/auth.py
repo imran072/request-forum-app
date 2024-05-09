@@ -19,7 +19,7 @@ def login():
             # Log the user in by setting session variables
             session['user_id'] = user.id
             session['username'] = user.username
-            flash('You have successfully logged in.', 'success') # category success
+            flash(f'Hello, {user.username}! You have successfully logged in.', 'success') # category success
             login_user(user, remember=True) # Log the user in
             return redirect(url_for('main.index'))  # Redirect to the index page
         else:
@@ -41,11 +41,12 @@ def reset_password():
     return render_template('reset_password.html', form=form)
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 @login_required
 def logout():
-    session.pop('user', None)
-    return redirect(url_for('auth.login'))
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('main.index'))
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
