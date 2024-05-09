@@ -4,13 +4,12 @@
 
 {% block content %}
 
-    <!-- search bar -->
-    <main class="flex-grow-1">
-    <section class="search" 
-    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); 
-    background-size: cover; 
+<main class="flex-grow-1">
+    <section class="search"
+    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
+    background-size: cover;
     background-position: center;">
-        <form>
+        <form method="get" action="{{ url_for('main.vehicles') }}">
             <div class="form-row">
                 <select name="make" id="make">
                     <option value="any" selected>Any make</option>
@@ -66,8 +65,4 @@
             {% endfor %}
         </div>
     </div>
-    {% endblock %}
-    </main>
-
-</body>
-</html>
+{% endblock %}

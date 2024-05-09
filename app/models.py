@@ -50,4 +50,3 @@ class SearchHistory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     search_parameters = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-
