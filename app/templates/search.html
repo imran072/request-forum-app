@@ -3,97 +3,108 @@
 {% block title %}Vehicles - EV Marketplace{% endblock %}
 
 {% block content %}
-<!-- search bar -->
 <main class="flex-grow-1">
-    <section class="search"
-    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
-    background-size: cover;
-    background-position: center;">
-        <form method="POST" action="{{ url_for('main.search_vehicles') }}">
-            <div class="form-row row-1">
-                <select name="make" id="make">
-                    <option value="any" selected>Any Make</option>
-                    {% for make in makes %}
-                        <option value="{{ make }}">{{ make }}</option>
+    <section class="vehicle-filter">
+        <form id="filter-form" method="GET" action="{{ url_for('main.vehicles') }}">
+            <div class="filter-group">
+                <label for="make">Make / Model</label>
+                <select name="make" id="make" data-selected="{{ make }}">
+                    <option value="any" {% if make == 'any' %}selected{% endif %}>Any Make</option>
+                    {% for make_option in makes %}
+                        <option value="{{ make_option }}" {% if make_option == make %}selected{% endif %}>{{ make_option }}</option>
                     {% endfor %}
                 </select>
-                <select name="model" id="model">
-                    <option value="any">Any Model</option>
+                <select name="model" id="model" data-selected="{{ model }}">
+                    <option value="any" {% if model == 'any' %}selected{% endif %}>Any Model</option>
                 </select>
-                <select name="year" id="year">
-                    <option value="any" selected>Any Year</option>
-                    {% for yr in years %}
-                        <option value="{{ yr }}">{{ yr }}</option>
-                    {% endfor %}
-                </select>
+            </div>
+            <div class="filter-group">
+                <label for="price">Price</label>
+                <div class="price-range">
+                    <input type="number" name="min_price" placeholder="(min)" min="0" value="{{ min_price if min_price != 'any' else '' }}">
+                    <input type="number" name="max_price" placeholder="(max)" min="0" value="{{ max_price if max_price != 'any' else '' }}">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="mileage">Mileage</label>
                 <select name="mileage" id="mileage">
-                    <option value="any" selected>Any Mileage</option>
+                    <option value="any" {% if mileage_value == 'any' %}selected{% endif %}>Any Mileage</option>
                     {% for mile in mileage %}
-                        <option value="{{ mile }}">{{ mile }} km</option>
+                        <option value="{{ mile }}" {% if mile == mileage_value %}selected{% endif %}>{{ mile }} km</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row row-2">
+            <div class="filter-group">
+                <label for="year">Year</label>
+                <div class="year-range">
+                    <input type="number" name="from_year" placeholder="(from)" min="1900" value="{{ from_year if from_year != 'any' else '' }}">
+                    <input type="number" name="to_year" placeholder="(to)" min="1900" value="{{ to_year if to_year != 'any' else '' }}">
+                </div>
+            </div>
+            <div class="filter-group">
+                <label for="top_speed">Top Speed</label>
                 <select name="top_speed" id="top_speed">
-                    <option value="any" selected>Any Top Speed</option>
+                    <option value="any" {% if top_speed_value == 'any' %}selected{% endif %}>Any Top Speed</option>
                     {% for speed in top_speed %}
-                        <option value="{{ speed }}">{{ speed }} km/h</option>
+                        <option value="{{ speed }}" {% if speed == top_speed_value %}selected{% endif %}>{{ speed }} km/h</option>
                     {% endfor %}
                 </select>
+            </div>
+            <div class="filter-group">
+                <label for="acceleration">Acceleration</label>
                 <select name="acceleration" id="acceleration">
-                    <option value="any" selected>Any Acceleration</option>
+                    <option value="any" {% if acceleration_value == 'any' %}selected{% endif %}>Any Acceleration</option>
                     {% for acc in acceleration %}
-                        <option value="{{ acc }}">0-100 km/h in {{ acc }} seconds</option>
+                        <option value="{{ acc }}" {% if acc == acceleration_value %}selected{% endif %}>0-100 km/h in {{ acc }} seconds</option>
                     {% endfor %}
                 </select>
-                <select name="price" id="price">
-                    <option value="any" selected>Max Price</option>
-                    {% for price in prices %}
-                        <option value="{{ price }}">${{ price }}</option>
-                    {% endfor %}
-                </select>
+            </div>
+            <div class="filter-group">
+                <label for="color">Color</label>
                 <select name="color" id="color">
-                    <option value="any" selected>Any Color</option>
-                    {% for color in colors %}
-                        <option value="{{ color }}">{{ color }}</option>
+                    <option value="any" {% if color == 'any' %}selected{% endif %}>Any Color</option>
+                    {% for clr in colors %}
+                        <option value="{{ clr }}" {% if clr == color %}selected{% endif %}>{{ clr }}</option>
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row find-button">
-                <button type="submit">Find My EV</button>
-            </div>
+            <button type="submit" class="filter-button">Find My EV</button>
         </form>
     </section>
 
-    <!-- displays filtered cars -->
-    {% if vehicles %}
+    {% if vehicles_found %}
     <section class="vehicle-results">
         <div class="vehicle-summary">
             <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
             <div class="tags">
-                {% for tag in tags %}
-                    <button>{{ tag }} <span>&times;</span></button>
-                {% endfor %}
-                <button>Clear All</button>
+                {% if make != 'any' %}<button class="filter-button" data-filter="make">{{ make }} <span>&times;</span></button>{% endif %}
+                {% if model != 'any' %}<button class="filter-button" data-filter="model">{{ model }} <span>&times;</span></button>{% endif %}
+                {% if acceleration_value != 'any' %}<button class="filter-button" data-filter="acceleration">{{ acceleration_value }} <span>&times;</span></button>{% endif %}
+                {% if color != 'any' %}<button class="filter-button" data-filter="color">{{ color }} <span>&times;</span></button>{% endif %}
+                <button id="clear-all">Clear All</button>
             </div>
         </div>
         <div class="vehicle-grid">
             {% for vehicle in vehicles %}
             <div class="vehicle-card">
-                <img src="{{ url_for('static', filename='img/car_models/' + vehicle['image']) }}" alt="{{ vehicle['model'] }}">
                 <div class="vehicle-info">
-                    <h3>{{ vehicle['make'] }} {{ vehicle['model'] }}</h3>
-                    <p>{{ vehicle['price'] }}</p>
-                    <p>{{ vehicle['year'] }} - {{ vehicle['miles'] }} miles</p>
-                    <p>Location: {{ vehicle['location'] }}</p>
-                    <p>Seller: {{ vehicle['seller'] }} - {{ vehicle['email'] }}</p>
+                    <h3>{{ vehicle.make }} {{ vehicle.model }}</h3>
+                    <p>${{ vehicle.price }}</p>
+                    <p>{{ vehicle.year }} - {{ vehicle.mileage }} km</p>
+                    <p>Top Speed: {{ vehicle.top_speed }} km/h</p>
+                    <p>Acceleration: 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
+                    <p>Location: {{ vehicle.seller.name }} - {{ vehicle.seller.email }}</p>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
+    {% else %}
+    <section class="vehicle-results">
+        <div class="vehicle-summary">
+            <p>No vehicles found. Try adjusting your filters.</p>
+        </div>
+    </section>
     {% endif %}
+</main>
 {% endblock %}
-<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-</body>
-</html>

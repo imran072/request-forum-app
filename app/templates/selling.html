@@ -1,0 +1,116 @@
+{% extends 'default.html' %}
+
+{% block title %}Sell Your EV{% endblock %}
+
+{% block content %}
+<div class="container my-5 flex-grow-1">
+  <h1 class="text-center mb-4">Sell Your EV</h1>
+  <form method="post" action="{{ url_for('main.sell_ev') }}" class="vertical-sell-ev-form" enctype="multipart/form-data">
+    <div class="row">
+      <label for="title" class="category_name">Ad Title:</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="title" name="title" placeholder="Enter a title for your ad" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="make" class="category_name">Make:</label>
+      <div class="option_name">
+        <select class="form-select" id="make" name="make" required>
+          <option value="">Select Make</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <label for="model" class="category_name">Model:</label>
+      <div class="option_name">
+        <select class="form-select" id="model" name="model" required>
+          <option value="">Select Model</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <label for="price" class="category_name">Sale Price ($):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="price" name="price" placeholder="Enter sale price in AUD" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="mileage" class="category_name">Mileage (km):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="mileage" name="mileage" placeholder="Enter mileage in km" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="year" class="category_name">Year:</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="year" name="year" placeholder="Enter manufacturing year" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="top_speed" class="category_name">Top Speed (kph):</label>
+      <div class="option_name">
+        <input type="number" class="form-control" id="top_speed" name="top_speed" placeholder="Enter top speed in kph" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="acceleration" class="category_name">Acceleration (0-100 kph):</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="acceleration" name="acceleration" placeholder="Enter seconds" required>
+      </div>
+    </div>
+    <div class="row">
+      <label for="color" class="category_name form-label-left">Color:</label>
+      <div class="option_name">
+        <select class="form-select" id="color" name="color" required>
+          {% for color in color_options %}
+          <option value="{{ color }}">{{ color }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    
+    <div class="row mb-3">
+      <label for="location" class="category_name">Ad Location:</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter the ad location" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="category_name">Images:</label>
+        <small class="form-text text-muted">You can add up to 5 images. Ads with photos receive more responses.</small>
+        <div class="option_name">
+            <div id="image-upload">
+                <div class="image-upload-item" onclick="triggerFileInput('image1')">
+                    <label for="image1" class="image-label">+</label>
+                    <input type="file" id="image1" name="image1" accept="image/*" style="display:none;">
+                    <img id="preview1" src="#" alt="Preview 1" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image2')">
+                    <label for="image2" class="image-label">+</label>
+                    <input type="file" id="image2" name="image2" accept="image/*" style="display:none;">
+                    <img id="preview2" src="#" alt="Preview 2" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image3')">
+                    <label for="image3" class="image-label">+</label>
+                    <input type="file" id="image3" name="image3" accept="image/*" style="display:none;">
+                    <img id="preview3" src="#" alt="Preview 3" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image4')">
+                    <label for="image4" class="image-label">+</label>
+                    <input type="file" id="image4" name="image4" accept="image/*" style="display:none;">
+                    <img id="preview4" src="#" alt="Preview 4" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image5')">
+                    <label for="image5" class="image-label">+</label>
+                    <input type="file" id="image5" name="image5" accept="image/*" style="display:none;">
+                    <img id="preview5" src="#" alt="Preview 5" style="display:none;">
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</div>
+{% endblock %}
