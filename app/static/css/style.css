@@ -1,99 +1,55 @@
-/* Background */
-.bg-login {
-    background-image: url('../img/background.jpg');
-    height: 100vh;
+/* Styles for login & signup page */
+/* General styles for background, aligning items in center */
+.sign_up_form, .login_form {
+    background-image: url('../img/background.jpg'); 
     background-size: cover;
     background-position: center;
+    height: 100vh; /* Full viewport height to cover the whole vertical space */
 }
 
-/* Login Panel */
-.login-panel {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 360px;
-    margin: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-/* Form Controls */
-.form-control {
-    margin-bottom: 20px;
-    height: 50px;
-    padding-left: 10px;
-}
-
-/* Buttons */
-.login-btn, .google-btn, .facebook-btn {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.login-btn {
-    background-color: #007BFF;
-    color: white;
-}
-
-.google-btn {
-    background-color: #de5246;
-    color: white;
-}
-
-.facebook-btn {
-    background-color: #3b5998;
-    color: white;
-}
-
-.login-btn:hover, .google-btn:hover, .facebook-btn:hover {
-    opacity: 0.9;
-}
-/* Sign up form styles */
-.sign_up_form {
-    background-image: url('../img/background.jpg');
-    background-size: cover;
-    background-position: center;
-}
-
-.container .h-100 {
+/* Styling the container for vertical and horizontal centering */
+.container.py-5 .h-100 {
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.card-background {
+div.card.shadow-2-strong {
     border-radius: 1rem;
     background-color: rgba(255, 255, 255, 0.411);
-    min-width: 500px;
+    /* min-width: 0px; Minimum width is reduced to better fit smaller screens */
+    width: 100%; /* This will make it responsive */
+    max-width: 500px; /* Maximum width to maintain design consistency */
 }
 
-.position-relative {
+.form-group.mb-4 {
+    width: 80%; /* Increased width percentage for better form field utilization */
     position: relative;
+    margin-bottom: 20px; /* Ensure spacing between fields */
 }
 
-.icon-style {
+/* Form styles */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fa.fa-user, .fa.fa-lock {
     position: absolute;
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.input-style {
+.form-control.form-control-lg {
     padding-left: 35px;
     background-color: rgba(255, 255, 255, 0.561);
+    width: 100%; Make form inputs responsive
 }
 
 .btn-primary {
-    background-color: rgb(255, 255, 255);
-    border: hidden;
-    color: rgb(0, 0, 0);
+    width: 40%; /* Adjust the button width for better usability */
 }
 
-#website_logo {
-    height: 100px; 
-    width: auto;
-    vertical-align: middle; 
-}
