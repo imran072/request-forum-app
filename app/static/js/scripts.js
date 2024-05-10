@@ -72,3 +72,16 @@ document.addEventListener('DOMContentLoaded', function() {
         logos.push(slider.lastElementChild); // updates the array
     }
 });
+
+//email input validation
+function validateForm() {
+    let email = document.getElementById("typeEmailX-2").value;
+    let password = document.getElementById("password_input").value;
+    if (/\S+@\S+\.\S+/.test(email) && /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password)) {
+        alert("Thank you for signing up!");
+        return true;
+    } else {
+        alert("Please check your inputs for proper format.");
+        return false;
+    }
+}

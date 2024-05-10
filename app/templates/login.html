@@ -4,26 +4,61 @@
 Login | EV Marketplace
 {% endblock %}
 
-{% block head %}
-{{ super() }}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
-{% endblock %}
-
 {% block content %}
-<main class="bg-login">
-    <div class="login-panel">
-        <form action="{{ url_for('main.login') }}" method="POST">
-            <h2 class="text-center mb-4">Login</h2>
-            <input type="email" class="form-control" name="email" placeholder="Email or Account Name" required>
-            <input type="password" class="form-control" name="password" placeholder="Password" required>
-            <div class="form-check mb-3">
-                <input type="checkbox" class="form-check-input" id="rememberMe">
-                <label class="form-check-label" for="rememberMe">Remember password</label>
+<main class="bg-login" id="login-s" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <section class="login-s">
+      <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card shadow-2-strong" style="background-color: rgba(255, 255, 255, 0.85);">
+              <div class="card-body p-5 text-center">
+    
+                <h2 class="mb-5">Login</h2>
+                <form method="POST" action="{{ url_for('auth.login') }}" style="display: flex; flex-direction: column; align-items: center;">
+                    {{ form.hidden_tag() }}  <!-- CSRF token -->
+                    
+                    <!-- Email field -->
+                    <div class="form-group mb-4">
+                      <i class="fa fa-user" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.email(class="form-control form-control-lg", id="emailInput", placeholder="Email or Account Name") }}
+                      {% if form.email.errors %}
+                          {% for error in form.email.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+                    
+                    <!-- Password field -->
+                    <div class="form-group mb-4">
+                      <i class="fa fa-lock" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      {{ form.password(class="form-control form-control-lg", id="passwordInput", placeholder="Password") }}
+                      {% if form.password.errors %}
+                          {% for error in form.password.errors %}
+                              <div class="alert alert-danger">{{ error }}</div>
+                          {% endfor %}
+                      {% endif %}
+                    </div>
+    
+                    <button type="submit" class="btn btn-primary btn-lg">Login</button>
+                    
+                    <!-- Error and flash message area -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+                </form>
+                <!-- Forgot password link -->
+                <a href="{{ url_for('auth.reset_password') }}" class="text-center mt-2">Forgot password?</a>
+                
+                <hr class="my-4">
+              </div>
             </div>
-            <button type="submit" class="btn login-btn">Login</button>
-            <a href="#" class="text-center d-block mt-2">Forgot password?</a>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
 </main>
 {% endblock %}
