@@ -1,3 +1,72 @@
+      // image upload
+      function triggerFileInput(inputId) {
+        document.getElementById(inputId).click();
+    }
+    
+    const image1 = document.getElementById('image1');
+    const image2 = document.getElementById('image2');
+    const image3 = document.getElementById('image3');
+    const image4 = document.getElementById('image4');
+    const image5 = document.getElementById('image5');
+    const preview1 = document.getElementById('preview1');
+    const preview2 = document.getElementById('preview2');
+    const preview3 = document.getElementById('preview3');
+    const preview4 = document.getElementById('preview4');
+    const preview5 = document.getElementById('preview5');
+    const label1 = document.querySelector('label[for="image1"]');
+    const label2 = document.querySelector('label[for="image2"]');
+    const label3 = document.querySelector('label[for="image3"]');
+    const label4 = document.querySelector('label[for="image4"]');
+    const label5 = document.querySelector('label[for="image5"]');
+    
+    image1.onchange = evt => {
+        const [file] = image1.files;
+        if (file) {
+            preview1.src = URL.createObjectURL(file);
+            preview1.style.display = 'block';
+            label1.style.display = 'none';
+        }
+    };
+    
+    image2.onchange = evt => {
+        const [file] = image2.files;
+        if (file) {
+            preview2.src = URL.createObjectURL(file);
+            preview2.style.display = 'block';
+            label2.style.display = 'none';
+        }
+    };
+    
+    image3.onchange = evt => {
+        const [file] = image3.files;
+        if (file) {
+            preview3.src = URL.createObjectURL(file);
+            preview3.style.display = 'block';
+            label3.style.display = 'none';
+        }
+    };
+    
+    image4.onchange = evt => {
+        const [file] = image4.files;
+        if (file) {
+            preview4.src = URL.createObjectURL(file);
+            preview4.style.display = 'block';
+            label4.style.display = 'none';
+        }
+    };
+    
+    image5.onchange = evt => {
+        const [file] = image5.files;
+        if (file) {
+            preview5.src = URL.createObjectURL(file);
+            preview5.style.display = 'block';
+            label5.style.display = 'none';
+        }
+    };
+    
+
+    
+
 document.addEventListener('DOMContentLoaded', function() {
     var makeSelect = document.getElementById('make');
     var modelSelect = document.getElementById('model');
@@ -103,9 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   
     setInterval(shiftLogo, 3000);
-  });
+});
+
   
-  // clear individual filters
+  // clear individual filters (has to be out of the DOMContentLoaded to work)
   window.clearFilter = function(filterName) {
     var filterElement = document.querySelector(`[name="${filterName}"]`);
     if (filterElement) {
@@ -143,4 +213,3 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('clear-all').onclick = function() {
     clearAllFilters();
   };
-  

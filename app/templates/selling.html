@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container my-5 flex-grow-1">
   <h1 class="text-center mb-4">Sell Your EV</h1>
-  <form method="post" action="{{ url_for('main.sell_ev') }}" class="vertical-sell-ev-form">
+  <form method="post" action="{{ url_for('main.sell_ev') }}" class="vertical-sell-ev-form" enctype="multipart/form-data">
     <div class="row">
       <label for="title" class="category_name">Ad Title:</label>
       <div class="option_name">
@@ -68,8 +68,43 @@
         </select>
       </div>
     </div>
+    
+    <div class="row mb-3">
+        <label class="category_name">Images:</label>
+        <small class="form-text text-muted">You can add up to 5 images. Ads with photos receive more responses.</small>
+        <div class="option_name">
+            <div id="image-upload">
+                <div class="image-upload-item" onclick="triggerFileInput('image1')">
+                    <label for="image1" class="image-label">+</label>
+                    <input type="file" id="image1" name="image1" accept="image/*" style="display:none;">
+                    <img id="preview1" src="#" alt="Preview 1" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image2')">
+                    <label for="image2" class="image-label">+</label>
+                    <input type="file" id="image2" name="image2" accept="image/*" style="display:none;">
+                    <img id="preview2" src="#" alt="Preview 2" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image3')">
+                    <label for="image3" class="image-label">+</label>
+                    <input type="file" id="image3" name="image3" accept="image/*" style="display:none;">
+                    <img id="preview3" src="#" alt="Preview 3" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image4')">
+                    <label for="image4" class="image-label">+</label>
+                    <input type="file" id="image4" name="image4" accept="image/*" style="display:none;">
+                    <img id="preview4" src="#" alt="Preview 4" style="display:none;">
+                </div>
+                <div class="image-upload-item" onclick="triggerFileInput('image5')">
+                    <label for="image5" class="image-label">+</label>
+                    <input type="file" id="image5" name="image5" accept="image/*" style="display:none;">
+                    <img id="preview5" src="#" alt="Preview 5" style="display:none;">
+                </div>
+            </div>
+        </div>
+    </div>
+        
 
-    <button type="submit" class="btn btn-primary mt-3">Submit</button>
-  </form>
-</div>
-{% endblock %}
+      <button type="submit" class="btn btn-primary mt-3">Submit</button>
+    </form>
+  </div>
+  {% endblock %}

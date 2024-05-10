@@ -445,10 +445,51 @@ footer a:hover {
 }
 
 
-.vertical-sell-ev-form .col-sm-2 {
+.vertical-sell-ev-form .category_name {
     padding-right: 35px; /* Add some spacing between label and form control */
 }
 
+/* image upload */
+#image-upload {
+    display: flex;
+    flex-wrap: nowrap; /* Keeps all upload boxes in a single row */
+    gap: 10px; /* Adds spacing between upload boxes */
+    justify-content: start;
+}
+
+.image-upload-item {
+    position: relative;
+    width: 120px; /* Adjust the size */
+    height: 80px;
+    border: 2px dashed #ccc;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer; /* Make the whole box clickable */
+    overflow: hidden;
+}
+
+.image-upload-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.image-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #999;
+    cursor: default; /* Prevent the pointer from changing to clickable over the '+' symbol */
+}
+
+.image-upload-item:hover .image-label {
+    cursor: pointer;
+}
+
+  
 /* styles for login page */
 /* Background */
 .bg-login {
