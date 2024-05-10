@@ -1,6 +1,4 @@
-<!-- navbar.html -->
-<!--add pb-0, pt-0 to remove the top and bottom padding of website logo -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light pb-0 pt-0">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
     </a>
@@ -14,16 +12,16 @@
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <!-- Secure Logout Form -->
-                    <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;">
-                        <button type="submit" class="nav-link">Logout</button>
-                    </form>
+                    <!-- <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;"> -->
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+                    <!-- </form> -->
                 </li>
                 {% else %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('auth.sign_up') }}">Signup</a>
+                    <a class="nav-link" href="{{ url_for('auth.signup') }}">Signup</a>
                 </li>
                 {% endif %}
             <li class="nav-item">
