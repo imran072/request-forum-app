@@ -10,6 +10,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.vehicles') }}">Search</a></li>
                 {% if user.is_authenticated %}
+                <!--added My Profile link-->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('user.profile') }}">My Profile</a>
+                </li>
                 <li class="nav-item">
                     <!-- Secure Logout Form -->
                     <!-- <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;"> -->
