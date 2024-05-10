@@ -181,8 +181,9 @@ button {
 }
 
 button:hover {
-    background-color: #008cba;
+    /* background-color: #008cba; */
 }
+/* this made the nav bar toggle changed to blue */
 
 /* ev ads */
 .ev-ads-slider .slide-wrapper {
