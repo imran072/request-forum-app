@@ -6,18 +6,19 @@ Signup | EV Marketplace
 
 {% block content %}
 <main>
-    <section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');background-size: cover;background-position: center;">
+    <section class="sign_up_form">
       <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <!--only inline style working, css file not working, why-->
             <div class="card shadow-2-strong" style="border-radius: 1rem; background-color: rgba(255, 255, 255, 0.411); min-width:500px;" >
               <div class="card-body p-5 text-center">
     
                 <h2 class="mb-5">Sign up</h2>
-                <form method="POST" action="{{ url_for('auth.signup') }}" style="display: flex; flex-direction: column; align-items: center;">
+                <form method="POST" action="{{ url_for('auth.signup') }}">
                     {{ form.hidden_tag() }}
 
-                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
+                    <div data-mdb-input-init class="form-group mb-4">
                       <i class="fa fa-envelope" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
                       {{ form.email(class="form-control form-control-lg", placeholder="Email", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
                       {% if form.email.errors %}
@@ -27,9 +28,9 @@ Signup | EV Marketplace
                       {% endif %}
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
-                      <i class="fa fa-user" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                      {{ form.username(class="form-control form-control-lg", placeholder="Username", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
+                    <div data-mdb-input-init class="form-group mb-4">
+                      <i class="fa fa-user"></i>
+                      {{ form.username(class="form-control form-control-lg", placeholder="Username") }}
                       {% if form.username.errors %}
                           {% for error in form.username.errors %}
                               <div class="alert alert-danger">{{ error }}</div>
@@ -37,9 +38,9 @@ Signup | EV Marketplace
                       {% endif %}
                     </div>
 
-                    <div data-mdb-input-init class="form-outline mb-4" style="width: 100%; position: relative;">
-                      <i class="fa fa-lock" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%);"></i>
-                      {{ form.password(class="form-control form-control-lg", placeholder="Password", style="padding-left: 35px; background-color: rgba(255, 255, 255, 0.561);") }}
+                    <div data-mdb-input-init class="form-group mb-4">
+                      <i class="fa fa-lock"></i>
+                      {{ form.password(class="form-control form-control-lg", placeholder="Password") }}
                       {% if form.password.errors %}
                           {% for error in form.password.errors %}
                               <div class="alert alert-danger">{{ error }}</div>
@@ -47,7 +48,7 @@ Signup | EV Marketplace
                       {% endif %}
                     </div>
 
-                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block" style="background-color: rgb(255, 255, 255);border: hidden;color: rgb(0, 0, 0);">Register</button>
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg btn-block">Register</button>
                 </form>
                 <hr class="my-4">
               </div>
