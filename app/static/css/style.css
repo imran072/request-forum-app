@@ -46,7 +46,7 @@ form {
 .form-control.form-control-lg {
     padding-left: 35px;
     background-color: rgba(255, 255, 255, 0.561);
-    width: 100%; Make form inputs responsive
+    width: 100%; /*Make form inputs responsive*/
 }
 
 .btn-primary {
