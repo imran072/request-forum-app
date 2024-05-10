@@ -70,6 +70,13 @@
     </div>
     
     <div class="row mb-3">
+      <label for="location" class="category_name">Ad Location:</label>
+      <div class="option_name">
+        <input type="text" class="form-control" id="location" name="location" placeholder="Enter the ad location" required>
+      </div>
+    </div>
+
+    <div class="row mb-3">
         <label class="category_name">Images:</label>
         <small class="form-text text-muted">You can add up to 5 images. Ads with photos receive more responses.</small>
         <div class="option_name">
@@ -103,8 +110,7 @@
         </div>
     </div>
         
-
-      <button type="submit" class="btn btn-primary mt-3">Submit</button>
-    </form>
-  </div>
-  {% endblock %}
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
+</div>
+{% endblock %}

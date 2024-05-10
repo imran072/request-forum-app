@@ -1,3 +1,4 @@
+      // selling.html
       // image upload
       function triggerFileInput(inputId) {
         document.getElementById(inputId).click();
@@ -64,8 +65,8 @@
         }
     };
     
-
-    
+    // ad location
+    const locationInput = document.getElementById('location');
 
 document.addEventListener('DOMContentLoaded', function() {
     var makeSelect = document.getElementById('make');
