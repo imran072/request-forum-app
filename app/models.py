@@ -43,6 +43,7 @@ class Vehicle(db.Model):
     car_type = db.Column(db.String(50))
     top_speed = db.Column(db.Integer)
     acceleration = db.Column(db.Float)
+    image_url = db.Column(db.String(255))
     seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class VehicleAttributes(db.Model):
