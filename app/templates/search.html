@@ -5,7 +5,7 @@
 {% block content %}
 <main class="flex-grow-1">
     <section class="vehicle-filter">
-        <form id="filter-form" method="GET" action="{{ url_for('main.vehicles') }}">
+        <form id="filter-form" method="get" action="{{ url_for('main.vehicles') }}">
             <div class="filter-group">
                 <label for="make">Make / Model</label>
                 <select name="make" id="make" data-selected="{{ make }}">
