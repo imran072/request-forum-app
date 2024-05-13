@@ -1,5 +1,6 @@
 body, html {
     margin: 0;
+    padding: 0;
     height: 100%;
 }  
 
@@ -144,18 +145,24 @@ section.search {
     background-color: #0056b3;
 }
 
-  /* adjustments for smaller screens */
+  /* Adjustments for smaller screens */
 @media (max-width: 768px) {
-    .form-row {
-        flex-direction: column;
-    }
-    .form-row select, .form-row input[type="text"], .form-row button {
-        width: 100%;
-        margin-top: 8px;
+    select.form-select, input.form-control {
+        font-size: 12px; /* Smaller font size on small devices */
     }
 }
 
+@media (max-width: 576px) {
+    select.form-select, input.form-control {
+        font-size: 10px; /* Even smaller font size on extra small devices */
+    }
+}
 
+/* Further refine input and select box sizes if necessary */
+select.form-select, input.form-control {
+    height: auto;
+    padding: 0.375rem 0.75rem; /* Adjust padding to fit smaller text */
+}
 
 form {
     display: flex;
@@ -194,6 +201,7 @@ button:hover {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
+    transition: transform 0.5s ease-in-out;
 }
 
 .ev-ads-slider .ad {
@@ -248,7 +256,7 @@ button:hover {
 
 .brand-slider .slide {
     display: flex;
-    transition: transform 0.25s ease;
+    transition: transform 0.5s ease-in-out;
 }
 
 .brand-slider img {
@@ -257,10 +265,11 @@ button:hover {
     height: auto;
     box-sizing: border-box;
     padding: 10px; 
+    margin: 0 10px;
 }
 
 .brand-slider .slide img {
-    flex: 0 0 20%; 
+    flex: 0 0 100px; 
     width: 100%;
     max-height: 100px;
     object-fit: contain; 
@@ -268,6 +277,7 @@ button:hover {
 }
 
 /* footer */
+
 .site-footer {
     background-color: #004e89;
     color: #ffffff;
@@ -301,7 +311,15 @@ button:hover {
     text-decoration: underline; 
 }
 
+footer a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
 
+footer a:hover {
+    text-decoration: underline;
+}
 
 /* Search.html filters */
 .vehicle-filter {
@@ -368,6 +386,7 @@ button:hover {
 .vehicle-filter .filter-button:hover {
     background-color: #0056b3;
 }
+
 
 /* Vehicle Grid Styles */
 .vehicle-results {
@@ -476,114 +495,60 @@ button:hover {
     cursor: pointer;
 }
 
-/* styles for login& signup page */
-/* General styles for background, aligning items in center */
-.sign_up_form, #login-s {
-    background-image: url('../img/background.jpg'); /* Ensure you use an appropriate background image */
+  
+/* styles for login page */
+/* Background */
+.bg-login {
+    background-image: url('../img/background.jpg');
+    height: 100vh;
     background-size: cover;
     background-position: center;
-    height: 100vh; /* Full viewport height to cover the whole vertical space */
 }
 
-/* Styling the container for vertical and horizontal centering */
-.container.py-5 .h-100 {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Card styling for clarity and focus, common to both forms */
- .card-background {
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly opaque for better readability */
-    border-radius: 15px;
+/* Login Panel */
+.login-panel {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px; /* Control the maximum width of the card */
-    padding: 2rem;
-} 
-
-.card.shadow-2-strong {
-    border-radius: 1rem;
-    background-color: rgba(255, 255, 255, 0.411);
-    min-width: 500px;
-}
-
-.form-outline.mb-4{
+    width: 360px;
+    margin: auto;
     position: relative;
-
-}
-
-.fa.fa-user{
-    position: absolute; 
-    left: 10px; top: 50%; 
-    transform: translateY(-50%);
-
-}
-
-.form-control.form-control-lg{
-    padding-left: 35px; 
-    background-color: rgba(255, 255, 255, 0.561);
-}
-
-.fa.fa-lock{
-    position: absolute; 
-    left: 10px; top: 50%; 
-    transform: translateY(-50%);
-}
-
-.form-check.d-flex.justify-content-start.mb-4{
-    display: inline-block;
-}
-
-a.form-check-label{
-    margin-left: 99px;
-}
-
-/* Position icons inside input fields, used in both forms */
-.icon-style {
-    position: absolute;
-    left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #495057; /* Icon color */
 }
 
-/* Input field styling, common to both forms */
-.input-style {
-    padding-left: 45px; /* Enough padding to not overlap icons */
-    border: 1px solid #ced4da;
-    height: 48px;
-    font-size: 16px;
-    width: 100%; /* Ensures the input field fills the container */
-    border-radius: 5px;
+/* Form Controls */
+.form-control {
+    margin-bottom: 20px;
+    height: 50px;
+    padding-left: 10px;
 }
 
-/* Button styling, universal for consistency */
-.btn-primary {
-    width: 100%; /* Full width button */
-    background-color: #007bff;
-    color: white;
+/* Buttons */
+.login-btn, .google-btn, .facebook-btn {
+    width: 100%;
+    padding: 10px;
     border: none;
-    padding: 10px 0;
-    font-size: 18px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
+    margin-bottom: 10px;
 }
 
-.btn-primary:hover {
-    background-color: #0056b3;
+.login-btn {
+    background-color: #007BFF;
+    color: white;
 }
 
-/* Responsive adjustments
-@media (max-width: 576px) {
-    .card-background {
-        padding: 20px;
-        margin: 10px;
-    }
+.google-btn {
+    background-color: #de5246;
+    color: white;
 }
-#website_logo {
-    height: 100px; 
-    width: auto;
-    vertical-align: middle; 
-} */
+
+.facebook-btn {
+    background-color: #3b5998;
+    color: white;
+}
+
+.login-btn:hover, .google-btn:hover, .facebook-btn:hover {
+    opacity: 0.9;
+}
