@@ -106,17 +106,13 @@ section.search {
   }
   
 .search form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
+    padding-top: 20px; /* Add space above the form if needed */
 }
   
 .search .form-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 10px;xw
     justify-content: center;
     width: 100%;
 }
@@ -154,7 +150,13 @@ section.search {
 
 @media (max-width: 576px) {
     select.form-select, input.form-control {
-        font-size: 10px; /* Even smaller font size on extra small devices */
+        font-size: 10px; /* Even smaller font size on extra small devices */    
+    }
+    .search select,
+    .search input[type="text"] {
+        width: 100%;
+        max-width: 200px; /* Adjust this value to your desired maximum width */
+        margin: 0 auto;
     }
 }
 
@@ -221,8 +223,6 @@ button:hover {
     height: auto; 
     margin-bottom: 10px; 
 }
-
-
 
 .ev-ads-slider .info {
     text-align: center;
