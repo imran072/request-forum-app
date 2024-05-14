@@ -32,8 +32,8 @@ class User(db.Model, UserMixin):
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    make = db.Column(db.String(50))
-    model = db.Column(db.String(50))
+    make = db.Column(db.Integer, db.ForeignKey('brand.id'))
+    model = db.Column(db.Integer, db.ForeignKey('model.id'))
     year = db.Column(db.Integer)
     mileage = db.Column(db.Integer)
     battery_capacity = db.Column(db.Integer)
@@ -45,6 +45,10 @@ class Vehicle(db.Model):
     acceleration = db.Column(db.Float)
     image_url = db.Column(db.String(255))
     seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    brand = db.relationship('Brand', backref='vehicles')
+    model_rel = db.relationship('Model', backref='vehicles')  # Renamed to avoid conflict with the field name `model`
+
 
 class Brand(db.Model):
     id = db.Column(db.Integer, primary_key=True)

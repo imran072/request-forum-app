@@ -5,7 +5,7 @@
 {% if vehicles %}
     <ul>
     {% for vehicle in vehicles %}
-        <li>{{ vehicle.make }} {{ vehicle.model }} - ${{ vehicle.price }}</li>
+        <li>{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - ${{ vehicle.price }}</li>
     {% endfor %}
     </ul>
 {% else %}
