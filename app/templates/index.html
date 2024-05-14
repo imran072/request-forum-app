@@ -14,50 +14,52 @@
 {% endwith %}
 
 <main class="flex-grow-1">
-    <section class="search"
-    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
-    background-size: cover;
-    background-position: center;">
-        <form method="get" action="{{ url_for('main.vehicles') }}" class="container">
-            <div class="row g-3 justify-content-center">
-                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
-                    <select name="make" id="make" class="form-select">
-                        <option value="any" selected>Any make</option>
-                        {% for make in makes %}
-                        <option value="{{ make }}">{{ make }}</option>
-                        {% endfor %}
-                    </select>
+    <div class="content-container">
+        <section class="search"
+        style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
+        background-size: cover;
+        background-position: center;">
+            <form method="get" action="{{ url_for('main.vehicles') }}" class="container">
+                <div class="row g-3 justify-content-center">
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                        <select name="make" id="make" class="form-select">
+                            <option value="any" selected>Any Make</option>
+                            {% for make in makes %}
+                            <option value="{{ make }}">{{ make }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-3 col-lg-2">
+                        <select name="model" id="model" class="form-select">
+                            <option value="any">Any Model</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                        <select name="distance" id="distance" class="form-select">
+                            <option value="distance">Distance</option>
+                            {% for dist in distances %}
+                            <option value="{{ dist }}">{{ dist }} km</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                        <input type="text" name="postcode" placeholder="Postcode" class="form-control">
+                    </div>
+                    <div class="col-12 col-sm-6 col-md-2 col-lg-2">
+                        <select name="price" id="price" class="form-select">
+                            <option value="max_price">Max Price</option>
+                            {% for price in prices %}
+                            <option value="{{ price }}">${{ price }}</option>
+                            {% endfor %}
+                        </select>
+                    </div> 
+                    <div class="col-12 col-md-6 col-lg-10 d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary">Find My EV</button>
+                    </div>
                 </div>
-                <div class="col-12 col-sm-6 col-md-3 col-lg-2">
-                    <select name="model" id="model" class="form-select">
-                        <option value="any">Any Model</option>
-                    </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-2 col-lg-2">
-                    <select name="distance" id="distance" class="form-select">
-                        <option value="distance">Distance</option>
-                        {% for dist in distances %}
-                        <option value="{{ dist }}">{{ dist }} km</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-12 col-sm-6 col-md-2 col-lg-2">
-                    <input type="text" name="postcode" placeholder="Postcode" class="form-control">
-                </div>
-                <div class="col-12 col-sm-6 col-md-2 col-lg-2">
-                    <select name="price" id="price" class="form-select">
-                        <option value="max_price">Max Price</option>
-                        {% for price in prices %}
-                        <option value="{{ price }}">${{ price }}</option>
-                        {% endfor %}
-                    </select>
-                </div> 
-                <div class="col-12 col-md-6 col-lg-10 d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Find My EV</button>
-                </div>
-            </div>
-        </form>
-    </section>
+            </form>
+        </section>
+    </div>
 </main>
 
 <!-- ev ads -->
