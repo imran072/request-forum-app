@@ -36,37 +36,53 @@ def vehicles():
 
     return render_template('search.html', makes=makes, years=years, mileage=mileage, top_speed=top_speed, acceleration=acceleration, prices=prices, colors=colors)
 
-@main.route('/search_vehicles', methods=['POST'])
+@main.route('/search', methods=['GET', 'POST'])
 def search_vehicles():
-    make = request.form.get('make')
-    model = request.form.get('model')
-    year = request.form.get('year', type=int)
-    mileage = request.form.get('mileage', type=int)
-    top_speed = request.form.get('top_speed', type=int)
-    acceleration = request.form.get('acceleration', type=float)
-    price = request.form.get('price', type=float)
-    color = request.form.get('color')
+    if request.method == 'POST':
+        make_id = request.form.get('make')
+        model_id = request.form.get('model')
+        year = request.form.get('year')
+        mileage = request.form.get('mileage')
+        top_speed = request.form.get('top_speed')
+        acceleration = request.form.get('acceleration')
+        price = request.form.get('price')
+        color = request.form.get('color')
 
-    query = Vehicle.query
-    if make and make != 'any':
-        query = query.filter(Vehicle.make == make)
-    if model and model != 'any':
-        query = query.filter(Vehicle.model == model)
-    if year and year != 'any':
-        query = query.filter(Vehicle.year == year)
-    if mileage and mileage != 'any':
-        query = query.filter(Vehicle.mileage <= mileage)
-    if top_speed and top_speed != 'any':
-        query = query.filter(Vehicle.top_speed <= top_speed)
-    if acceleration and acceleration != 'any':
-        query = query.filter(Vehicle.acceleration <= acceleration)
-    if price and price != 'any':
-        query = query.filter(Vehicle.price <= price)
-    if color and color != 'any':
-        query = query.filter(Vehicle.color == color)
+        query = Vehicle.query.join(Brand).join(Model)
 
-    vehicles = query.all()
-    return render_template('search_results.html', vehicles=vehicles)
+        if make_id != 'any':
+            query = query.filter(Vehicle.make == make_id)
+        if model_id != 'any':
+            query = query.filter(Vehicle.model == model_id)
+        if year != 'any':
+            query = query.filter(Vehicle.year == year)
+        if mileage != 'any':
+            query = query.filter(Vehicle.mileage == mileage)
+        if top_speed != 'any':
+            query = query.filter(Vehicle.top_speed == top_speed)
+        if acceleration != 'any':
+            query = query.filter(Vehicle.acceleration == acceleration)
+        if price != 'any':
+            query = query.filter(Vehicle.price == price)
+        if color != 'any':
+            query = query.filter(Vehicle.color == color)
+
+        vehicles = query.all()
+
+        return render_template('search_results.html', vehicles=vehicles)
+
+    brands = Brand.query.all()
+    makes = [(brand.id, brand.name) for brand in brands]
+    years = sorted(set(vehicle.year for vehicle in Vehicle.query.all()))
+    mileages = sorted(set(vehicle.mileage for vehicle in Vehicle.query.all()))
+    top_speeds = sorted(set(vehicle.top_speed for vehicle in Vehicle.query.all()))
+    accelerations = sorted(set(vehicle.acceleration for vehicle in Vehicle.query.all()))
+    prices = sorted(set(vehicle.price for vehicle in Vehicle.query.all()))
+    colors = sorted(set(vehicle.color for vehicle in Vehicle.query.all()))
+
+    return render_template('search.html', makes=makes, years=years, mileages=mileages, top_speeds=top_speeds, accelerations=accelerations, prices=prices, colors=colors)
+
+
 
 @main.route('/add_listing', methods=['GET', 'POST'])
 def add_listing():
