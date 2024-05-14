@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session
-from .models import Vehicle
+from .models import Vehicle, Brand, Model
 from .forms import SearchForm, AddListingForm
 from . import db
 from werkzeug.utils import secure_filename
+from flask import jsonify
 import os
 
 main = Blueprint('main', __name__)
@@ -70,6 +71,16 @@ def search_vehicles():
 @main.route('/add_listing', methods=['GET', 'POST'])
 def add_listing():
     form = AddListingForm()
+
+    # Populate brand choices
+    form.make.choices = [(brand.id, brand.name) for brand in Brand.query.all()]
+
+    # If a brand is selected, populate model choices based on the selected brand
+    if form.make.data:
+        form.model.choices = [(model.id, model.name) for model in Model.query.filter_by(brand_id=form.make.data).all()]
+    else:
+        form.model.choices = [(0, 'Select a model')]
+
     if form.validate_on_submit():
         image_file = form.image.data
         filename = secure_filename(image_file.filename)
@@ -96,6 +107,11 @@ def add_listing():
         return redirect(url_for('main.index'))
     return render_template('add_listing.html', form=form)
 
+@main.route('/get_models/<int:brand_id>')
+def get_models(brand_id):
+    models = Model.query.filter_by(brand_id=brand_id).all()
+    models_list = [{'id': model.id, 'name': model.name} for model in models]
+    return jsonify(models_list)
 
 
 @main.route('/contactus')

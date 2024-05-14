@@ -16,11 +16,12 @@
     {% endif %}
     <form method="post" enctype="multipart/form-data" onsubmit="return validateImage()">
         {{ form.hidden_tag() }}
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.make.label(class='form-label') }}
-                    {{ form.make(class='form-control') }}
+                    {{ form.make(class='form-control', id='make') }}
                     {% if form.make.errors %}
                         {% for error in form.make.errors %}
                             <div class="alert alert-danger">{{ error }}</div>
@@ -28,77 +29,100 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.model.label(class='form-label') }}
-                    {{ form.model(class='form-control') }}
+                    {{ form.model(class='form-control', id='model') }}
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.year.label(class='form-label') }}
                     {{ form.year(class='form-control') }}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.mileage.label(class='form-label') }}
                     {{ form.mileage(class='form-control') }}
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.battery_capacity.label(class='form-label') }}
                     {{ form.battery_capacity(class='form-control') }}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.color.label(class='form-label') }}
                     {{ form.color(class='form-control') }}
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.price.label(class='form-label') }}
                     {{ form.price(class='form-control') }}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.doors.label(class='form-label') }}
                     {{ form.doors(class='form-control') }}
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.car_type.label(class='form-label') }}
                     {{ form.car_type(class='form-control') }}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.top_speed.label(class='form-label') }}
                     {{ form.top_speed(class='form-control') }}
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.acceleration.label(class='form-label') }}
                     {{ form.acceleration(class='form-control') }}
                 </div>
             </div>
-            <div class="col-md-6">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.image.label(class='form-label') }}
                     {{ form.image(class='form-control') }}
@@ -106,8 +130,9 @@
                 </div>
             </div>
         </div>
+
         <div class="row mb-3">
-            <div class="col-12">
+            <div class="col-md-12">
                 <div class="form-group">
                     {{ form.submit(class='btn btn-primary w-100') }}
                 </div>
@@ -117,6 +142,22 @@
 </div>
 
 <script>
+    document.getElementById('make').addEventListener('change', function() {
+        const brandId = this.value;
+        fetch(`/get_models/${brandId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSelect = document.getElementById('model');
+                modelSelect.innerHTML = ''; // Clear existing options
+                data.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            });
+    });
+
     function validateImage() {
         const imageInput = document.querySelector('input[type="file"]');
         const imageError = document.getElementById('image-error');
