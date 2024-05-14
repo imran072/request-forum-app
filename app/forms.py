@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, FloatField, SelectField, validators, PasswordField, Form, FileField
-from wtforms.validators import DataRequired, Optional, InputRequired, Length, EqualTo, ValidationError, Email
+from wtforms.validators import DataRequired, Optional, InputRequired, Length, EqualTo, ValidationError, Email, NumberRange
 from .models import User
 from flask_wtf.file import FileRequired, FileAllowed
 
@@ -36,14 +36,15 @@ class ResetPasswordForm(FlaskForm):
 class AddListingForm(FlaskForm):
     make = StringField('Make', validators=[DataRequired()])
     model = StringField('Model', validators=[DataRequired()])
-    year = IntegerField('Year', validators=[DataRequired()])
+    year = IntegerField('Year', validators=[DataRequired(), NumberRange(min=1886)])
     mileage = IntegerField('Mileage', validators=[DataRequired()])
     battery_capacity = IntegerField('Battery Capacity (in kWh)', validators=[DataRequired()])
     color = StringField('Color', validators=[DataRequired()])
     price = FloatField('Price ($)', validators=[DataRequired()])
-    doors = IntegerField('Number of Doors', validators=[DataRequired()])
+    doors = IntegerField('Doors', validators=[DataRequired(), NumberRange(min=1, max=5)])
     car_type = SelectField('Car Type', choices=[('Sedan', 'Sedan'), ('SUV', 'SUV'), ('Hatchback', 'Hatchback'), ('Coupe', 'Coupe')], validators=[DataRequired()])
     top_speed = IntegerField('Top Speed (km/h)', validators=[DataRequired()])
     acceleration = FloatField('0-100 km/h Acceleration (seconds)', validators=[DataRequired()])
-    image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'png'], 'Images only!')])
+    image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only!')])
     submit = SubmitField('Add Listing')
+
