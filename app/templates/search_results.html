@@ -1,14 +1,36 @@
 {% extends 'default.html' %}
 
 {% block content %}
-<h2>Search Results</h2>
-{% if vehicles %}
-    <ul>
-    {% for vehicle in vehicles %}
-        <li>{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - ${{ vehicle.price }}</li>
-    {% endfor %}
-    </ul>
-{% else %}
+<div class="container mt-5">
+    <h2>Search Results</h2>
+    {% if vehicles %}
+    <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
+    <div class="row">
+        {% for vehicle in vehicles %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ url_for('static', filename='img/car_models/' + vehicle.image_url) }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ vehicle.brand.name }} {{ vehicle.model_rel.name }}</h5>
+                    <p class="card-text"><strong>Price:</strong> ${{ vehicle.price }}</p>
+                    <p class="card-text"><strong>Year:</strong> {{ vehicle.year }}</p>
+                    <p class="card-text"><strong>Mileage:</strong> {{ vehicle.mileage }} km</p>
+                    <p class="card-text"><strong>Battery Capacity:</strong> {{ vehicle.battery_capacity }} kWh</p>
+                    <p class="card-text"><strong>Color:</strong> {{ vehicle.color }}</p>
+                    <p class="card-text"><strong>Doors:</strong> {{ vehicle.doors }}</p>
+                    <p class="card-text"><strong>Car Type:</strong> {{ vehicle.car_type }}</p>
+                    <p class="card-text"><strong>Top Speed:</strong> {{ vehicle.top_speed }} km/h</p>
+                    <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
     <p>No results found.</p>
-{% endif %}
+    {% endif %}
+</div>
 {% endblock %}
