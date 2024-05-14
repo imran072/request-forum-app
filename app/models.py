@@ -46,6 +46,16 @@ class Vehicle(db.Model):
     image_url = db.Column(db.String(255))
     seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+class Brand(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
+    models = db.relationship('Model', backref='brand', lazy=True)
+
+class Model(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brand.id'), nullable=False)
+
 class VehicleAttributes(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'))

@@ -32,17 +32,16 @@ class ResetPasswordForm(FlaskForm):
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
 
-
 class AddListingForm(FlaskForm):
-    make = StringField('Make', validators=[DataRequired()])
-    model = StringField('Model', validators=[DataRequired()])
+    make = SelectField('Make', validators=[DataRequired()], choices=[])
+    model = SelectField('Model', validators=[DataRequired()], choices=[])
     year = IntegerField('Year', validators=[DataRequired(), NumberRange(min=1886)])
     mileage = IntegerField('Mileage', validators=[DataRequired()])
-    battery_capacity = IntegerField('Battery Capacity (in kWh)', validators=[DataRequired()])
+    battery_capacity = IntegerField('Battery Capacity (kWh)', validators=[DataRequired()])
     color = StringField('Color', validators=[DataRequired()])
-    price = FloatField('Price ($)', validators=[DataRequired()])
+    price = IntegerField('Price ($)', validators=[DataRequired()])
     doors = IntegerField('Doors', validators=[DataRequired(), NumberRange(min=1, max=5)])
-    car_type = SelectField('Car Type', choices=[('Sedan', 'Sedan'), ('SUV', 'SUV'), ('Hatchback', 'Hatchback'), ('Coupe', 'Coupe')], validators=[DataRequired()])
+    car_type = StringField('Car Type', validators=[DataRequired()])
     top_speed = IntegerField('Top Speed (km/h)', validators=[DataRequired()])
     acceleration = FloatField('0-100 km/h Acceleration (seconds)', validators=[DataRequired()])
     image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only!')])
