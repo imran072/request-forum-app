@@ -45,6 +45,7 @@ class Vehicle(db.Model):
     acceleration = db.Column(db.Float)
     image_url = db.Column(db.String(255))
     seller_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     brand = db.relationship('Brand', backref='vehicles')
     model_rel = db.relationship('Model', backref='vehicles')  # Renamed to avoid conflict with the field name `model`
