@@ -1,8 +1,9 @@
-from flask import Blueprint, render_template
-from flask import render_template, request, url_for
+from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session
 from .models import Vehicle
-from .forms import SearchForm
+from .forms import SearchForm, AddListingForm
 from . import db
+from werkzeug.utils import secure_filename
+import os
 
 main = Blueprint('main', __name__)
 
@@ -65,6 +66,37 @@ def search_vehicles():
 
     vehicles = query.all()
     return render_template('search_results.html', vehicles=vehicles)
+
+@main.route('/add_listing', methods=['GET', 'POST'])
+def add_listing():
+    form = AddListingForm()
+    if form.validate_on_submit():
+        image_file = form.image.data
+        filename = secure_filename(image_file.filename)
+        image_path = os.path.join(current_app.root_path, 'static/img', filename)
+        image_file.save(image_path)
+        new_vehicle = Vehicle(
+            make=form.make.data,
+            model=form.model.data,
+            year=form.year.data,
+            mileage=form.mileage.data,
+            battery_capacity=form.battery_capacity.data,
+            color=form.color.data,
+            price=form.price.data,
+            doors=form.doors.data,
+            car_type=form.car_type.data,
+            top_speed=form.top_speed.data,
+            acceleration=form.acceleration.data,
+            image_url=url_for('static', filename='img/' + filename),
+            seller_id=session['user_id']
+        )
+        db.session.add(new_vehicle)
+        db.session.commit()
+        flash('Your listing has been added successfully!', 'success')
+        return redirect(url_for('main.index'))
+    return render_template('add_listing.html', form=form)
+
+
 
 @main.route('/contactus')
 def contactus():
