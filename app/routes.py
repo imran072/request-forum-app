@@ -74,6 +74,9 @@ def add_listing():
     # Populate brand choices
     form.make.choices = [(brand.id, brand.name) for brand in Brand.query.all()]
 
+    # brands = [(brand.id, brand.name) for brand in Brand.query.all()]
+    # form.make.choices = [(0, 'Select a brand')] + brands
+
     # If a brand is selected, populate model choices based on the selected brand
     if form.make.data:
         form.model.choices = [(model.id, model.name) for model in Model.query.filter_by(brand_id=form.make.data).all()]
