@@ -41,23 +41,6 @@ def add_dummy_data():
 
     db.session.commit()
 
-    # Create dummy vehicles if they don't already exist
-    vehicle1 = Vehicle.query.filter_by(make='Tesla', model='Model S', year=2020, seller_id=user1.id).first()
-    if not vehicle1:
-        vehicle1 = Vehicle(make='Tesla', model='Model S', year=2020, mileage=15000, battery_capacity=85,
-                           color='Red', price=75000.00, doors=4, car_type='Sedan', top_speed=250,
-                           acceleration=3.2, seller_id=user1.id)
-        db.session.add(vehicle1)
-
-    vehicle2 = Vehicle.query.filter_by(make='Nissan', model='Leaf', year=2018, seller_id=user2.id).first()
-    if not vehicle2:
-        vehicle2 = Vehicle(make='Nissan', model='Leaf', year=2018, mileage=30000, battery_capacity=40,
-                           color='Blue', price=20000.00, doors=4, car_type='Hatchback', top_speed=150,
-                           acceleration=7.9, seller_id=user2.id)
-        db.session.add(vehicle2)
-
-    # Commit the changes to the database
-    db.session.commit()
 
     print('Database populated with dummy data!')
 
