@@ -3,7 +3,10 @@ from .models import Vehicle, Brand, Model
 from .forms import SearchForm, AddListingForm
 from . import db
 from werkzeug.utils import secure_filename
+from flask_login import login_required, current_user
 from flask import jsonify
+from app.models import User, Message
+from app.forms import MessageForm
 import os
 
 main = Blueprint('main', __name__)
@@ -65,7 +68,21 @@ def search_vehicles():
 
     return render_template('search.html', makes=makes, years=years, mileages=mileages, top_speeds=top_speeds, accelerations=accelerations, prices=prices, colors=colors)
 
-
+@main.route('/messages', methods=['GET', 'POST'])
+@login_required
+def messages():
+    form = MessageForm()
+    form.recipient.choices = [(user.id, user.username) for user in User.query.all() if user.id != current_user.id]
+    if form.validate_on_submit():
+        recipient = User.query.get(form.recipient.data)
+        message = Message(sender_id=current_user.id, recipient_id=recipient.id, body=form.body.data)
+        db.session.add(message)
+        db.session.commit()
+        flash('Your message has been sent.', 'success')
+        return redirect(url_for('main.messages'))
+    sent_messages = Message.query.filter_by(sender_id=current_user.id).order_by(Message.timestamp.desc()).all()
+    received_messages = Message.query.filter_by(recipient_id=current_user.id).order_by(Message.timestamp.desc()).all()
+    return render_template('messages.html', form=form, sent_messages=sent_messages, received_messages=received_messages)
 
 @main.route('/add_listing', methods=['GET', 'POST'])
 def add_listing():
