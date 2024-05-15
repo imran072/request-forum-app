@@ -1,0 +1,128 @@
+{% extends 'default.html' %}
+
+{% block title %}Add New Listing{% endblock %}
+
+{% block content %}
+<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+  <div class="container my-5 flex-grow-1">
+    <div class="form-container">
+      <h2 class="text-center mb-4">Add New Listing</h2>
+      <form method="post" enctype="multipart/form-data" class="vertical-sell-ev-form" onsubmit="return validateImage()">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <label for="make"><i class="fas fa-car"></i> Make:</label>
+          <div class="option_name">
+            {{ form.make(class='form-select', id='make') }}
+            {% if form.make.errors %}
+              {% for error in form.make.errors %}
+                <div class="alert alert-danger">{{ error }}</div>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="model"><i class="fas fa-car-side"></i> Model:</label>
+          <div class="option_name">
+            {{ form.model(class='form-select', id='model') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="year"><i class="fas fa-calendar-alt"></i> Year:</label>
+          <div class="option_name">
+            {{ form.year(class='form-control', id='year') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mileage"><i class="fas fa-tachometer-alt"></i> Mileage (km):</label>
+          <div class="option_name">
+            {{ form.mileage(class='form-control', id='mileage') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="color"><i class="fas fa-palette"></i> Color:</label>
+          <div class="option_name">
+            {{ form.color(class='form-control', id='color') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price"><i class="fas fa-tag"></i> Price:</label>
+          <div class="option_name">
+            {{ form.price(class='form-control', id='price') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="top_speed"><i class="fas fa-road"></i> Top Speed (kph):</label>
+          <div class="option_name">
+            {{ form.top_speed(class='form-control', id='top_speed') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="acceleration"><i class="fas fa-bolt"></i> Acceleration (0-100 kph):</label>
+          <div class="option_name">
+            {{ form.acceleration(class='form-control', id='acceleration') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="image"><i class="fas fa-image"></i> Image:</label>
+          <div class="option_name">
+            {{ form.image(class='form-control', id='image') }}
+            <div id="image-error" class="alert alert-danger" style="display: none;">Please upload a valid image file (jpg, jpeg, png, gif).</div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="form-group">
+                    {{ form.submit(class='btn btn-primary w-100') }}
+                </div>
+            </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+
+  function validateImage() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imageError = document.getElementById('image-error');
+    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    if (imageInput.files.length === 0) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload an image file.';
+      return false;
+    } else if (!validExtensions.includes(imageInput.files[0].type)) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+      return false;
+    }
+    imageError.style.display = 'none';
+    return true;
+  }
+</script>
+{% endblock %}
