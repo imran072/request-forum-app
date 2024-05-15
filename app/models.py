@@ -64,3 +64,19 @@ class SearchHistory(db.Model):
     search_parameters = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
+class CarAd(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    brand = db.Column(db.String(100), nullable=False)
+    model = db.Column(db.String(100), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)  # Use Text for longer strings
+    price = db.Column(db.Float, nullable=False)
+    image_path = db.Column(db.String(200), nullable=False)  # Path to the image file
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))  # Foreign key to user table
+
+    user = db.relationship('User', backref=db.backref('ads', lazy=True)) # Stablish relationship between the CarAd model and the User model 
+
+    def __repr__(self):
+        return f'<CarAd {self.title}>'
+
+

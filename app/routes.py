@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template
-from flask import render_template, request, url_for
-from .models import Vehicle
+from flask import Blueprint, render_template, request, url_for, redirect, flash
+from werkzeug.utils import secure_filename
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from .models import Vehicle, CarAd
 from .forms import SearchForm
 from . import db
+import os
 
 main = Blueprint('main', __name__)
 
@@ -69,3 +71,42 @@ def search_vehicles():
 @main.route('/contactus')
 def contactus():
     return render_template('contactus.html')
+
+@main.route('/post_ad', methods=['POST'])
+@login_required
+def post_ad():
+    if request.method == 'POST':
+        # Retrieve all form data
+        brand = request.form['brand']
+        model = request.form['model']
+        title = request.form['title']
+        description = request.form['description']
+        price = request.form['price']
+        file = request.files['image']
+
+        if file and brand and model and title and description and price:
+            filename = secure_filename(file.filename)
+            # Construct a path to save the file (you might want to include more unique identifiers)
+            filepath = os.path.join(main.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            # Create a new ad instance and save to the database
+            new_ad = CarAd(
+                brand=brand,
+                model=model,
+                title=title,
+                description=description,
+                price=price,
+                image_path=filepath,
+                user_id=current_user.id  # the user is logged in
+            )
+            db.session.add(new_ad)
+            db.session.commit()
+
+            flash('Your ad has been posted successfully!', 'success')
+            return redirect(url_for('main.index'))  # Redirect to the user's profile page
+        else:
+            flash('All fields are required.', 'error')
+            return redirect(url_for('add_listing'))  # Redirect back to the form if there are errors
+
+    return render_template('add_listing.html', request=request)
