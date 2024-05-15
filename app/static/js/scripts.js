@@ -1,53 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var makeSelect = document.getElementById('make');
-    var modelSelect = document.getElementById('model');
+// document.addEventListener('DOMContentLoaded', function() {
+//     var makeSelect = document.getElementById('make');
+//     var modelSelect = document.getElementById('model');
 
-    var carModels = {
-        'Audi': ['Q4 e-tron', 'SQ8 e-tron', 'Q8 e-tron', 'e-tron GT'],
-        'Bentley': ['Bentayga', 'Bentayga A', 'Bentayga Azure', 'Bentayga S'],
-        'BMW': ['iX', 'iX4', 'iX5', 'iX7'],
-        'BYD': ['Dolphin', 'Seal', 'Atto 3'],
-        'Chery': ['Omoda E5'],
-        'Chevrolet': ['Equinox EV', 'Silverado EV', 'Blazer EV'],
-        'Fiat': ['500e'],
-        'Fisker': ['Ocean', 'PEAR', 'Alaska', 'Ronin'],
-        'Ford': ['Mustang Mach-E', 'Escape PHEV', 'Ranger PHEV', 'E-Transit'],
-        'Honda': ['Prologue'],
-        'Hyundai': ['Ioniq 5', 'Ioniq 6', 'Kona EV', 'Ioniq 7'],
-        'JAC Motors': ['e-J7', 'e-JS4', 'e-JS1'],
-        'Jaguar':['i-PACE'],
-        'Kia': ['Niro', 'EV6', 'EV9'],
-        'Lexus': ['UX', 'RZ', 'LBX', 'NX'],
-        'Maserati': ['Grecale Folgore', 'GranTurismo Folgore'],
-        'Mahindra': ['XUV400EV'],
-        'Mercedes-Benz': ['EQE Sedan', 'EQA', 'EQV', 'EQS SUV'],
-        'MG': ['ZS', 'HS'],
-        'Mitsubishi': ['Outlander', 'Eclipse Cross'],
-        'Nissan': ['QASHQAI', 'X-TRAIL','LEAF'],
-        'Peugeot': ['E-208', 'E-308', 'E-2008', 'E-Partner'],
-        'Porsche': ['Taycan', 'Taycan 4 Cross Turismo'],
-        'Opel': ['Corsa', 'Mokka'],
-        'Renault': ['Megane', 'Kangoo'],
-        'Suzuki': ['eVX'],
-        'Tesla': ['Model S', 'Model X', 'Model 3', 'Model Y'],
-        'Toyota': ['RAV4', 'Corolla', 'Camry', 'Prius','bZ4X','C-HR','Yaris','Kluger'],
-        'Volvo': ['C40', 'EX30', 'EX90', 'XC40'],
-        'Volkswagen': ['ID.4', 'ID.5', 'ID.Buzz']
-    };
+//     var carModels = {
+//         'Audi': ['Q4 e-tron', 'SQ8 e-tron', 'Q8 e-tron', 'e-tron GT'],
+//         'Bentley': ['Bentayga', 'Bentayga A', 'Bentayga Azure', 'Bentayga S'],
+//         'BMW': ['iX', 'iX4', 'iX5', 'iX7'],
+//         'BYD': ['Dolphin', 'Seal', 'Atto 3'],
+//         'Chery': ['Omoda E5'],
+//         'Chevrolet': ['Equinox EV', 'Silverado EV', 'Blazer EV'],
+//         'Fiat': ['500e'],
+//         'Fisker': ['Ocean', 'PEAR', 'Alaska', 'Ronin'],
+//         'Ford': ['Mustang Mach-E', 'Escape PHEV', 'Ranger PHEV', 'E-Transit'],
+//         'Honda': ['Prologue'],
+//         'Hyundai': ['Ioniq 5', 'Ioniq 6', 'Kona EV', 'Ioniq 7'],
+//         'JAC Motors': ['e-J7', 'e-JS4', 'e-JS1'],
+//         'Jaguar':['i-PACE'],
+//         'Kia': ['Niro', 'EV6', 'EV9'],
+//         'Lexus': ['UX', 'RZ', 'LBX', 'NX'],
+//         'Maserati': ['Grecale Folgore', 'GranTurismo Folgore'],
+//         'Mahindra': ['XUV400EV'],
+//         'Mercedes-Benz': ['EQE Sedan', 'EQA', 'EQV', 'EQS SUV'],
+//         'MG': ['ZS', 'HS'],
+//         'Mitsubishi': ['Outlander', 'Eclipse Cross'],
+//         'Nissan': ['QASHQAI', 'X-TRAIL','LEAF'],
+//         'Peugeot': ['E-208', 'E-308', 'E-2008', 'E-Partner'],
+//         'Porsche': ['Taycan', 'Taycan 4 Cross Turismo'],
+//         'Opel': ['Corsa', 'Mokka'],
+//         'Renault': ['Megane', 'Kangoo'],
+//         'Suzuki': ['eVX'],
+//         'Tesla': ['Model S', 'Model X', 'Model 3', 'Model Y'],
+//         'Toyota': ['RAV4', 'Corolla', 'Camry', 'Prius','bZ4X','C-HR','Yaris','Kluger'],
+//         'Volvo': ['C40', 'EX30', 'EX90', 'XC40'],
+//         'Volkswagen': ['ID.4', 'ID.5', 'ID.Buzz']
+//     };
 
-    makeSelect.onchange = function() {
-        modelSelect.length = 1; // goes back to default option
+//     makeSelect.onchange = function() {
+//         modelSelect.length = 1; // goes back to default option
 
-        var selectedMake = makeSelect.value;
+//         var selectedMake = makeSelect.value;
 
-        if (selectedMake in carModels) {
-            carModels[selectedMake].forEach(function(model) {
-                var option = new Option(model, model);
-                modelSelect.add(option);
-            });
-        }
-    };
-});
+//         if (selectedMake in carModels) {
+//             carModels[selectedMake].forEach(function(model) {
+//                 var option = new Option(model, model);
+//                 modelSelect.add(option);
+//             });
+//         }
+//     };
+// });
 
 // ev ads
 document.addEventListener('DOMContentLoaded', function() {
@@ -72,6 +72,40 @@ document.addEventListener('DOMContentLoaded', function() {
         logos.push(slider.lastElementChild); // updates the array
     }
 });
+
+// add_listing .js
+  document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+
+  function validateImage() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imageError = document.getElementById('image-error');
+    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    if (imageInput.files.length === 0) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload an image file.';
+      return false;
+    } else if (!validExtensions.includes(imageInput.files[0].type)) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+      return false;
+    }
+    imageError.style.display = 'none';
+    return true;
+  }
 
 //email input validation
 function validateForm() {
