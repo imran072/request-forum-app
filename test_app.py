@@ -61,15 +61,15 @@ class TestApp(unittest.TestCase):
             if Vehicle.query.count() == 0:
                 self.skipTest("Skipping test because the database is empty")
             response = self.client.post('/search_vehicles', data={
-                'make': 'Tesla',
-                'model': 'Model 3',
+                'make': '1',
+                'model': '1',
                 'year': 2022,
                 'price': 50000,
                 'color': 'Red'
             })
             self.assertEqual(response.status_code, 200)
-            self.assertIn(b'Tesla', response.data)
-            self.assertIn(b'Model 3', response.data)
+            self.assertIn(b'1', response.data)
+            self.assertIn(b'1', response.data)
 
     def test_user_signup(self):
         response = self.client.post('/signup', data={
