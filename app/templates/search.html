@@ -3,7 +3,6 @@
 {% block title %}Vehicles - EV Marketplace{% endblock %}
 
 {% block content %}
-<!-- search bar -->
 <main class="flex-grow-1">
     <section class="search"
     style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
@@ -13,8 +12,8 @@
             <div class="form-row row-1">
                 <select name="make" id="make">
                     <option value="any" selected>Any Make</option>
-                    {% for make in makes %}
-                        <option value="{{ make }}">{{ make }}</option>
+                    {% for make_id, make_name in makes %}
+                        <option value="{{ make_id }}">{{ make_name }}</option>
                     {% endfor %}
                 </select>
                 <select name="model" id="model">
@@ -28,7 +27,7 @@
                 </select>
                 <select name="mileage" id="mileage">
                     <option value="any" selected>Any Mileage</option>
-                    {% for mile in mileage %}
+                    {% for mile in mileages %}
                         <option value="{{ mile }}">{{ mile }} km</option>
                     {% endfor %}
                 </select>
@@ -36,13 +35,13 @@
             <div class="form-row row-2">
                 <select name="top_speed" id="top_speed">
                     <option value="any" selected>Any Top Speed</option>
-                    {% for speed in top_speed %}
+                    {% for speed in top_speeds %}
                         <option value="{{ speed }}">{{ speed }} km/h</option>
                     {% endfor %}
                 </select>
                 <select name="acceleration" id="acceleration">
                     <option value="any" selected>Any Acceleration</option>
-                    {% for acc in acceleration %}
+                    {% for acc in accelerations %}
                         <option value="{{ acc }}">0-100 km/h in {{ acc }} seconds</option>
                     {% endfor %}
                 </select>
@@ -65,7 +64,6 @@
         </form>
     </section>
 
-    <!-- displays filtered cars -->
     {% if vehicles %}
     <section class="vehicle-results">
         <div class="vehicle-summary">
@@ -80,20 +78,36 @@
         <div class="vehicle-grid">
             {% for vehicle in vehicles %}
             <div class="vehicle-card">
-                <img src="{{ url_for('static', filename='img/car_models/' + vehicle['image']) }}" alt="{{ vehicle['model'] }}">
+                <img src="{{ url_for('static', filename='img/car_models/' + vehicle.image_url) }}" alt="{{ vehicle.model }}">
                 <div class="vehicle-info">
-                    <h3>{{ vehicle['make'] }} {{ vehicle['model'] }}</h3>
-                    <p>{{ vehicle['price'] }}</p>
-                    <p>{{ vehicle['year'] }} - {{ vehicle['miles'] }} miles</p>
-                    <p>Location: {{ vehicle['location'] }}</p>
-                    <p>Seller: {{ vehicle['seller'] }} - {{ vehicle['email'] }}</p>
+                    <h3>{{ vehicle.brand.name }} {{ vehicle.model.name }}</h3>
+                    <p>{{ vehicle.price }}</p>
+                    <p>{{ vehicle.year }} - {{ vehicle.mileage }} miles</p>
+                    <p>Location: {{ vehicle.location }}</p>
+                    <p>Seller: {{ vehicle.seller }} - {{ vehicle.email }}</p>
                 </div>
             </div>
             {% endfor %}
         </div>
     </section>
     {% endif %}
+</main>
+
+<script>
+    document.getElementById('make').addEventListener('change', function() {
+        const brandId = this.value;
+        fetch(`/get_models/${brandId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSelect = document.getElementById('model');
+                modelSelect.innerHTML = '<option value="any">Any Model</option>'; // Clear existing options and add default
+                data.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            });
+    });
+</script>
 {% endblock %}
-<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-</body>
-</html>
