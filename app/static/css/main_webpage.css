@@ -449,7 +449,7 @@ button:hover {
   }
   
   .form-group label {
-    width: 350px; /* Fixed width for labels */
+    width: 420px; /* Fixed width for labels */
   }
   
   .form-group label i {
