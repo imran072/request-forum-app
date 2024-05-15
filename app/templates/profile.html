@@ -10,7 +10,7 @@
         <h2>Your Listings:</h2>
         {% for vehicle in listings %}
         <div class="listing" style="display: flex; align-items: center; justify-content: start; margin-bottom: 20px; padding: 10px; border-bottom: 1px solid #ccc;">
-            <img src="{{ url_for('static', filename=vehicle.image_url) }}" alt="Vehicle Image" style="width: 150px; height: 100px; margin-right: 20px;">
+            <img src="{{ vehicle.image_url }}" alt="Vehicle Image" style="width: 150px; height: 100px; margin-right: 20px;">
             <div>
                 <h3>{{ vehicle.brand.name }} {{ vehicle.model.name }} - {{ vehicle.year }}</h3>
                 <p><strong>Price:</strong> ${{ vehicle.price }}</p>
