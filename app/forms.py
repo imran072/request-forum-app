@@ -4,6 +4,10 @@ from wtforms.validators import DataRequired, Optional, InputRequired, Length, Eq
 from .models import User
 from flask_wtf.file import FileRequired, FileAllowed
 
+class ReplyForm(FlaskForm):
+    recipient = StringField('Recipient', validators=[DataRequired()])
+    body = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send')
 
 class MessageForm(FlaskForm):
     recipient = StringField('Recipient', validators=[DataRequired()])

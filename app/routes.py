@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session
 from .models import Vehicle, Brand, Model
-from .forms import SearchForm, AddListingForm, MessageForm
+from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
 from . import db
 from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
@@ -63,20 +63,43 @@ def search_vehicles():
 
     return render_template('search.html', makes=makes, years=years, mileages=mileages, top_speeds=top_speeds, accelerations=accelerations, prices=prices, colors=colors)
 
-@main.route('/messages', methods=['GET', 'POST'])
+@main.route("/messages", methods=["GET", "POST"])
 @login_required
 def messages():
     form = MessageForm()
+    reply_form = ReplyForm()
     if form.validate_on_submit():
-        recipient = User.query.get(form.recipient.data)
-        message = Message(sender_id=current_user.id, recipient_id=recipient.id, body=form.body.data)
-        db.session.add(message)
-        db.session.commit()
-        flash('Your message has been sent.', 'success')
-        return redirect(url_for('main.messages'))
-    sent_messages = Message.query.filter_by(sender_id=current_user.id).order_by(Message.timestamp.desc()).all()
-    received_messages = Message.query.filter_by(recipient_id=current_user.id).order_by(Message.timestamp.desc()).all()
-    return render_template('messages.html', form=form, sent_messages=sent_messages, received_messages=received_messages)
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        if recipient:
+            message = Message(author=current_user, recipient=recipient, body=form.body.data)
+            db.session.add(message)
+            db.session.commit()
+            flash('Your message has been sent!', 'success')
+            return redirect(url_for('main.messages'))
+        else:
+            flash('User not found.', 'danger')
+    sent_messages = current_user.sent_messages.order_by(Message.timestamp.desc()).all()
+    received_messages = current_user.received_messages.order_by(Message.timestamp.desc()).all()
+    return render_template("messages.html", form=form, sent_messages=sent_messages, received_messages=received_messages, reply_form=reply_form)
+
+@main.route("/reply_message", methods=["POST"])
+@login_required
+def reply_message():
+    form = ReplyForm()
+    if form.validate_on_submit():
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        if recipient:
+            message = Message(author=current_user, recipient=recipient, body=form.body.data)
+            db.session.add(message)
+            db.session.commit()
+            flash('Your reply has been sent!', 'success')
+            return redirect(url_for('main.messages'))
+        else:
+            flash('User not found.', 'danger')
+    return redirect(url_for('main.messages'))
+
+
+
 
 @main.route('/send_message', methods=['POST'])
 @login_required
