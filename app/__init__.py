@@ -1,8 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from dotenv import load_dotenv 
+from flask_login import LoginManager, current_user
+from dotenv import load_dotenv
+from flask_admin import Admin
 import os
 
 # Load environment variables
@@ -11,6 +12,7 @@ load_dotenv()
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+
 
 def create_app():
     app = Flask(__name__)
@@ -35,12 +37,11 @@ def create_app():
     # User loader
     @login_manager.user_loader
     def load_user(user_id):
-        from .models import User
         return User.query.get(int(user_id))
-    
+
     @app.context_processor
     def inject_user():
-        return dict(user=current_user) # inject user to all templates
+        return dict(user=current_user)  # inject user to all templates
 
     # Import and register blueprints
     from .auth import auth as auth_blueprint
@@ -48,7 +49,17 @@ def create_app():
     app.register_blueprint(auth_blueprint, url_prefix='/')
     app.register_blueprint(main_blueprint, url_prefix='/')
 
+    # Import models here to avoid circular import issues
+    from app.models import User, Vehicle
+
+    # Initialize Flask-Admin
+    from app.admin import MyAdminIndexView, MyModelView  # Import the custom admin views
+    admin = Admin(app, name='EV Marketplace Admin', template_mode='bootstrap3', index_view=MyAdminIndexView())
+    admin.add_view(MyModelView(User, db.session))
+    admin.add_view(MyModelView(Vehicle, db.session))
+
     return app
+
 
 def create_database(app):
     with app.app_context():
