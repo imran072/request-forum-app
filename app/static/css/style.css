@@ -97,3 +97,18 @@
     width: auto;
     vertical-align: middle; 
 }
+
+.card-img-top {
+    width: 100%;  /* ensures the image covers the full width of the card */
+    height: 200px; /* fixed height for all images */
+    object-fit: cover; /* ensures the image covers the area without distortion */
+}
+
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-group .btn {
+    flex-grow: 1; /* makes the buttons grow equally */
+}

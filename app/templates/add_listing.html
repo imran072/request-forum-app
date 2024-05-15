@@ -109,39 +109,4 @@
     </div>
   </div>
 </section>
-
-<script>
-  document.getElementById('make').addEventListener('change', function() {
-    const brandId = this.value;
-    fetch(`/get_models/${brandId}`)
-      .then(response => response.json())
-      .then(data => {
-        const modelSelect = document.getElementById('model');
-        modelSelect.innerHTML = ''; // Clear existing options
-        data.forEach(model => {
-          const option = document.createElement('option');
-          option.value = model.id;
-          option.textContent = model.name;
-          modelSelect.appendChild(option);
-        });
-      });
-  });
-
-  function validateImage() {
-    const imageInput = document.querySelector('input[type="file"]');
-    const imageError = document.getElementById('image-error');
-    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-    if (imageInput.files.length === 0) {
-      imageError.style.display = 'block';
-      imageError.textContent = 'Please upload an image file.';
-      return false;
-    } else if (!validExtensions.includes(imageInput.files[0].type)) {
-      imageError.style.display = 'block';
-      imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
-      return false;
-    }
-    imageError.style.display = 'none';
-    return true;
-  }
-</script>
 {% endblock %}

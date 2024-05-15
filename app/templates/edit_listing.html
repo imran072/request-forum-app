@@ -1,0 +1,92 @@
+{% extends 'default.html' %}
+
+{% block title %}
+Edit Listing | EV Marketplace
+{% endblock %}
+
+{% block content %}
+<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+  <div class="container my-5 flex-grow-1">
+    <div class="form-container shadow-lg p-3 mb-5 bg-body rounded">
+      <h2 class="text-center mb-4">Edit Your Listing</h2>
+      <form method="post" enctype="multipart/form-data" class="vertical-sell-ev-form" onsubmit="return validateImage()">
+        {{ form.hidden_tag() }}
+
+        <div class="form-group">
+          <label for="make">Make:</label>
+          {{ form.make(class='form-select', id='make') }}
+          {% if form.make.errors %}
+            {% for error in form.make.errors %}
+              <div class="alert alert-danger">{{ error }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+          <label for="model">Model:</label>
+          {{ form.model(class='form-select', id='model') }}
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year:</label>
+          {{ form.year(class='form-control', id='year') }}
+        </div>
+
+        <div class="form-group">
+          <label for="mileage">Mileage (km):</label>
+          {{ form.mileage(class='form-control', id='mileage') }}
+        </div>
+
+        <div class="form-group">
+          <label for="battery_capacity">Battery Capacity:</label>
+          {{ form.battery_capacity(class='form-control', id='battery_capacity') }}
+        </div>
+
+        <div class="form-group">
+          <label for="color">Color:</label>
+          {{ form.color(class='form-control', id='color') }}
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price:</label>
+          {{ form.price(class='form-control', id='price') }}
+        </div>
+
+        <div class="form-group">
+          <label for="doors">Doors:</label>
+          {{ form.doors(class='form-control', id='doors') }}
+        </div>
+
+        <div class="form-group">
+          <label for="car_type">Vehicle Type:</label>
+          {{ form.car_type(class='form-control', id='car_type') }}
+        </div>
+
+        <div class="form-group">
+          <label for="top_speed">Top Speed (kph):</label>
+          {{ form.top_speed(class='form-control', id='top_speed') }}
+        </div>
+
+        <div class="form-group">
+          <label for="acceleration">Acceleration (0-100 kph):</label>
+          {{ form.acceleration(class='form-control', id='acceleration') }}
+        </div>
+
+        <div class="form-group">
+          <label for="image">Image:</label>
+          {{ form.image(class='form-control', id='image') }}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </div>
+          <div class="col-md-6">
+            <a href="{{ url_for('main.profile') }}" class="btn btn-secondary">Cancel</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -122,6 +122,28 @@ def profile():
     listings = Vehicle.query.filter_by(seller_id=user_id).all()
     return render_template('profile.html', user=user, listings=listings)
 
+@main.route('/edit_listing/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_listing(id):
+    vehicle = Vehicle.query.get_or_404(id)
+    form = AddListingForm(obj=vehicle)
+    if form.validate_on_submit():
+        form.populate_obj(vehicle)
+        db.session.commit()
+        flash('Listing updated successfully!', 'success')
+        return redirect(url_for('main.profile'))
+    return render_template('edit_listing.html', form=form)
+
+@main.route('/delete_listing/<int:id>', methods=['POST'])
+@login_required
+def delete_listing(id):
+    vehicle = Vehicle.query.get(id)
+    if vehicle:
+        db.session.delete(vehicle)
+        db.session.commit()
+        return jsonify(success=True)
+    return jsonify(success=False, message="Vehicle not found"), 404
+
 
 @main.route('/contactus')
 def contactus():
