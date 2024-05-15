@@ -1,0 +1,34 @@
+{% extends "default.html" %}
+
+{% block content %}
+  <h2>Messages</h2>
+
+  <form method="POST" action="{{ url_for('main.messages') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.recipient.label }}<br>
+      {{ form.recipient(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.body.label }}<br>
+      {{ form.body(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.submit(class="btn btn-primary") }}
+    </div>
+  </form>
+
+  <h3>Sent Messages</h3>
+  <ul>
+    {% for message in sent_messages %}
+      <li><strong>To:</strong> {{ message.recipient.username }} - {{ message.body }} <small>({{ message.timestamp }})</small></li>
+    {% endfor %}
+  </ul>
+
+  <h3>Received Messages</h3>
+  <ul>
+    {% for message in received_messages %}
+      <li><strong>From:</strong> {{ message.author.username }} - {{ message.body }} <small>({{ message.timestamp }})</small></li>
+    {% endfor %}
+  </ul>
+{% endblock %}
