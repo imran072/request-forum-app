@@ -46,4 +46,3 @@ class AddListingForm(FlaskForm):
     acceleration = FloatField('0-100 km/h Acceleration (seconds)', validators=[DataRequired()])
     image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only!')])
     submit = SubmitField('Add Listing')
-
