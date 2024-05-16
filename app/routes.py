@@ -1,12 +1,11 @@
-from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session
-from .models import Vehicle, Brand, Model
+from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session, jsonify
+from flask_login import login_required, login_user, logout_user, current_user
+from werkzeug.utils import secure_filename
+import os
+
+from .models import Vehicle, Brand, Model, User, Message
 from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
 from . import db
-from werkzeug.utils import secure_filename
-from flask_login import login_required, current_user
-from flask import jsonify
-from app.models import User, Message
-import os
 
 main = Blueprint('main', __name__)
 
@@ -174,6 +173,36 @@ def get_models(brand_id):
     models = Model.query.filter_by(brand_id=brand_id).all()
     models_list = [{'id': model.id, 'name': model.name} for model in models]
     return jsonify(models_list)
+
+@main.route('/profile')
+@login_required
+def profile():
+    user_id = current_user.id
+    user = User.query.get(user_id)
+    listings = Vehicle.query.filter_by(seller_id=user_id).all()
+    return render_template('profile.html', user=user, listings=listings)
+
+@main.route('/edit_listing/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_listing(id):
+    vehicle = Vehicle.query.get_or_404(id)
+    form = AddListingForm(obj=vehicle)
+    if form.validate_on_submit():
+        form.populate_obj(vehicle)
+        db.session.commit()
+        flash('Listing updated successfully!', 'success')
+        return redirect(url_for('main.profile'))
+    return render_template('edit_listing.html', form=form)
+
+@main.route('/delete_listing/<int:id>', methods=['POST'])
+@login_required
+def delete_listing(id):
+    vehicle = Vehicle.query.get(id)
+    if vehicle:
+        db.session.delete(vehicle)
+        db.session.commit()
+        return jsonify(success=True)
+    return jsonify(success=False, message="Vehicle not found"), 404
 
 @main.route('/contactus')
 def contactus():

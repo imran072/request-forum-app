@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'Honda': ['Prologue'],
             'Hyundai': ['Ioniq 5', 'Ioniq 6', 'Kona EV', 'Ioniq 7'],
             'JAC Motors': ['e-J7', 'e-JS4', 'e-JS1'],
-            'Jaguar':['i-PACE'],
+            'Jaguar': ['i-PACE'],
             'Kia': ['Niro', 'EV6', 'EV9'],
             'Lexus': ['UX', 'RZ', 'LBX', 'NX'],
             'Maserati': ['Grecale Folgore', 'GranTurismo Folgore'],
@@ -24,14 +24,14 @@ document.addEventListener('DOMContentLoaded', function() {
             'Mercedes-Benz': ['EQE Sedan', 'EQA', 'EQV', 'EQS SUV'],
             'MG': ['ZS', 'HS'],
             'Mitsubishi': ['Outlander', 'Eclipse Cross'],
-            'Nissan': ['QASHQAI', 'X-TRAIL','LEAF'],
+            'Nissan': ['QASHQAI', 'X-TRAIL', 'LEAF'],
             'Peugeot': ['E-208', 'E-308', 'E-2008', 'E-Partner'],
             'Porsche': ['Taycan', 'Taycan 4 Cross Turismo'],
             'Opel': ['Corsa', 'Mokka'],
             'Renault': ['Megane', 'Kangoo'],
             'Suzuki': ['eVX'],
             'Tesla': ['Model S', 'Model X', 'Model 3', 'Model Y'],
-            'Toyota': ['RAV4', 'Corolla', 'Camry', 'Prius','bZ4X','C-HR','Yaris','Kluger'],
+            'Toyota': ['RAV4', 'Corolla', 'Camry', 'Prius', 'bZ4X', 'C-HR', 'Yaris', 'Kluger'],
             'Volvo': ['C40', 'EX30', 'EX90', 'XC40'],
             'Volkswagen': ['ID.4', 'ID.5', 'ID.Buzz']
         };
@@ -49,10 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
     }
-});
 
-// ev ads
-document.addEventListener('DOMContentLoaded', function() {
+    // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
     if (evSlider) {
         const ads = Array.from(evSlider.querySelectorAll('.ad'));
@@ -63,10 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ads.push(evSlider.lastElementChild); // updates the array
         }
     }
-});
 
-// brand logo slider
-document.addEventListener('DOMContentLoaded', function() {
+    // Brand logo slider
     const slider = document.querySelector('.brand-slider .slide');
     if (slider) {
         const logos = Array.from(slider.querySelectorAll('img'));
@@ -77,9 +73,24 @@ document.addEventListener('DOMContentLoaded', function() {
             logos.push(slider.lastElementChild); // updates the array
         }
     }
+
+    // Modal script for Message Seller button
+    if (window.jQuery) {
+        $('#messageModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var recipientUsername = button.data('recipient'); // Extract info from data-* attributes
+            var recipientName = button.data('recipient-name');
+
+            var modal = $(this);
+            modal.find('#recipientUsername').val(recipientUsername);
+            modal.find('#recipientName').text(recipientName);
+        });
+    } else {
+        console.error('jQuery is not loaded');
+    }
 });
 
-//email input validation
+// Email input validation
 function validateForm() {
     let email = document.getElementById("typeEmailX-2");
     let password = document.getElementById("password_input");
@@ -97,21 +108,47 @@ function validateForm() {
     return false;
 }
 
-// Modal script for Message Seller button
-document.addEventListener('DOMContentLoaded', function() {
-    if (window.jQuery) {
-        $('#messageModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var recipientUsername = button.data('recipient'); // Extract info from data-* attributes
-            var recipientName = button.data('recipient-name');
-
-            var modal = $(this);
-            modal.find('#recipientUsername').val(recipientUsername);
-            modal.find('#recipientName').text(recipientName);
-        });
-    } else {
-        console.error('jQuery is not loaded');
+// Validate image upload
+function validateImage() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imageError = document.getElementById('image-error');
+    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    if (imageInput.files.length === 0) {
+        imageError.style.display = 'block';
+        imageError.textContent = 'Please upload an image file.';
+        return false;
+    } else if (!validExtensions.includes(imageInput.files[0].type)) {
+        imageError.style.display = 'block';
+        imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+        return false;
     }
-});
+    imageError.style.display = 'none';
+    return true;
+}
 
-
+// Confirm delete with fetch
+function confirmDelete(vehicleId) {
+    if (confirm('Are you sure you want to delete this listing?')) {
+        fetch('/delete_listing/' + vehicleId, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                window.location.reload();  // Reload the page to update the list
+            } else {
+                alert('Error deleting listing.');
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('Failed to delete the listing due to a network error.');
+        });
+    }
+}
