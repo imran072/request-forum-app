@@ -1,8 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, FloatField, SelectField, validators, PasswordField, Form, FileField
+from wtforms import StringField, HiddenField, TextAreaField, IntegerField, SubmitField, FloatField, SelectField, validators, PasswordField, Form, FileField
 from wtforms.validators import DataRequired, Optional, InputRequired, Length, EqualTo, ValidationError, Email, NumberRange
 from .models import User
 from flask_wtf.file import FileRequired, FileAllowed
+
+class ReplyForm(FlaskForm):
+    recipient = StringField('Recipient', validators=[DataRequired()])
+    body = TextAreaField('Message', validators=[DataRequired()])
+    submit = SubmitField('Send')
+
+class MessageForm(FlaskForm):
+    recipient = StringField('Recipient', validators=[DataRequired()])
+    body = TextAreaField('Message', validators=[DataRequired(), Length(min=1, max=500)])
+    submit = SubmitField('Send')
 
 class SearchForm(FlaskForm):
     make = StringField('Make', validators=[Optional()])

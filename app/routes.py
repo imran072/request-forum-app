@@ -1,14 +1,13 @@
-from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session
+from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session, jsonify
 from flask_login import login_required, login_user, logout_user, current_user
-from .models import Vehicle, Brand, Model, User
-from .forms import SearchForm, AddListingForm
-from . import db
 from werkzeug.utils import secure_filename
-from flask import jsonify
 import os
 
-main = Blueprint('main', __name__)
+from .models import Vehicle, Brand, Model, User, Message
+from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
+from . import db
 
+main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
@@ -16,12 +15,9 @@ def index():
     vehicles = Vehicle.query.limit(10).all()  # Fetch the latest 10 vehicles for the ads
     return render_template('index.html', brands=brands, vehicles=vehicles)
 
-
-    print(url_for('main.index'))
-    return render_template('index.html', makes=makes, distances=distances, prices=prices, ads=ads, brand_logos=brand_logos)
-
 @main.route('/search', methods=['GET', 'POST'])
 def search_vehicles():
+    form = MessageForm()  # Instantiate the MessageForm
     if request.method == 'POST':
         make_id = request.form.get('make')
         model_id = request.form.get('model')
@@ -53,7 +49,7 @@ def search_vehicles():
 
         vehicles = query.all()
 
-        return render_template('search_results.html', vehicles=vehicles)
+        return render_template('search_results.html', vehicles=vehicles, form=form)
 
     brands = Brand.query.all()
     makes = [(brand.id, brand.name) for brand in brands]
@@ -67,6 +63,70 @@ def search_vehicles():
     return render_template('search.html', makes=makes, years=years, mileages=mileages, top_speeds=top_speeds, accelerations=accelerations, prices=prices, colors=colors)
 
 
+@main.route("/messages", methods=["GET", "POST"])
+@login_required
+def messages():
+    form = MessageForm()
+    reply_form = ReplyForm()
+    if form.validate_on_submit():
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        if recipient:
+            message = Message(author=current_user, recipient=recipient, body=form.body.data)
+            db.session.add(message)
+            db.session.commit()
+            flash('Your message has been sent.', 'success')
+        else:
+            flash('User not found.', 'danger')
+
+    sent_messages = current_user.sent_messages.order_by(Message.timestamp.desc()).all()
+    received_messages = current_user.received_messages.order_by(Message.timestamp.desc()).all()
+    return render_template("messages.html", form=form, sent_messages=sent_messages, received_messages=received_messages,
+                           reply_form=reply_form)
+
+
+@main.route("/reply_message", methods=["POST"])
+@login_required
+def reply_message():
+    form = ReplyForm()
+    if form.validate_on_submit():
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        if recipient:
+            message = Message(author=current_user, recipient=recipient, body=form.body.data)
+            db.session.add(message)
+            db.session.commit()
+            flash('Your reply has been sent.', 'success')
+        else:
+            flash('User not found.', 'danger')
+
+    sent_messages = current_user.sent_messages.order_by(Message.timestamp.desc()).all()
+    received_messages = current_user.received_messages.order_by(Message.timestamp.desc()).all()
+    return render_template("messages.html", form=MessageForm(), sent_messages=sent_messages,
+                           received_messages=received_messages, reply_form=form)
+
+
+@main.route('/send_message', methods=['POST'])
+@login_required
+def send_message():
+    form = MessageForm()
+    if form.validate_on_submit():
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        if recipient:
+            message = Message(sender_id=current_user.id, recipient_id=recipient.id, body=form.body.data)
+            db.session.add(message)
+            db.session.commit()
+            flash('Your message has been sent.', 'success')
+        else:
+            flash('Recipient not found.', 'danger')
+    else:
+        flash('Failed to send message. Please check the form.', 'danger')
+    return redirect(url_for('main.messages'))
+
+
+@main.route('/search_results')
+def search_results():
+    vehicles = Vehicle.query.all()  # Replace with actual search query results
+    form = MessageForm()  # Instantiate the MessageForm
+    return render_template('search_results.html', vehicles=vehicles, form=form)
 
 @main.route('/add_listing', methods=['GET', 'POST'])
 @login_required
@@ -143,7 +203,6 @@ def delete_listing(id):
         db.session.commit()
         return jsonify(success=True)
     return jsonify(success=False, message="Vehicle not found"), 404
-
 
 @main.route('/contactus')
 def contactus():

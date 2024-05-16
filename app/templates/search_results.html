@@ -24,6 +24,7 @@
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</small>
+                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}">Message Seller</button>
                 </div>
             </div>
         </div>
@@ -33,4 +34,49 @@
     <p>No results found.</p>
     {% endif %}
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Send Message to <span id="recipientName"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('main.send_message') }}">
+                    {{ form.hidden_tag() }}
+                    <input type="hidden" name="recipient" id="recipientUsername">
+                    <div class="form-group">
+                        <label for="body">Message</label>
+                        <textarea name="body" class="form-control" id="body" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.jQuery) {
+            $('#messageModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget); // Button that triggered the modal
+                var recipientUsername = button.data('recipient'); // Extract info from data-* attributes
+                var recipientName = button.data('recipient-name');
+
+                var modal = $(this);
+                modal.find('#recipientUsername').val(recipientUsername);
+                modal.find('#recipientName').text(recipientName);
+            });
+        } else {
+            console.error('jQuery is not loaded');
+        }
+    });
+</script>
 {% endblock %}

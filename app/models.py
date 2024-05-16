@@ -23,6 +23,8 @@ class User(UserMixin, db.Model):
     watchlist = db.relationship('UserWatchlist', back_populates='user', lazy='dynamic')
     vehicles = db.relationship('Vehicle', backref='seller', lazy='dynamic')
     is_admin = db.Column(db.Boolean, default=False)
+    sent_messages = db.relationship('Message', foreign_keys='Message.sender_id', backref='author', lazy='dynamic')
+    received_messages = db.relationship('Message', foreign_keys='Message.recipient_id', backref='recipient', lazy='dynamic')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -78,3 +80,13 @@ class SearchHistory(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     search_parameters = db.Column(db.String(500))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+class Message(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    body = db.Column(db.String(500))
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Message {self.body}>'
