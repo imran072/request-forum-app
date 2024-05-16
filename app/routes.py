@@ -188,12 +188,34 @@ def profile():
 def edit_listing(id):
     vehicle = Vehicle.query.get_or_404(id)
     form = AddListingForm(obj=vehicle)
-    if form.validate_on_submit():
-        form.populate_obj(vehicle)
-        db.session.commit()
-        flash('Listing updated successfully!', 'success')
-        return redirect(url_for('main.profile'))
-    return render_template('edit_listing.html', form=form)
+
+    # Populate 'make' choices on every request
+    form.make.choices = [(brand.id, brand.name) for brand in Brand.query.order_by('name').all()]
+    #print(form.make.choices)
+
+    if request.method == 'POST':
+        # Update model choices based on selected make
+        form.model.choices = [(model.id, model.name) for model in Model.query.filter_by(brand_id=form.make.data).all()]
+
+        if form.validate_on_submit():
+            if form.image.data:
+                image_file = form.image.data
+                filename = secure_filename(image_file.filename)
+                image_path = os.path.join(current_app.root_path, 'static/img', filename)
+                image_file.save(image_path)
+                vehicle.image_url = url_for('static', filename='img/' + filename)
+                
+            form.populate_obj(vehicle)
+            db.session.commit()
+            flash('Listing updated successfully!', 'success')
+            return redirect(url_for('main.profile'))
+    elif request.method == 'GET':
+        # Populate make and model with existing data
+        form.make.data = vehicle.make
+        form.model.choices = [(model.id, model.name) for model in Model.query.filter_by(brand_id=vehicle.make).all()]
+        form.model.data = vehicle.model
+
+    return render_template('edit_listing.html', form=form, vehicle=vehicle)
 
 @main.route('/delete_listing/<int:id>', methods=['POST'])
 @login_required

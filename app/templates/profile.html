@@ -1,6 +1,13 @@
 {% extends 'default.html' %}
 
 {% block content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
 <main class="profile-page" style="padding: 20px; min-height: 80vh;">
     <section class="user-info">
         <h1>Welcome, {{ user.username }}!</h1>
@@ -13,8 +20,8 @@
             <div class="card h-100">
                 <img src="{{ vehicle.image_url }}" alt="Vehicle Image" class="card-img-top" alt="Vehicle Image" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
-                    <h3>{{ vehicle.brand.name }} {{ vehicle.model.name }} - {{ vehicle.year }}</h3>
-                    <p>Year: {{ vehicle.year }}</p>
+                    <h3>{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - {{ vehicle.year }}</h3>
+                    <p>Battery Capacity: {{ vehicle.battery_capacity }}</p>
                     <p>Mileage: {{ vehicle.mileage }}</p>
                     <p>Price: ${{ vehicle.price }}</p>
                 </div>
