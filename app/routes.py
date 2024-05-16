@@ -63,6 +63,7 @@ def search_vehicles():
 
     return render_template('search.html', makes=makes, years=years, mileages=mileages, top_speeds=top_speeds, accelerations=accelerations, prices=prices, colors=colors)
 
+
 @main.route("/messages", methods=["GET", "POST"])
 @login_required
 def messages():
@@ -74,13 +75,15 @@ def messages():
             message = Message(author=current_user, recipient=recipient, body=form.body.data)
             db.session.add(message)
             db.session.commit()
-            flash('Your message has been sent!', 'success')
-            return redirect(url_for('main.messages'))
+            flash('Your message has been sent.', 'success')
         else:
             flash('User not found.', 'danger')
+
     sent_messages = current_user.sent_messages.order_by(Message.timestamp.desc()).all()
     received_messages = current_user.received_messages.order_by(Message.timestamp.desc()).all()
-    return render_template("messages.html", form=form, sent_messages=sent_messages, received_messages=received_messages, reply_form=reply_form)
+    return render_template("messages.html", form=form, sent_messages=sent_messages, received_messages=received_messages,
+                           reply_form=reply_form)
+
 
 @main.route("/reply_message", methods=["POST"])
 @login_required
@@ -92,13 +95,14 @@ def reply_message():
             message = Message(author=current_user, recipient=recipient, body=form.body.data)
             db.session.add(message)
             db.session.commit()
-            flash('Your reply has been sent!', 'success')
-            return redirect(url_for('main.messages'))
+            flash('Your reply has been sent.', 'success')
         else:
             flash('User not found.', 'danger')
-    return redirect(url_for('main.messages'))
 
-
+    sent_messages = current_user.sent_messages.order_by(Message.timestamp.desc()).all()
+    received_messages = current_user.received_messages.order_by(Message.timestamp.desc()).all()
+    return render_template("messages.html", form=MessageForm(), sent_messages=sent_messages,
+                           received_messages=received_messages, reply_form=form)
 
 
 @main.route('/send_message', methods=['POST'])

@@ -3,6 +3,14 @@
 {% block content %}
 <h2>Messages</h2>
 
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div class="alert alert-{{ messages[0][0] }}" role="alert">
+      {{ messages[0][1] }}
+    </div>
+  {% endif %}
+{% endwith %}
+
 <form method="POST" action="{{ url_for('main.messages') }}">
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -45,7 +53,7 @@
             </div>
             <div class="modal-body">
                 <form method="POST" action="{{ url_for('main.reply_message') }}">
-                    {{ form.hidden_tag() }}
+                    {{ reply_form.hidden_tag() }}
                     <input type="hidden" name="recipient" id="replyRecipientUsername">
                     <div class="form-group">
                         <label for="body">Message</label>
