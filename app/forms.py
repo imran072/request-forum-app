@@ -37,10 +37,14 @@ class SignupForm(FlaskForm):
             raise ValidationError('That email is already in use. Please choose a different one.')
         
 class ResetPasswordForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])
+    email = StringField('Email', validators=[DataRequired(), Email()])  
     password = PasswordField('New Password', validators=[DataRequired()])
     password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset Password')
+
+def validate_alphabetic(form, field):
+    if not field.data.isalpha():
+        raise ValidationError('Field must contain only alphabetic characters.')
 
 def validate_float(form, field):
     try:
@@ -54,10 +58,10 @@ class AddListingForm(FlaskForm):
     year = IntegerField('Year', validators=[DataRequired(), NumberRange(min=1950, max=2024)])
     mileage = IntegerField('Mileage', validators=[DataRequired(), NumberRange(min=0, max=1000000)])
     battery_capacity = IntegerField('Battery Capacity (kWh)', validators=[DataRequired(), NumberRange(min=0, max=1000)])
-    color = StringField('Color', validators=[DataRequired()])
+    color = StringField('Color', validators=[DataRequired(), validate_alphabetic])
     price = IntegerField('Price ($)', validators=[DataRequired(), NumberRange(min=0, max=1000000)])
     doors = IntegerField('Doors', validators=[DataRequired(), NumberRange(min=1, max=5)])
-    car_type = StringField('Car Type', validators=[DataRequired()])
+    car_type = StringField('Car Type', validators=[DataRequired(), validate_alphabetic])
     top_speed = IntegerField('Top Speed (km/h)', validators=[DataRequired(), NumberRange(min=0, max=300)])
     acceleration = FloatField('0-100 km/h Acceleration (seconds)', validators=[DataRequired(), NumberRange(min=0, max=60), validate_float])
     image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only!')])
