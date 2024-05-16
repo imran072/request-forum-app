@@ -14,7 +14,11 @@ Edit Listing | EV Marketplace
 
         <div class="form-group">
           <label for="make">Make:</label>
-          {{ form.make(class='form-select', id='make') }}
+          <select id="make" name="make" class="form-select">
+            {% for id, name in form.make.choices %}
+              <option value="{{ id }}" {% if id == form.make.data %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
           {% if form.make.errors %}
             {% for error in form.make.errors %}
               <div class="alert alert-danger">{{ error }}</div>
@@ -24,7 +28,11 @@ Edit Listing | EV Marketplace
 
         <div class="form-group">
           <label for="model">Model:</label>
-          {{ form.model(class='form-select', id='model') }}
+          <select id="model" name="model" class="form-select">
+            {% for id, name in form.model.choices %}
+              <option value="{{ id }}" {% if id == form.model.data %}selected{% endif %}>{{ name }}</option>
+            {% endfor %}
+          </select>
         </div>
 
         <div class="form-group">
@@ -89,4 +97,22 @@ Edit Listing | EV Marketplace
     </div>
   </div>
 </section>
+<script>
+  document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+
+</script>
 {% endblock %}

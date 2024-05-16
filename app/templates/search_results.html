@@ -9,7 +9,7 @@
         {% for vehicle in vehicles %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
-                <img src="{{ url_for('static', filename='img/car_models/' + vehicle.image_url) }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}">
+                <img src="{{ vehicle.image_url }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}">
                 <div class="card-body">
                     <h5 class="card-title">{{ vehicle.brand.name }} {{ vehicle.model_rel.name }}</h5>
                     <p class="card-text"><strong>Price:</strong> ${{ vehicle.price }}</p>

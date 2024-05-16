@@ -164,7 +164,7 @@ function confirmDelete(vehicleId) {
     if(confirm('Are you sure you want to delete this listing?')) {
         fetch('/delete_listing/' + vehicleId, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }  // Ensure your server expects JSON if needed
+            headers: { 'Content-Type': 'application/json' }  
         })
         .then(response => {
             if (!response.ok) {
@@ -173,7 +173,7 @@ function confirmDelete(vehicleId) {
             return response.json();
         })
         .then(data => {
-            console.log(data);  // Debug: log the data to see what is actually returned
+            console.log(data);  // Debug to log the data to see what is actually returned
             if(data.success) {
                 window.location.reload();  // Reload the page to update the list
             } else {
