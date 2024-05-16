@@ -1,0 +1,34 @@
+{% extends 'default.html' %}
+
+{% block content %}
+<main class="profile-page" style="padding: 20px; min-height: 80vh;">
+    <section class="user-info">
+        <h1>Welcome, {{ user.username }}!</h1>
+    </section>
+
+    <section class="listings">
+        <h2>Your Listings:</h2>
+        {% for vehicle in listings %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <img src="{{ vehicle.image_url }}" alt="Vehicle Image" class="card-img-top" alt="Vehicle Image" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h3>{{ vehicle.brand.name }} {{ vehicle.model.name }} - {{ vehicle.year }}</h3>
+                    <p>Year: {{ vehicle.year }}</p>
+                    <p>Mileage: {{ vehicle.mileage }}</p>
+                    <p>Price: ${{ vehicle.price }}</p>
+                </div>
+                <div class="card-footer bg-white">
+                    <div class="btn-group w-100">
+                        <a href="{{ url_for('main.edit_listing', id=vehicle.id) }}" class="btn btn-primary">Edit</a>
+                        <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ vehicle.id }}')">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <p>No listings found.</p>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

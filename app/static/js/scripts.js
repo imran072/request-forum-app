@@ -85,3 +85,77 @@ function validateForm() {
         return false;
     }
 }
+
+document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+    });
+});
+
+function validateImage() {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imageError = document.getElementById('image-error');
+    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    if (imageInput.files.length === 0) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload an image file.';
+      return false;
+    } else if (!validExtensions.includes(imageInput.files[0].type)) {
+      imageError.style.display = 'block';
+      imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+      return false;
+    }
+    imageError.style.display = 'none';
+    return true;
+}
+
+function confirmDelete2(vehicleId) {
+    if(confirm('Are you sure you want to delete this listing?')) {
+        fetch('/delete_listing/' + vehicleId, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    window.location.reload();  // Reload the page to update the list
+                } else {
+                    alert('Error deleting listing.');
+                }
+            });
+    }
+}
+function confirmDelete(vehicleId) {
+    if(confirm('Are you sure you want to delete this listing?')) {
+        fetch('/delete_listing/' + vehicleId, { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }  // Ensure your server expects JSON if needed
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);  // Debug: log the data to see what is actually returned
+            if(data.success) {
+                window.location.reload();  // Reload the page to update the list
+            } else {
+                alert('Error deleting listing.');
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('Failed to delete the listing due to a network error.');
+        });
+    }
+}
+
