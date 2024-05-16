@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'Volkswagen': ['ID.4', 'ID.5', 'ID.Buzz']
         };
 
-        makeSelect.onchange = function() {
+        makeSelect.addEventListener('change', function() {
             modelSelect.length = 1; // goes back to default option
 
             var selectedMake = makeSelect.value;
@@ -47,8 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     modelSelect.add(option);
                 });
             }
-        };
+        });
     }
+
 
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
@@ -88,50 +89,82 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error('jQuery is not loaded');
     }
-});
 
-// Email input validation
-function validateForm() {
-    let email = document.getElementById("typeEmailX-2");
-    let password = document.getElementById("password_input");
-    if (email && password) {
-        email = email.value;
-        password = password.value;
-        if (/\S+@\S+\.\S+/.test(email) && /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password)) {
-            alert("Thank you for signing up!");
-            return true;
-        } else {
-            alert("Please check your inputs for proper format.");
+    // Email input validation
+    function validateForm() {
+        let email = document.getElementById("typeEmailX-2");
+        let password = document.getElementById("password_input");
+        if (email && password) {
+            email = email.value;
+            password = password.value;
+            if (/\S+@\S+\.\S+/.test(email) && /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(password)) {
+                alert("Thank you for signing up!");
+                return true;
+            } else {
+                alert("Please check your inputs for proper format.");
+                return false;
+            }
+        }
+        return false;
+    }
+
+    //model dropdown
+    document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+
+    // Validate image upload
+    document.querySelector('form.vertical-sell-ev-form').addEventListener('submit', function(event) {
+        const imageInput = document.querySelector('input[type="file"]');
+        const imageError = document.getElementById('image-error');
+        const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+        if (imageInput.files.length === 0) {
+            imageError.style.display = 'block';
+            imageError.textContent = 'Please upload an image file.';
+            event.preventDefault();
+            return false;
+        } else if (!validExtensions.includes(imageInput.files[0].type)) {
+            imageError.style.display = 'block';
+            imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+            event.preventDefault();
             return false;
         }
-    }
-    return false;
-}
+        imageError.style.display = 'none';
+        return true;
+    });
 
-// Validate image upload
-function validateImage() {
-    const imageInput = document.querySelector('input[type="file"]');
-    const imageError = document.getElementById('image-error');
-    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-    if (imageInput.files.length === 0) {
-        imageError.style.display = 'block';
-        imageError.textContent = 'Please upload an image file.';
-        return false;
-    } else if (!validExtensions.includes(imageInput.files[0].type)) {
-        imageError.style.display = 'block';
-        imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
-        return false;
-    }
-    imageError.style.display = 'none';
-    return true;
-}
+});
 
-// Confirm delete with fetch
+function confirmDelete2(vehicleId) {
+    if(confirm('Are you sure you want to delete this listing?')) {
+        fetch('/delete_listing/' + vehicleId, { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    window.location.reload();  // Reload the page to update the list
+                } else {
+                    alert('Error deleting listing.');
+                }
+            });
+    }
+}
 function confirmDelete(vehicleId) {
-    if (confirm('Are you sure you want to delete this listing?')) {
-        fetch('/delete_listing/' + vehicleId, { 
+    if(confirm('Are you sure you want to delete this listing?')) {
+        fetch('/delete_listing/' + vehicleId, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' }  // Ensure your server expects JSON if needed
         })
         .then(response => {
             if (!response.ok) {
@@ -140,7 +173,8 @@ function confirmDelete(vehicleId) {
             return response.json();
         })
         .then(data => {
-            if (data.success) {
+            console.log(data);  // Debug: log the data to see what is actually returned
+            if(data.success) {
                 window.location.reload();  // Reload the page to update the list
             } else {
                 alert('Error deleting listing.');

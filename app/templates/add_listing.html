@@ -109,4 +109,22 @@
     </div>
   </div>
 </section>
+    <script>
+  document.getElementById('make').addEventListener('change', function() {
+    const brandId = this.value;
+    fetch(`/get_models/${brandId}`)
+      .then(response => response.json())
+      .then(data => {
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = ''; // Clear existing options
+        data.forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.id;
+          option.textContent = model.name;
+          modelSelect.appendChild(option);
+        });
+      });
+  });
+
+</script>
 {% endblock %}
