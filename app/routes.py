@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, url_for, flash, redirect,
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
+import uuid
 
 from .models import Vehicle, Brand, Model, User, Message
 from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
@@ -144,10 +145,15 @@ def add_listing():
         form.model.choices = [(0, 'Select a model')]
 
     if form.validate_on_submit():
+        # Process the image file
         image_file = form.image.data
-        filename = secure_filename(image_file.filename)
-        image_path = os.path.join(current_app.root_path, 'static/img', filename)
-        image_file.save(image_path)
+        if image_file:
+            # Generate a unique filename
+            unique_filename = str(uuid.uuid4()) + os.path.splitext(image_file.filename)[1]
+            image_path = os.path.join(current_app.root_path, 'static/img', secure_filename(unique_filename))
+            image_file.save(image_path)
+
+        # Create a new listing and save to the database
         new_vehicle = Vehicle(
             make=form.make.data,
             model=form.model.data,
@@ -160,7 +166,7 @@ def add_listing():
             car_type=form.car_type.data,
             top_speed=form.top_speed.data,
             acceleration=form.acceleration.data,
-            image_url=url_for('static', filename='img/' + filename),
+            image_url=url_for('static', filename='img/' + unique_filename),
             seller_id=session['user_id']
         )
         db.session.add(new_vehicle)
