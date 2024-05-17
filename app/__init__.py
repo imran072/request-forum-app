@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
 from dotenv import load_dotenv
 from flask_admin import Admin
+from flask_mail import Mail
 import os
 
 # Load environment variables
@@ -12,6 +13,7 @@ load_dotenv()
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
+mail = Mail() # Initialize Flask-Mail
 
 
 def create_app():
@@ -32,6 +34,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+    mail.init_app(app)  # Initialize the Mail extension
     login_manager.login_view = 'auth.login'
 
     # User loader
