@@ -1,3 +1,36 @@
+body, html {
+    margin: 0;
+    height: 100%;
+}  
+
+header {
+    background: #f8f8f8;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container {
+    width: 80%; 
+    margin: 0 auto; 
+}
+
+.content {
+    width: 100%; 
+    max-width: 1200px; 
+    margin: 20px;
+}
+
+.content-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 /* base styles */
 .header-buttons {
     padding: 10px 20px;
@@ -148,8 +181,9 @@ button {
 }
 
 button:hover {
-    background-color: #008cba;
+    background-color: #a9b0b2;
 }
+/* this made the nav bar toggle changed to blue */
 
 /* ev ads */
 .ev-ads-slider .slide-wrapper {
@@ -362,133 +396,13 @@ button:hover {
     color: #555;
 }
 
-/* add_listing.html */
-.vertical-sell-ev-form {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.vertical-sell-ev-form .form-control,
-.vertical-sell-ev-form .form-select {
-    width: 100%;
-    max-width: 800px;
-}
-
-.vertical-sell-ev-form .row {
-    display: flex;
-    align-items: center; /* Align labels and form controls vertically */
-}
-
-.vertical-sell-ev-form .category_name {
-    padding-right: 25px; /* Add some spacing between label and form control */
-}
-
-/* Flexbox for aligning labels and inputs */
-.row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 1rem;
-  }
-  
-  .category_name {
-    flex: 1;
-    font-weight: bold;
-    text-align: left;
-    white-space: nowrap; /* Prevent labels from wrapping */
-  }
-  
-  .option_name {
-    flex: 1;
-  }
-  
-  .form-control,
-  .form-select {
-    width: 100%;
-  }
-  
-  /* Additional styles for icons and labels */
-  .form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    white-space: nowrap; /* Prevent labels from wrapping */
-  }
-  
-  .form-group label i {
-    margin-right: 8px;
-  }
-  
-  .form-group .form-control,
-  .form-group .form-select {
-    flex: 3;
-  }    
-
-/* Form container styles */
-.form-container {
-    background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-    border-radius: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 540px;
-    margin: auto;
-    padding: 30px;
-  }
-  
-  .form-group {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-  
-  .form-group label {
-    width: 420px; /* Fixed width for labels */
-  }
-  
-  .form-group label i {
-    margin-right: 10px;
-  }
-  
-  .form-group .option_name {
-    flex-grow: 1; /* Adjust to take remaining space */
-  }
-  
-  .form-group .form-control,
-  .form-group .form-select {
-    width: 100%;
-  }
-  
-  /* Responsive design for smaller screens */
-  @media (max-width: 600px) {
-    .form-group {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .form-group label {
-      width: 100%; /* Full width on smaller screens */
-      margin-bottom: 0.25rem;
-    }
-  
-    .form-group .option_name {
-      width: 100%; /* Full width on smaller screens */
-    }
-  }
-
-/* styles for login& signup page */
+/* styles for login & signup page */
 /* General styles for background, aligning items in center */
-.sign_up_form, #login-s {
-    background-image: url('../img/background.jpg'); /* Ensure you use an appropriate background image */
+.sign_up_form, .login_form {
+    background-image: url('../img/background.jpg'); 
     background-size: cover;
     background-position: center;
-    height: 100vh; /* Full viewport height to cover the whole vertical space */
+    height: 100vh; /*Full viewport height to cover the whole vertical space */
 }
 
 /* Styling the container for vertical and horizontal centering */
@@ -498,26 +412,26 @@ button:hover {
     align-items: center;
     justify-content: center;
 }
+ 
 
-/* Card styling for clarity and focus, common to both forms */
- .card-background {
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly opaque for better readability */
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 600px; /* Control the maximum width of the card */
-    padding: 2rem;
-} 
-
-.card.shadow-2-strong {
+/*why not working*/
+div.card.shadow-2-strong {
     border-radius: 1rem;
     background-color: rgba(255, 255, 255, 0.411);
     min-width: 500px;
 }
 
-.form-outline.mb-4{
+/*not sure what's this for */
+.form-group.mb-4{
+    width: 65%;
     position: relative;
+}
 
+/*form styles*/
+form{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
 }
 
 .fa.fa-user{
@@ -538,36 +452,17 @@ button:hover {
     transform: translateY(-50%);
 }
 
-.form-check.d-flex.justify-content-start.mb-4{
+/* .form-check.d-flex.justify-content-start.mb-4{
     display: inline-block;
-}
+} */
 
-a.form-check-label{
+/* a.form-check-label{
     margin-left: 99px;
-}
-
-/* Position icons inside input fields, used in both forms */
-.icon-style {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #495057; /* Icon color */
-}
-
-/* Input field styling, common to both forms */
-.input-style {
-    padding-left: 45px; /* Enough padding to not overlap icons */
-    border: 1px solid #ced4da;
-    height: 48px;
-    font-size: 16px;
-    width: 100%; /* Ensures the input field fills the container */
-    border-radius: 5px;
-}
+} */
 
 /* Button styling, universal for consistency */
 .btn-primary {
-    width: 100%; /* Full width button */
+    width: 30%; /* Full width button */
     background-color: #007bff;
     color: white;
     border: none;
@@ -578,17 +473,18 @@ a.form-check-label{
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
+    /* background-color: #777c81; */
+    opacity: 0.8;
 }
 
-/* Responsive adjustments
+/*Responsive adjustments
 @media (max-width: 576px) {
     .card-background {
         padding: 20px;
         margin: 10px;
     }
 }
-#website_logo {
+/*#website_logo {
     height: 100px; 
     width: auto;
     vertical-align: middle; 
