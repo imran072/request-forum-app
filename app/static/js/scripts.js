@@ -52,6 +52,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setInterval(shiftLogo, 5000); 
 
+    // Modal script for Message Seller button in index.html
+document.addEventListener('DOMContentLoaded', function() {
+    const messageModal = document.getElementById('messageModal');
+    if (messageModal) {
+        messageModal.addEventListener('show.bs.modal', function(event) {
+            const link = event.relatedTarget;
+            const recipientUsername = link.getAttribute('data-recipient');
+            const recipientName = link.getAttribute('data-recipient-name');
+
+            const modal = this;
+            modal.querySelector('#recipientUsername').value = recipientUsername;
+            modal.querySelector('#recipientName').textContent = recipientName;
+        });
+    }
+});
+    
     // Modal script for Message Seller button
     if (window.jQuery) {
         $('#messageModal').on('show.bs.modal', function(event) {

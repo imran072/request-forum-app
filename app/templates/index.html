@@ -63,7 +63,10 @@
                 <p>Mileage (km): {{ vehicle.mileage }}</p>
                 <p>Battery Capacity (kWh): {{ vehicle.battery_capacity }}</p>
                 <p>Car Type: {{ vehicle.car_type }}</p>
-                <p>Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</p>
+                <p>Seller: 
+                    <a href="#" class="seller-link" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}">
+                        {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</a>
+                </p>
             </div>
         </div>
         {% endfor %}
@@ -73,6 +76,31 @@
         <button id="next">&gt;</button>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageModalLabel">Send Message to <span id="recipientName"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('main.send_message') }}">
+                    {{ form.hidden_tag() }}
+                    <input type="hidden" name="recipient" id="recipientUsername">
+                    <div class="form-group">
+                        <label for="body">Message</label>
+                        <textarea name="body" class="form-control" id="body" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="divider"></div>
 

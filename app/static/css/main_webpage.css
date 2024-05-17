@@ -215,6 +215,18 @@ button:hover {
     background-color: #add8e6;
 }
 
+.seller-link {
+    color: #007bff;
+    text-decoration: none;
+    border-bottom: 1px dotted #007bff;
+    transition: border-bottom 0.3s;
+}
+
+.seller-link:hover {
+    color: #0056b3;
+    border-bottom: 1px solid #0056b3;
+}
+
 /* Navigation buttons */
 .ev-ads-slider .controls {
     position: absolute;
