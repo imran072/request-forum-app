@@ -1,3 +1,33 @@
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/get_brands')
+        .then(response => response.json())
+        .then(data => {
+            const makeSelect = document.getElementById('make');
+            data.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand.id;
+                option.textContent = brand.name;
+                makeSelect.appendChild(option);
+            });
+        });
+
+    document.getElementById('make').addEventListener('change', function() {
+        const brandId = this.value;
+        fetch(`/get_models/${brandId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSelect = document.getElementById('model');
+                modelSelect.innerHTML = '<option value="any">Any Model</option>'; // Clear existing options
+                data.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            });
+    });
+});
+    
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
     if (evSlider) {
@@ -92,7 +122,6 @@
         return true;
     });
 
-});
 
 function confirmDelete2(vehicleId) {
     if(confirm('Are you sure you want to delete this listing?')) {

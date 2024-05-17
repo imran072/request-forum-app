@@ -12,7 +12,7 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     brands = Brand.query.all()
-    vehicles = Vehicle.query.limit(10).all()  # Fetch the latest 10 vehicles for the ads
+    vehicles = Vehicle.query.order_by(Vehicle.timestamp.desc()).limit(10).all()  # Fetch the latest 10 vehicles sorted by timestamp
     return render_template('index.html', brands=brands, vehicles=vehicles)
 
 @main.route('/search', methods=['GET', 'POST'])
@@ -168,6 +168,12 @@ def add_listing():
         flash('Your listing has been added successfully!', 'success')
         return redirect(url_for('main.index'))
     return render_template('add_listing.html', form=form)
+
+@main.route('/get_brands')
+def get_brands():
+    brands = Brand.query.all()
+    brands_list = [{'id': brand.id, 'name': brand.name} for brand in brands]
+    return jsonify(brands_list)
 
 @main.route('/get_models/<int:brand_id>')
 def get_models(brand_id):
