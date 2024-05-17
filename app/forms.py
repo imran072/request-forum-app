@@ -36,12 +36,6 @@ class SignupForm(FlaskForm):
         if user:
             raise ValidationError('That email is already in use. Please choose a different one.')
         
-class ResetPasswordForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), Email()])  
-    password = PasswordField('New Password', validators=[DataRequired()])
-    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Reset Password')
-
 def validate_alphabetic(form, field):
     if not field.data.isalpha():
         raise ValidationError('Field must contain only alphabetic characters.')
@@ -66,3 +60,12 @@ class AddListingForm(FlaskForm):
     acceleration = FloatField('0-100 km/h Acceleration (seconds)', validators=[DataRequired(), NumberRange(min=0, max=60), validate_float])
     image = FileField('Car Image', validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'gif'], 'Images only!')])
     submit = SubmitField('Add Listing')
+    
+class RequestResetForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('New Password', validators=[DataRequired()])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password', message='Passwords must match')])
+    submit = SubmitField('Reset Password')
