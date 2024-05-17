@@ -1,80 +1,56 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const makeSelectIndex = document.getElementById('make-index');
-    const makeSelectAdd = document.getElementById('make-add');
-
-    if (makeSelectIndex) {
-        populateMakeDropdown(makeSelectIndex, 'Any make');
-        makeSelectIndex.addEventListener('change', function() {
-            populateModelDropdown(this.value, 'model-index');
-        });
-    }
-
-    if (makeSelectAdd) {
-        populateMakeDropdown(makeSelectAdd, 'Select a brand');
-        makeSelectAdd.addEventListener('change', function() {
-            populateModelDropdown(this.value, 'model-add');
-        });
-    }
-
-    document.getElementById('make').addEventListener('change', function() {
-        const brandId = this.value;
-        populateModelDropdown(brandId, 'model');
-    });
-});
-
-function populateMakeDropdown(selectElement, defaultMessage) {
-    fetch('/get_brands')
-        .then(response => response.json())
-        .then(data => {
-            selectElement.innerHTML = `<option value="any">${defaultMessage}</option>`; // Clear existing options and add default
-            data.forEach(brand => {
-                const option = document.createElement('option');
-                option.value = brand.id;
-                option.textContent = brand.name;
-                selectElement.appendChild(option);
-            });
-        });
-}
-
-function populateModelDropdown(brandId, modelSelectId) {
-    const modelSelect = document.getElementById(modelSelectId);
-    fetch(`/get_models/${brandId}`)
-        .then(response => response.json())
-        .then(data => {
-            modelSelect.innerHTML = '<option value="any">All Models</option>'; // Clear existing options and add default
-            data.forEach(model => {
-                const option = document.createElement('option');
-                option.value = model.id;
-                option.textContent = model.name;
-                modelSelect.appendChild(option);
-            });
-        });
-}
-
-
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
-    if (evSlider) {
-        const ads = Array.from(evSlider.querySelectorAll('.ad'));
-        const slideInterval = setInterval(shiftAd, 5000);
+    const ads = Array.from(evSlider.querySelectorAll('.ad'));
+    const adsPerPage = Math.floor(evSlider.offsetWidth / 320); // Calculate how many ads fit in the viewport, including margin
+    let currentIndex = 0;
+    let autoScrollInterval;
 
-        function shiftAd() {
-            evSlider.appendChild(ads.shift()); // moves first ad to the end
-            ads.push(evSlider.lastElementChild); // updates the array
-        }
+    function moveNext() {
+        evSlider.appendChild(evSlider.firstElementChild);
     }
+
+    function movePrev() {
+        evSlider.insertBefore(evSlider.lastElementChild, evSlider.firstElementChild); 
+    }
+
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(moveNext, 3000); 
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    document.getElementById('next').addEventListener('click', function() {
+        stopAutoScroll();
+        moveNext();
+        startAutoScroll();
+    });
+
+    document.getElementById('prev').addEventListener('click', function() {
+        stopAutoScroll();
+        movePrev();
+        startAutoScroll();
+    });
+
+    startAutoScroll();
 
     // Brand logo slider
-    const slider = document.querySelector('.brand-slider .slide');
-    if (slider) {
-        const logos = Array.from(slider.querySelectorAll('img'));
-        const slideInterval = setInterval(shiftLogo, 3000);
+    const logoSlider = document.querySelector('.brand-slider .slide');
+    const logos = Array.from(logoSlider.querySelectorAll('img'));
+    let logoIndex = 0;
 
-        function shiftLogo() {
-            slider.appendChild(logos.shift());
-            logos.push(slider.lastElementChild); // updates the array
+    function shiftLogo() {
+        logoSlider.appendChild(logos.shift());
+        logos.push(logoSlider.lastElementChild); // Updates the array
+        logoIndex++;
+        if (logoIndex >= logos.length) {
+            logoIndex = 0;
         }
     }
+
+    setInterval(shiftLogo, 5000); 
 
     // Modal script for Message Seller button
     if (window.jQuery) {
@@ -109,22 +85,22 @@ function populateModelDropdown(brandId, modelSelectId) {
         return false;
     }
 
-    //model dropdown
+    // Model dropdown
     document.getElementById('make').addEventListener('change', function() {
-    const brandId = this.value;
-    fetch(`/get_models/${brandId}`)
-      .then(response => response.json())
-      .then(data => {
-        const modelSelect = document.getElementById('model');
-        modelSelect.innerHTML = ''; // Clear existing options
-        data.forEach(model => {
-          const option = document.createElement('option');
-          option.value = model.id;
-          option.textContent = model.name;
-          modelSelect.appendChild(option);
-        });
-      });
-  });
+        const brandId = this.value;
+        fetch(`/get_models/${brandId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSelect = document.getElementById('model');
+                modelSelect.innerHTML = ''; // Clear existing options
+                data.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            });
+    });
 
     // Validate image upload
     document.querySelector('form.vertical-sell-ev-form').addEventListener('submit', function(event) {
@@ -146,43 +122,44 @@ function populateModelDropdown(brandId, modelSelectId) {
         return true;
     });
 
+    // Confirm delete functions
+    function confirmDelete2(vehicleId) {
+        if (confirm('Are you sure you want to delete this listing?')) {
+            fetch('/delete_listing/' + vehicleId, { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload(); // Reload the page to update the list
+                    } else {
+                        alert('Error deleting listing.');
+                    }
+                });
+        }
+    }
 
-function confirmDelete2(vehicleId) {
-    if(confirm('Are you sure you want to delete this listing?')) {
-        fetch('/delete_listing/' + vehicleId, { method: 'POST' })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    window.location.reload();  // Reload the page to update the list
-                } else {
-                    alert('Error deleting listing.');
-                }
-            });
+    function confirmDelete(vehicleId) {
+        if (confirm('Are you sure you want to delete this listing?')) {
+            fetch('/delete_listing/' + vehicleId, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        window.location.reload(); // Reload the page to update the list
+                    } else {
+                        alert('Error deleting listing.');
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    alert('Failed to delete the listing due to a network error.');
+                });
+        }
     }
-}
-function confirmDelete(vehicleId) {
-    if(confirm('Are you sure you want to delete this listing?')) {
-        fetch('/delete_listing/' + vehicleId, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }  
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);  // Debug to log the data to see what is actually returned
-            if(data.success) {
-                window.location.reload();  // Reload the page to update the list
-            } else {
-                alert('Error deleting listing.');
-            }
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            alert('Failed to delete the listing due to a network error.');
-        });
-    }
-}
+});

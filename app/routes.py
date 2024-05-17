@@ -13,7 +13,9 @@ main = Blueprint('main', __name__)
 def index():
     brands = Brand.query.all()
     vehicles = Vehicle.query.order_by(Vehicle.timestamp.desc()).limit(10).all()  # Fetch the latest 10 vehicles sorted by timestamp
-    return render_template('index.html', brands=brands, vehicles=vehicles)
+    prices = [price.price for price in Vehicle.query.all()]
+    form = MessageForm()
+    return render_template('index.html', brands=brands, vehicles=vehicles, prices=prices, form=form)
 
 @main.route('/search', methods=['GET', 'POST'])
 def search_vehicles():

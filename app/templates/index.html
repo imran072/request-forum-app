@@ -12,6 +12,9 @@
     {% endif %}
 {% endwith %}
 
+<div class="divider"></div>
+
+<!-- Search section -->
 <section class="search" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
     <form method="get" action="{{ url_for('main.search_results') }}">
         <div class="form-row">
@@ -40,24 +43,86 @@
     </form>
 </section>
 
-<!-- ev ads -->
+<div class="divider"></div>
+
+<!-- Header for EV ads -->
+<div class="section-header bg-primary text-white p-3 rounded">
+    <h2>Latest EV Ads</h2>
+    <a href="{{ url_for('main.search_results') }}" class="view-more-link">View More EV Deals &gt;</a>
+</div>
+
+<!-- EV ads -->
 <section class="ev-ads-slider">
     <div class="slide">
         {% for vehicle in vehicles %}
         <div class="ad">
             <img src="{{ vehicle.image_url }}" alt="{{ vehicle.model }}">
-
             <div class="info">
                 <h3>{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - {{ vehicle.year }}</h3>
-                <p>Battery Capacity (kWh): {{ vehicle.battery_capacity }}</p>
-                <p>Mileage (km): {{ vehicle.mileage }}</p>
                 <p>Price: ${{ vehicle.price }}</p>
+                <p>Mileage (km): {{ vehicle.mileage }}</p>
+                <p>Battery Capacity (kWh): {{ vehicle.battery_capacity }}</p>
+                <p>Car Type: {{ vehicle.car_type }}</p>
+                <p>Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</p>
             </div>
         </div>
         {% endfor %}
     </div>
+    <div class="controls">
+        <button id="prev">&lt;</button>
+        <button id="next">&gt;</button>
+    </div>
 </section>
 
+<div class="divider"></div>
+
+<!-- Header for Functionality description section -->
+<div class="section-header bg-primary text-white p-3 rounded">
+    <h2>Website Functionalities</h2>
+</div>
+
+<!-- Functionality description section -->
+<section class="website-functions">
+    <a href="{{ url_for('main.search_results') }}" class="function-link">
+        <div class="function-box">
+            <h3>Buy an EV</h3>
+            <p>Find the perfect electric vehicle for you from our extensive listings.</p>
+            <i class="bi bi-car-front" style="font-size: 3rem;"></i>
+        </div>
+    </a>
+    <a href="{{ url_for('main.add_listing') }}" class="function-link">
+        <div class="function-box">
+            <h3>Post an Ad</h3>
+            <p>Sell your electric vehicle by posting an ad.</p>
+            <i class="bi bi-megaphone" style="font-size: 3rem;"></i>
+        </div>
+    </a>
+    <a href="{{ url_for('main.messages') }}" class="function-link">
+        <div class="function-box">
+            <h3>Message the Seller</h3>
+            <p>Contact the seller directly through our messaging system.</p>
+            <i class="bi bi-envelope" style="font-size: 3rem;"></i>
+        </div>
+    </a>
+    <a href="{{ url_for('auth.signup') }}" class="function-link">
+        <div class="function-box">
+            <h3>Create an Account</h3>
+            <p>Sign up to access all features. and manage your listings.</p>
+            <i class="bi bi-person" style="font-size: 3rem;"></i>
+        </div>
+    </a>
+    <a href="{{ url_for('main.profile') }}" class="function-link">
+        <div class="function-box">
+            <h3>Manage your Listings</h3>
+            <p>Edit and delete your listings.</p>
+            <i class="bi-pencil-square" style="font-size: 3rem;"></i>
+        </div>
+    </a>
+</section>
+
+<div class="divider"></div>
+
+<!-- Logo slider -->
 <div class="brand-slider">
     <div class="slide">
         <img src="../static/img/brand_logos/Tesla.png" alt="Tesla">
@@ -80,4 +145,18 @@
         <img src="../static/img/brand_logos/BMW.png" alt="BMW">
     </div>
 </div>
+
+<div class="divider"></div>
+
+<!-- Header for Google Maps -->
+<div class="section-header bg-primary text-white p-3 rounded">
+    <h2>Find Us Here</h2>
+</div>
+
+<section class="google-maps-placeholder">
+    <div class="map-container">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384.3447172414562!2d115.81720306427914!3d-31.978669482495704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32a4ee6e7380e9%3A0xf04f0b618f28290!2sThe%20University%20of%20Western%20Australia!5e0!3m2!1sen!2sau!4v1715940154628!5m2!1sen!2sau" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+</section>
+
 {% endblock %}
