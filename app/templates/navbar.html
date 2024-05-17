@@ -1,4 +1,3 @@
-<!-- navbar.html -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a href="{{ url_for('main.index') }}">
         <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
@@ -11,11 +10,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.search_vehicles') }}">Search</a></li>
                 {% if user.is_authenticated %}
+                <!--added My Profile link-->
                 <li class="nav-item">
-                    <!-- Secure Logout Form -->
-                    <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;">
-                        <button type="submit" class="nav-link">Logout</button>
+                    <a class="nav-link" href="{{ url_for('main.profile') }}">My Profile</a>
+                </li>
+                <li class="nav-item">
+                    <form action="{{ url_for('auth.logout') }}" method="post" style="display:inline;">
+                        <button type="submit" class="nav-link logout-button">Logout</button>
                     </form>
+                    
                 </li>
                 {% else %}
                 <li class="nav-item">
@@ -26,7 +29,7 @@
                 </li>
                 {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.add_listing') }}">Sell My EV</a></li>
+                <a class="nav-link" href="#" class="sell">Sell My EV</a></li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a></li>
                 

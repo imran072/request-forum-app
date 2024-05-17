@@ -434,25 +434,25 @@ button:hover {
   }    
 
 /* Form container styles */
-.form-container {
+ .form-container {
     background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
     border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 540px;
     margin: auto;
     padding: 30px;
-  }
+  }  
   
   .form-group {
     display: flex;
     align-items: center;
     margin-bottom: 1rem;
-  }
-  
+  } 
+
   .form-group label {
     width: 420px; /* Fixed width for labels */
   }
-  
+
   .form-group label i {
     margin-right: 10px;
   }
@@ -460,12 +460,12 @@ button:hover {
   .form-group .option_name {
     flex-grow: 1; /* Adjust to take remaining space */
   }
-  
+
   .form-group .form-control,
   .form-group .form-select {
     width: 100%;
   }
-  
+
   /* Responsive design for smaller screens */
   @media (max-width: 600px) {
     .form-group {
@@ -483,7 +483,7 @@ button:hover {
     }
   }
 /* Styles for sign_up and login form */
-  .sign_up_form, .login_form, .search {
+  .sign_up_form, .login_form, .search, .add_listing {
     background-image: url('../img/background.jpg'); 
     background-size: cover;
     background-position: center;
