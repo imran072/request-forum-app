@@ -72,28 +72,6 @@
       });
   });
 
-    // Validate image upload
-    document.querySelector('form.vertical-sell-ev-form').addEventListener('submit', function(event) {
-        const imageInput = document.querySelector('input[type="file"]');
-        const imageError = document.getElementById('image-error');
-        const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-        if (imageInput.files.length === 0) {
-            imageError.style.display = 'block';
-            imageError.textContent = 'Please upload an image file.';
-            event.preventDefault();
-            return false;
-        } else if (!validExtensions.includes(imageInput.files[0].type)) {
-            imageError.style.display = 'block';
-            imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
-            event.preventDefault();
-            return false;
-        }
-        imageError.style.display = 'none';
-        return true;
-    });
-
-});
-
 function confirmDelete2(vehicleId) {
     if(confirm('Are you sure you want to delete this listing?')) {
         fetch('/delete_listing/' + vehicleId, { method: 'POST' })
@@ -133,3 +111,23 @@ function confirmDelete(vehicleId) {
         });
     }
 }
+
+// Validate image upload
+document.querySelector('form.vertical-sell-ev-form').addEventListener('submit', function(event) {
+    const imageInput = document.querySelector('input[type="file"]');
+    const imageError = document.getElementById('image-error');
+    const validExtensions = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+    if (imageInput.files.length === 0) {
+        imageError.style.display = 'block';
+        imageError.textContent = 'Please upload an image file.';
+        event.preventDefault();
+        return false;
+    } else if (!validExtensions.includes(imageInput.files[0].type)) {
+        imageError.style.display = 'block';
+        imageError.textContent = 'Please upload a valid image file (jpg, jpeg, png, gif).';
+        event.preventDefault();
+        return false;
+    }
+    imageError.style.display = 'none';
+    return true;
+});
