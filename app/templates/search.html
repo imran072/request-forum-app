@@ -3,13 +3,13 @@
 {% block title %}Vehicles - EV Marketplace{% endblock %}
 
 {% block content %}
-<main class="flex-grow-1">
+<main class="vh-100">
     <section class="search"
     style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}');
     background-size: cover;
     background-position: center;">
         <form method="POST" action="{{ url_for('main.search_vehicles') }}">
-            <div class="form-row row-1">
+            <div>
                 <select name="make" id="make">
                     <option value="any" selected>Any Make</option>
                     {% for make_id, make_name in makes %}
@@ -32,7 +32,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row row-2">
+            <div>
                 <select name="top_speed" id="top_speed">
                     <option value="any" selected>Any Top Speed</option>
                     {% for speed in top_speeds %}
@@ -58,7 +58,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="form-row find-button">
+            <div class="find-button">
                 <button type="submit">Find My EV</button>
             </div>
         </form>
