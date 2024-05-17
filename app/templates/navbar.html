@@ -1,15 +1,18 @@
 <!-- navbar.html -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a href="{{ url_for('main.index') }}">
-        <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.search_vehicles') }}">Search</a></li>
+    <div class="container-fluid">
+        <a href="{{ url_for('main.index') }}" class="d-flex align-items-center">
+            <img src="{{ url_for('static', filename='img/Website_Logo.png') }}" alt="EV Marketplace" id="website_logo" class="navbar-brand">
+            <span style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight: bold; font-size: 3.5rem; color: #000; text-decoration: none; margin-left: 20px;">EV Marketplace</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.search_vehicles') }}">Search</a>
+                </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
                     <!-- Secure Logout Form -->
@@ -25,11 +28,13 @@
                     <a class="nav-link" href="{{ url_for('auth.signup') }}">Signup</a>
                 </li>
                 {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.add_listing') }}">Sell My EV</a></li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a></li>
-                
-        </ul>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.add_listing') }}">Sell My EV</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>

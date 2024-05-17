@@ -1,27 +1,73 @@
+document.addEventListener('DOMContentLoaded', function() {
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
-    if (evSlider) {
-        const ads = Array.from(evSlider.querySelectorAll('.ad'));
-        const slideInterval = setInterval(shiftAd, 5000);
+    const ads = Array.from(evSlider.querySelectorAll('.ad'));
+    const adsPerPage = Math.floor(evSlider.offsetWidth / 320); // Calculate how many ads fit in the viewport, including margin
+    let currentIndex = 0;
+    let autoScrollInterval;
 
-        function shiftAd() {
-            evSlider.appendChild(ads.shift()); // moves first ad to the end
-            ads.push(evSlider.lastElementChild); // updates the array
-        }
+    function moveNext() {
+        evSlider.appendChild(evSlider.firstElementChild);
     }
+
+    function movePrev() {
+        evSlider.insertBefore(evSlider.lastElementChild, evSlider.firstElementChild); 
+    }
+
+    function startAutoScroll() {
+        autoScrollInterval = setInterval(moveNext, 3000); 
+    }
+
+    function stopAutoScroll() {
+        clearInterval(autoScrollInterval);
+    }
+
+    document.getElementById('next').addEventListener('click', function() {
+        stopAutoScroll();
+        moveNext();
+        startAutoScroll();
+    });
+
+    document.getElementById('prev').addEventListener('click', function() {
+        stopAutoScroll();
+        movePrev();
+        startAutoScroll();
+    });
+
+    startAutoScroll();
 
     // Brand logo slider
-    const slider = document.querySelector('.brand-slider .slide');
-    if (slider) {
-        const logos = Array.from(slider.querySelectorAll('img'));
-        const slideInterval = setInterval(shiftLogo, 3000);
+    const logoSlider = document.querySelector('.brand-slider .slide');
+    const logos = Array.from(logoSlider.querySelectorAll('img'));
+    let logoIndex = 0;
 
-        function shiftLogo() {
-            slider.appendChild(logos.shift());
-            logos.push(slider.lastElementChild); // updates the array
+    function shiftLogo() {
+        logoSlider.appendChild(logos.shift());
+        logos.push(logoSlider.lastElementChild); // Updates the array
+        logoIndex++;
+        if (logoIndex >= logos.length) {
+            logoIndex = 0;
         }
     }
 
+    setInterval(shiftLogo, 5000); 
+
+    // Modal script for Message Seller button in index.html
+document.addEventListener('DOMContentLoaded', function() {
+    const messageModal = document.getElementById('messageModal');
+    if (messageModal) {
+        messageModal.addEventListener('show.bs.modal', function(event) {
+            const link = event.relatedTarget;
+            const recipientUsername = link.getAttribute('data-recipient');
+            const recipientName = link.getAttribute('data-recipient-name');
+
+            const modal = this;
+            modal.querySelector('#recipientUsername').value = recipientUsername;
+            modal.querySelector('#recipientName').textContent = recipientName;
+        });
+    }
+});
+    
     // Modal script for Message Seller button
     if (window.jQuery) {
         $('#messageModal').on('show.bs.modal', function(event) {
@@ -55,22 +101,23 @@
         return false;
     }
 
-    //model dropdown
+    // Model dropdown
     document.getElementById('make').addEventListener('change', function() {
-    const brandId = this.value;
-    fetch(`/get_models/${brandId}`)
-      .then(response => response.json())
-      .then(data => {
-        const modelSelect = document.getElementById('model');
-        modelSelect.innerHTML = ''; // Clear existing options
-        data.forEach(model => {
-          const option = document.createElement('option');
-          option.value = model.id;
-          option.textContent = model.name;
-          modelSelect.appendChild(option);
-        });
-      });
-  });
+        const brandId = this.value;
+        fetch(`/get_models/${brandId}`)
+            .then(response => response.json())
+            .then(data => {
+                const modelSelect = document.getElementById('model');
+                modelSelect.innerHTML = ''; // Clear existing options
+                data.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.id;
+                    option.textContent = model.name;
+                    modelSelect.appendChild(option);
+                });
+            });
+    });
+
 
 function confirmDelete2(vehicleId) {
     if(confirm('Are you sure you want to delete this listing?')) {

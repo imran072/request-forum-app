@@ -13,8 +13,10 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     brands = Brand.query.all()
-    vehicles = Vehicle.query.limit(10).all()  # Fetch the latest 10 vehicles for the ads
-    return render_template('index.html', brands=brands, vehicles=vehicles)
+    vehicles = Vehicle.query.order_by(Vehicle.timestamp.desc()).limit(10).all()  # Fetch the latest 10 vehicles sorted by timestamp
+    prices = [price.price for price in Vehicle.query.all()]
+    form = MessageForm()
+    return render_template('index.html', brands=brands, vehicles=vehicles, prices=prices, form=form)
 
 @main.route('/search', methods=['GET', 'POST'])
 def search_vehicles():
@@ -125,8 +127,22 @@ def send_message():
 
 @main.route('/search_results')
 def search_results():
-    vehicles = Vehicle.query.all()  # Replace with actual search query results
-    form = MessageForm()  # Instantiate the MessageForm
+    form = SearchForm()
+    make = request.args.get('make')
+    model = request.args.get('model')
+    price = request.args.get('price')
+
+    query = Vehicle.query
+
+    if make and make != 'any':
+        query = query.filter_by(make=make)
+    if model and model != 'any':
+        query = query.filter_by(model=model)
+    if price and price != 'any':
+        query = query.filter(Vehicle.price <= int(price))
+
+    vehicles = query.all()
+
     return render_template('search_results.html', vehicles=vehicles, form=form)
 
 @main.route('/add_listing', methods=['GET', 'POST'])
@@ -175,11 +191,15 @@ def add_listing():
         return redirect(url_for('main.index'))
     return render_template('add_listing.html', form=form)
 
+@main.route('/get_brands')
+def get_brands():
+    brands = Brand.query.all()  # Adjust this line based on how you fetch brands
+    return jsonify([{'id': brand.id, 'name': brand.name} for brand in brands])
+
 @main.route('/get_models/<int:brand_id>')
 def get_models(brand_id):
-    models = Model.query.filter_by(brand_id=brand_id).all()
-    models_list = [{'id': model.id, 'name': model.name} for model in models]
-    return jsonify(models_list)
+    models = Model.query.filter_by(brand_id=brand_id).all()  # Adjust this line based on your model fetching logic
+    return jsonify([{'id': model.id, 'name': model.name} for model in models])
 
 @main.route('/profile')
 @login_required
