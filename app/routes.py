@@ -124,8 +124,22 @@ def send_message():
 
 @main.route('/search_results')
 def search_results():
-    vehicles = Vehicle.query.all()  # Replace with actual search query results
-    form = MessageForm()  # Instantiate the MessageForm
+    form = SearchForm()
+    make = request.args.get('make')
+    model = request.args.get('model')
+    price = request.args.get('price')
+
+    query = Vehicle.query
+
+    if make and make != 'any':
+        query = query.filter_by(make=make)
+    if model and model != 'any':
+        query = query.filter_by(model=model)
+    if price and price != 'any':
+        query = query.filter(Vehicle.price <= int(price))
+
+    vehicles = query.all()
+
     return render_template('search_results.html', vehicles=vehicles, form=form)
 
 @main.route('/add_listing', methods=['GET', 'POST'])

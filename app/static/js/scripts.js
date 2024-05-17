@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', function() {
             populateModelDropdown(this.value, 'model-add');
         });
     }
+
+    document.getElementById('make').addEventListener('change', function() {
+        const brandId = this.value;
+        populateModelDropdown(brandId, 'model');
+    });
 });
 
 function populateMakeDropdown(selectElement, defaultMessage) {
@@ -36,7 +41,7 @@ function populateModelDropdown(brandId, modelSelectId) {
     fetch(`/get_models/${brandId}`)
         .then(response => response.json())
         .then(data => {
-            modelSelect.innerHTML = '<option value="any">Any Model</option>'; // Clear existing options and add default
+            modelSelect.innerHTML = '<option value="any">All Models</option>'; // Clear existing options and add default
             data.forEach(model => {
                 const option = document.createElement('option');
                 option.value = model.id;
@@ -46,7 +51,7 @@ function populateModelDropdown(brandId, modelSelectId) {
         });
 }
 
-    
+
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');
     if (evSlider) {
