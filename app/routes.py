@@ -171,15 +171,13 @@ def add_listing():
 
 @main.route('/get_brands')
 def get_brands():
-    brands = Brand.query.all()
-    brands_list = [{'id': brand.id, 'name': brand.name} for brand in brands]
-    return jsonify(brands_list)
+    brands = Brand.query.all()  # Adjust this line based on how you fetch brands
+    return jsonify([{'id': brand.id, 'name': brand.name} for brand in brands])
 
 @main.route('/get_models/<int:brand_id>')
 def get_models(brand_id):
-    models = Model.query.filter_by(brand_id=brand_id).all()
-    models_list = [{'id': model.id, 'name': model.name} for model in models]
-    return jsonify(models_list)
+    models = Model.query.filter_by(brand_id=brand_id).all()  # Adjust this line based on your model fetching logic
+    return jsonify([{'id': model.id, 'name': model.name} for model in models])
 
 @main.route('/profile')
 @login_required

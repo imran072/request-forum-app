@@ -1,32 +1,51 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const makeSelectIndex = document.getElementById('make-index');
+    const makeSelectAdd = document.getElementById('make-add');
+
+    if (makeSelectIndex) {
+        populateMakeDropdown(makeSelectIndex, 'Any make');
+        makeSelectIndex.addEventListener('change', function() {
+            populateModelDropdown(this.value, 'model-index');
+        });
+    }
+
+    if (makeSelectAdd) {
+        populateMakeDropdown(makeSelectAdd, 'Select a brand');
+        makeSelectAdd.addEventListener('change', function() {
+            populateModelDropdown(this.value, 'model-add');
+        });
+    }
+});
+
+function populateMakeDropdown(selectElement, defaultMessage) {
     fetch('/get_brands')
         .then(response => response.json())
         .then(data => {
-            const makeSelect = document.getElementById('make');
+            selectElement.innerHTML = `<option value="any">${defaultMessage}</option>`; // Clear existing options and add default
             data.forEach(brand => {
                 const option = document.createElement('option');
                 option.value = brand.id;
                 option.textContent = brand.name;
-                makeSelect.appendChild(option);
+                selectElement.appendChild(option);
             });
         });
+}
 
-    document.getElementById('make').addEventListener('change', function() {
-        const brandId = this.value;
-        fetch(`/get_models/${brandId}`)
-            .then(response => response.json())
-            .then(data => {
-                const modelSelect = document.getElementById('model');
-                modelSelect.innerHTML = '<option value="any">Any Model</option>'; // Clear existing options
-                data.forEach(model => {
-                    const option = document.createElement('option');
-                    option.value = model.id;
-                    option.textContent = model.name;
-                    modelSelect.appendChild(option);
-                });
+function populateModelDropdown(brandId, modelSelectId) {
+    const modelSelect = document.getElementById(modelSelectId);
+    fetch(`/get_models/${brandId}`)
+        .then(response => response.json())
+        .then(data => {
+            modelSelect.innerHTML = '<option value="any">Any Model</option>'; // Clear existing options and add default
+            data.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
             });
-    });
-});
+        });
+}
+
     
     // EV ads slider
     const evSlider = document.querySelector('.ev-ads-slider .slide');

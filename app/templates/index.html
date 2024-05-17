@@ -1,4 +1,3 @@
-<!-- index.html -->
 {% extends "default.html" %}
 
 {% block title %}Home Page{% endblock %}
@@ -13,45 +12,26 @@
     {% endif %}
 {% endwith %}
 
-<section class="search"
-    style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
-    <form>
+<section class="search" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <form method="get" action="{{ url_for('main.search_results') }}">
         <div class="form-row">
             <select name="make" id="make">
-                <option value="any" selected>All Brands</option>
+                <option value="any" {% if request.args.get('make') == 'any' %}selected{% endif %}>All Brands</option>
+                {% for brand in brands %}
+                    <option value="{{ brand.id }}" {% if request.args.get('make') == brand.id %}selected{% endif %}>{{ brand.name }}</option>
+                {% endfor %}
             </select>
             <select name="model" id="model">
-                <option value="any">Any Model</option>
+                <option value="any" {% if request.args.get('model') == 'any' %}selected{% endif %}>All Models</option>
+                {% for model in models %}
+                    <option value="{{ model.id }}" {% if request.args.get('model') == model.id %}selected{% endif %}>{{ model.name }}</option>
+                {% endfor %}
             </select>
-
             <select name="price" id="price">
-                <option value="maxcdn">Max Price</option>
-                <option value="$1000">$1000</option>
-                <option value="$2000">$2000</option>
-                <option value="$3000">$3000</option>
-                <option value="$4000">$4000</option>
-                <option value="$5000">$5000</option>
-                <option value="$6000">$6000</option>
-                <option value="$7000">$7000</option>
-                <option value="$8000">$8000</option>
-                <option value="$9000">$9000</option>
-                <option value="$10000">$10000</option>
-                <option value="$11000">$11000</option>
-                <option value="$12000">$12000</option>
-                <option value="$13000">$13000</option>
-                <option value="$14000">$14000</option>
-                <option value="$15000">$15000</option>
-                <option value="$16000">$16000</option>
-                <option value="$17000">$17000</option>
-                <option value="$18000">$18000</option>
-                <option value="$19000">$19000</option>
-                <option value="$20000">$20000</option>
-                <option value="$25000">$25000</option>
-                <option value="$30000">$30000</option>
-                <option value="$35000">$35000</option>
-                <option value="$40000">$40000</option>
-                <option value="$45000">$45000</option>
-                <option value="$50000">$50000</option>
+                <option value="any" {% if request.args.get('price') == 'any' %}selected{% endif %}>Max Price</option>
+                {% for price in prices %}
+                    <option value="{{ price }}" {% if request.args.get('price') == price %}selected{% endif %}>${{ price }}</option>
+                {% endfor %}
             </select>
         </div>
         <div class="form-row">
@@ -59,6 +39,8 @@
         </div>
     </form>
 </section>
+
+
 
 <!-- ev ads -->
 <section class="ev-ads-slider">
@@ -100,6 +82,4 @@
         <img src="../static/img/brand_logos/BMW.png" alt="BMW">
     </div>
 </div>
-</body>
-</html>
 {% endblock %}
