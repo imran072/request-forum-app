@@ -15,6 +15,9 @@
                 </li>
                 {% if user.is_authenticated %}
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
+                </li>
+                <li class="nav-item">
                     <!-- Secure Logout Form -->
                     <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;">
                         <button type="submit" class="nav-link">Logout</button>
