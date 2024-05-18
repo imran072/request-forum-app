@@ -53,13 +53,17 @@ def create_app():
     app.register_blueprint(main_blueprint, url_prefix='/')
 
     # Import models here to avoid circular import issues
-    from app.models import User, Vehicle
+    from .models import Note, User, Offer, Vehicle, Brand, Model, Message
 
     # Initialize Flask-Admin
     from app.admin import MyAdminIndexView, MyModelView  # Import the custom admin views
     admin = Admin(app, name='EV Marketplace Admin', template_mode='bootstrap3', index_view=MyAdminIndexView())
     admin.add_view(MyModelView(User, db.session))
+    admin.add_view(MyModelView(Offer, db.session))
     admin.add_view(MyModelView(Vehicle, db.session))
+    admin.add_view(MyModelView(Brand, db.session))
+    admin.add_view(MyModelView(Model, db.session))
+    admin.add_view(MyModelView(Message, db.session))
 
     return app
 
