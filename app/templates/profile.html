@@ -1,7 +1,7 @@
 {% extends 'default.html' %}
 
 {% block content %}
-<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+<section style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
     <div class="container my-5 flex-grow-1">
         <div class="form-container-profile bg-white p-4 rounded">
             {% with messages = get_flashed_messages(with_categories=true) %}

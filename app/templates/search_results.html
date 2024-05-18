@@ -1,44 +1,50 @@
 {% extends 'default.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Search Results</h2>
-    {% if vehicles %}
-    <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
-    <div class="row">
-        {% for vehicle in vehicles %}
-        <div class="col-md-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ vehicle.image_url }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ vehicle.brand.name }} {{ vehicle.model_rel.name }}</h5>
-                    <p class="card-text"><strong>Price:</strong> ${{ vehicle.price }}</p>
-                    <p class="card-text"><strong>Year:</strong> {{ vehicle.year }}</p>
-                    <p class="card-text"><strong>Mileage:</strong> {{ vehicle.mileage }} km</p>
-                    <p class="card-text"><strong>Battery Capacity:</strong> {{ vehicle.battery_capacity }} kWh</p>
-                    <p class="card-text"><strong>Color:</strong> {{ vehicle.color }}</p>
-                    <p class="card-text"><strong>Doors:</strong> {{ vehicle.doors }}</p>
-                    <p class="card-text"><strong>Car Type:</strong> {{ vehicle.car_type }}</p>
-                    <p class="card-text"><strong>Top Speed:</strong> {{ vehicle.top_speed }} km/h</p>
-                    <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
-                </div>
-                <div class="card-footer">
-                    <small class="text-muted">Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</small>
-<!-- Message Seller Button -->
-<button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-details="{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} ({{ vehicle.year }}) for ${{ vehicle.price }}">Message Seller</button>
-
-<!-- Make an Offer Button -->
-<button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#offerModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-id="{{ vehicle.id }}">Make an Offer</button>
-
-                </div>
-            </div>
+<section style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <div class="container my-5 flex-grow-1">
+        <div class="form-container-profile bg-white p-4 rounded">
+            <h2>Search Results</h2>
+            {% if vehicles %}
+            <p>{{ vehicles|length }} EV{{ 's' if vehicles|length > 1 else '' }} found</p>
+            <main class="profile-page">
+                <section class="listings">
+                    <div class="container mt-5">
+                        <div class="row">
+                            {% for vehicle in vehicles %}
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100 ad bg-light p-3 rounded">
+                                    <img src="{{ vehicle.image_url }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}" style="height: 200px; object-fit: cover; object-position: center;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ vehicle.brand.name }} {{ vehicle.model_rel.name }}</h5>
+                                        <p class="card-text"><strong>Price:</strong> ${{ vehicle.price }}</p>
+                                        <p class="card-text"><strong>Year:</strong> {{ vehicle.year }}</p>
+                                        <p class="card-text"><strong>Mileage:</strong> {{ vehicle.mileage }} km</p>
+                                        <p class="card-text"><strong>Battery Capacity:</strong> {{ vehicle.battery_capacity }} kWh</p>
+                                        <p class="card-text"><strong>Color:</strong> {{ vehicle.color }}</p>
+                                        <p class="card-text"><strong>Doors:</strong> {{ vehicle.doors }}</p>
+                                        <p class="card-text"><strong>Car Type:</strong> {{ vehicle.car_type }}</p>
+                                        <p class="card-text"><strong>Top Speed:</strong> {{ vehicle.top_speed }} km/h</p>
+                                        <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
+                                        <p class="card-text"><strong>Seller:</strong> {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</p>
+                                    </div>
+                                    <div class="card-footer bg-white d-flex justify-content-between">
+                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-details="{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} ({{ vehicle.year }}) for ${{ vehicle.price }}">Message Seller</button>
+                                        <button class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#offerModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-id="{{ vehicle.id }}">Make an Offer</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </main>
+            {% else %}
+            <p>No results found.</p>
+            {% endif %}
         </div>
-        {% endfor %}
     </div>
-    {% else %}
-    <p>No results found.</p>
-    {% endif %}
-</div>
+</section>
 
 <!-- Message Seller Modal -->
 <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -95,7 +101,7 @@
 
 {% block scripts %}
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Event listener for the message modal
     if (window.jQuery) {
         $('#messageModal').on('show.bs.modal', function(event) {
@@ -127,6 +133,5 @@
         console.error('jQuery is not loaded');
     }
 });
-
 </script>
 {% endblock %}
