@@ -1,11 +1,12 @@
-from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session, jsonify
+from flask import Blueprint, render_template, request, url_for, flash, redirect, current_app, session, jsonify, abort
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
 import uuid
 
-from .models import Vehicle, Brand, Model, User, Message
-from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
+
+from .models import Vehicle, Brand, Model, User, Message, Offer
+from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm, OfferForm
 from . import db
 
 main = Blueprint('main', __name__)
@@ -138,6 +139,61 @@ def search_messages():
         sent_messages = Message.query.filter_by(sender_id=current_user.id).all()
 
     return render_template('messages.html', received_messages=received_messages, sent_messages=sent_messages, reply_form=reply_form)
+
+@main.route('/make_offer', methods=['POST'])
+@login_required
+def make_offer():
+    form = OfferForm()
+    if form.validate_on_submit():
+        print("Form validated successfully")  # Debugging print
+        recipient = User.query.filter_by(username=form.recipient.data).first()
+        vehicle_id = form.vehicle_id.data
+        vehicle = Vehicle.query.filter_by(id=vehicle_id).first()
+        if recipient and vehicle:
+            offer = Offer(amount=form.amount.data, vehicle_id=vehicle.id, sender_id=current_user.id, recipient_id=recipient.id)
+            db.session.add(offer)
+            db.session.commit()
+            flash('Your offer has been sent!', 'success')
+            print("Offer added to the database")  # Debugging print
+        else:
+            flash('Error in sending offer.', 'danger')
+            print("Recipient or vehicle not found")  # Debugging print
+    else:
+        print("Form validation failed")  # Debugging print
+        for field, errors in form.errors.items():
+            for error in errors:
+                print(f"Error in {field}: {error}")  # Debugging print
+
+    return redirect(url_for('main.search_results'))
+
+@main.route('/offers')
+@login_required
+def offers():
+    received_offers = Offer.query.filter_by(recipient_id=current_user.id).all()
+    sent_offers = Offer.query.filter_by(sender_id=current_user.id).all()
+    return render_template('offers.html', received_offers=received_offers, sent_offers=sent_offers)
+
+@main.route('/accept_offer/<int:offer_id>', methods=['POST'])
+@login_required
+def accept_offer(offer_id):
+    offer = Offer.query.get_or_404(offer_id)
+    if offer.recipient_id != current_user.id:
+        abort(403)
+    offer.status = 'Accepted'
+    db.session.commit()
+    #flash('Offer accepted.', 'success')
+    return redirect(url_for('main.offers'))
+
+@main.route('/reject_offer/<int:offer_id>', methods=['POST'])
+@login_required
+def reject_offer(offer_id):
+    offer = Offer.query.get_or_404(offer_id)
+    if offer.recipient_id != current_user.id:
+        abort(403)
+    offer.status = 'Rejected'
+    db.session.commit()
+    #flash('Offer rejected.', 'success')
+    return redirect(url_for('main.offers'))
 
 
 @main.route('/search_results')

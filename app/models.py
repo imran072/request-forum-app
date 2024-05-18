@@ -25,12 +25,27 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, default=False)
     sent_messages = db.relationship('Message', foreign_keys='Message.sender_id', backref='author', lazy='dynamic')
     received_messages = db.relationship('Message', foreign_keys='Message.recipient_id', backref='recipient', lazy='dynamic')
+    offers_sent = db.relationship('Offer', foreign_keys='Offer.sender_id', backref='sender', lazy=True)
+    offers_received = db.relationship('Offer', foreign_keys='Offer.recipient_id', backref='recipient', lazy=True)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+class Offer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    amount = db.Column(db.Numeric(10, 2), nullable=False)
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(10), default='Pending')  # 'Pending', 'Accepted', 'Rejected'
+    vehicle = db.relationship('Vehicle', backref='offers')
+
+    def __repr__(self):
+        return f'<Offer {self.amount} from {self.sender_id} to {self.recipient_id}>'
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)

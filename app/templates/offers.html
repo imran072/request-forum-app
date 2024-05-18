@@ -1,0 +1,33 @@
+{% extends "default.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Your Offers</h2>
+    <h3>Received Offers</h3>
+    <ul>
+        {% for offer in received_offers %}
+        <li>
+            <strong>{{ offer.sender.username }}</strong> offered ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }})
+            <form method="POST" action="{{ url_for('main.accept_offer', offer_id=offer.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-success btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Accept</button>
+            </form>
+            <form method="POST" action="{{ url_for('main.reject_offer', offer_id=offer.id) }}" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Reject</button>
+            </form>
+            {% if offer.status != 'Pending' %}
+            <span class="badge bg-secondary">{{ offer.status }}</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Sent Offers</h3>
+    <ul>
+        {% for offer in sent_offers %}
+        <li>
+            <strong>{{ offer.recipient.username }}</strong> - ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }}) - {{ offer.status }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

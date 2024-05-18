@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, TextAreaField, IntegerField, SubmitField, FloatField, SelectField, validators, PasswordField, Form, FileField
+from wtforms import DecimalField, StringField, HiddenField, TextAreaField, IntegerField, SubmitField, FloatField, SelectField, validators, PasswordField, Form, FileField
 from wtforms.validators import DataRequired, Optional, InputRequired, Length, EqualTo, ValidationError, Email, NumberRange
 from .models import User
 from flask_wtf.file import FileRequired, FileAllowed
@@ -8,6 +8,13 @@ class ReplyForm(FlaskForm):
     recipient = StringField('Recipient', validators=[DataRequired()])
     body = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Send')
+
+class OfferForm(FlaskForm):
+    recipient = HiddenField('Recipient', validators=[DataRequired()])
+    vehicle_id = HiddenField('Vehicle ID', validators=[DataRequired()])
+    amount = DecimalField('Offer Amount', validators=[DataRequired()])
+    submit = SubmitField('Send Offer')
+
 
 class MessageForm(FlaskForm):
     recipient = StringField('Recipient', validators=[DataRequired()])
