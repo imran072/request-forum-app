@@ -53,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(shiftLogo, 5000); 
 
     // Modal script for Message Seller button in index.html
-document.addEventListener('DOMContentLoaded', function() {
     const messageModal = document.getElementById('messageModal');
     if (messageModal) {
         messageModal.addEventListener('show.bs.modal', function(event) {
