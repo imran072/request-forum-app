@@ -22,10 +22,10 @@
                     <p class="card-text"><strong>Top Speed:</strong> {{ vehicle.top_speed }} km/h</p>
                     <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
                 </div>
-                <div class="card-footer">
-                    <small class="text-muted">Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</small>
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}">Message Seller</button>
-                </div>
+<div class="card-footer">
+    <small class="text-muted">Seller: {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</small>
+    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-details="{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} ({{ vehicle.year }}) for ${{ vehicle.price }}">Message Seller</button>
+</div>
             </div>
         </div>
         {% endfor %}
@@ -47,6 +47,7 @@
                 <form method="POST" action="{{ url_for('main.send_message') }}">
                     {{ form.hidden_tag() }}
                     <input type="hidden" name="recipient" id="recipientUsername">
+                    <input type="hidden" name="vehicle_details" id="vehicleDetails">
                     <div class="form-group">
                         <label for="body">Message</label>
                         <textarea name="body" class="form-control" id="body" required></textarea>
@@ -66,13 +67,16 @@
     document.addEventListener('DOMContentLoaded', function() {
         if (window.jQuery) {
             $('#messageModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget); // Button that triggered the modal
-                var recipientUsername = button.data('recipient'); // Extract info from data-* attributes
+                var button = $(event.relatedTarget);
+                var recipientUsername = button.data('recipient');
                 var recipientName = button.data('recipient-name');
+                var vehicleDetails = button.data('vehicle-details');
 
                 var modal = $(this);
                 modal.find('#recipientUsername').val(recipientUsername);
                 modal.find('#recipientName').text(recipientName);
+                modal.find('#vehicleDetails').val(vehicleDetails);
+                modal.find('#body').val('I am interested in your listing: ' + vehicleDetails + '\n\n');
             });
         } else {
             console.error('jQuery is not loaded');
