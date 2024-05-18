@@ -1,41 +1,55 @@
 {% extends 'default.html' %}
 
 {% block content %}
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-<main class="profile-page" style="padding: 20px; min-height: 80vh;">
-    <section class="user-info">
-        <h1>Welcome, {{ user.username }}!</h1>
-    </section>
-
-    <section class="listings">
-        <h2>Your Listings:</h2>
-        {% for vehicle in listings %}
-        <div class="col-md-6 col-lg-4 mb-4">
-            <div class="card h-100">
-                <img src="{{ vehicle.image_url }}" alt="Vehicle Image" class="card-img-top" alt="Vehicle Image" style="height: 200px; object-fit: cover;">
-                <div class="card-body">
-                    <h3>{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - {{ vehicle.year }}</h3>
-                    <p>Battery Capacity: {{ vehicle.battery_capacity }}</p>
-                    <p>Mileage: {{ vehicle.mileage }}</p>
-                    <p>Price: ${{ vehicle.price }}</p>
-                </div>
-                <div class="card-footer bg-white">
-                    <div class="btn-group w-100">
-                        <a href="{{ url_for('main.edit_listing', id=vehicle.id) }}" class="btn btn-primary">Edit</a>
-                        <button type="button" class="btn btn-danger" onclick="confirmDelete('{{ vehicle.id }}')">Delete</button>
-                    </div>
-                </div>
+<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <div class="container my-5 flex-grow-1">
+        <div class="form-container-profile bg-white p-4 rounded">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div class="mb-4">
+                <h2 class="text-start">Welcome, {{ user.username }}!</h2>
+                <p class="text-start">Your Listings:</p>
             </div>
+
+            <main class="profile-page">
+                <section class="listings">
+                    {% if listings %}
+                    <div class="container mt-5">
+                        <div class="row">
+                            {% for vehicle in listings %}
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100 ad bg-light p-3 rounded">
+                                    <img src="{{ vehicle.image_url }}" class="card-img-top" alt="{{ vehicle.model_rel.name }}" style="height: 200px; object-fit: cover; object-position: center;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} - {{ vehicle.year }}</h5>
+                                        <p class="card-text"><strong>Battery Capacity:</strong> {{ vehicle.battery_capacity }}</p>
+                                        <p class="card-text"><strong>Mileage:</strong> {{ vehicle.mileage }}</p>
+                                        <p class="card-text"><strong>Price:</strong> ${{ vehicle.price }}</p>
+                                    </div>
+                                    <div class="card-footer bg-white">
+                                        <div class="btn-group w-100">
+                                            <a href="{{ url_for('main.edit_listing', id=vehicle.id) }}" class="btn btn-primary">Edit</a>
+                                            <form method="POST" action="{{ url_for('main.delete_listing', id=vehicle.id) }}" style="display:inline;">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this listing?');">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% else %}
+                    <p>No listings found.</p>
+                    {% endif %}
+                </section>
+            </main>
         </div>
-        {% else %}
-        <p>No listings found.</p>
-        {% endfor %}
-    </section>
-</main>
+    </div>
+</section>
 {% endblock %}
