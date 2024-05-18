@@ -26,7 +26,7 @@
                                         <p class="card-text"><strong>Car Type:</strong> {{ vehicle.car_type }}</p>
                                         <p class="card-text"><strong>Top Speed:</strong> {{ vehicle.top_speed }} km/h</p>
                                         <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
-                                        <p class="card-text"><strong>Acceleration:</strong> 0-100 km/h in {{ vehicle.acceleration }} seconds</p>
+                                        <p class="card-text"><strong>Seller:</strong>  {{ vehicle.seller.username }} - {{ vehicle.seller.email }}</p>
                                     </div>
                                     <div class="card-footer bg-white d-flex justify-content-between">
                                         <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#messageModal" data-recipient="{{ vehicle.seller.username }}" data-recipient-name="{{ vehicle.seller.username }}" data-vehicle-details="{{ vehicle.brand.name }} {{ vehicle.model_rel.name }} ({{ vehicle.year }}) for ${{ vehicle.price }}">Message Seller</button>

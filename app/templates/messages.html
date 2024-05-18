@@ -1,41 +1,59 @@
 {% extends "default.html" %}
 
 {% block content %}
-<h2>Messages</h2>
+<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <div class="container my-5 flex-grow-1">
+        <div class="form-container-profile bg-white p-4 rounded">
+            <h2>Messages</h2>
 
-<form method="GET" action="{{ url_for('main.search_messages') }}">
-    <div class="form-group">
-        <input type="text" name="query" class="form-control" placeholder="Search messages">
+            <form method="GET" action="{{ url_for('main.search_messages') }}" class="mb-4">
+                <div class="input-group">
+                    <input type="text" name="query" class="form-control" placeholder="Search messages">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="alert alert-{{ messages[0][0] }} alert-dismissible fade show" role="alert">
+                {{ messages[0][1] }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Sent Messages</h3>
+                    <div class="list-group">
+                        {% for message in sent_messages %}
+                        <div class="list-group-item">
+                            <h5 class="mb-1"><strong>To:</strong> {{ message.recipient.username }}</h5>
+                            <p class="mb-1">{{ message.body }}</p>
+                            <small class="text-muted">{{ message.timestamp }}</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h3>Received Messages</h3>
+                    <div class="list-group">
+                        {% for message in received_messages %}
+                        <div class="list-group-item">
+                            <h5 class="mb-1"><strong>From:</strong> {{ message.author.username }}</h5>
+                            <p class="mb-1">{{ message.body }}</p>
+                            <small class="text-muted">{{ message.timestamp }}</small>
+                            <button class="btn btn-secondary btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#replyModal" data-recipient="{{ message.author.username }}">
+                                <i class="fa fa-reply"></i> Reply
+                            </button>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Search</button>
-    </div>
-</form>
-
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    <div class="alert alert-{{ messages[0][0] }}" role="alert">
-      {{ messages[0][1] }}
-    </div>
-  {% endif %}
-{% endwith %}
-
-<h3>Sent Messages</h3>
-<ul>
-    {% for message in sent_messages %}
-    <li><strong>To:</strong> {{ message.recipient.username }} - {{ message.body }} <small>({{ message.timestamp }})</small></li>
-    {% endfor %}
-</ul>
-
-<h3>Received Messages</h3>
-<ul>
-    {% for message in received_messages %}
-    <li>
-        <strong>From:</strong> {{ message.author.username }} - {{ message.body }} <small>({{ message.timestamp }})</small>
-        <button class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#replyModal" data-recipient="{{ message.author.username }}">Reply</button>
-    </li>
-    {% endfor %}
-</ul>
+</section>
 
 <!-- Reply Modal -->
 <div class="modal fade" id="replyModal" tabindex="-1" aria-labelledby="replyModalLabel" aria-hidden="true">
@@ -49,11 +67,12 @@
                 <form method="POST" action="{{ url_for('main.reply_message') }}">
                     {{ reply_form.hidden_tag() }}
                     <input type="hidden" name="recipient" id="replyRecipientUsername">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="body">Message</label>
                         <textarea name="body" class="form-control" id="replyBody" required></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Send</button>
                     </div>
                 </form>
