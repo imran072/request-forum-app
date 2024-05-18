@@ -770,3 +770,131 @@ a.form-check-label{
     width: auto;
     vertical-align: middle; 
 } */
+
+
+/*forget password styles*/
+.forget-body {
+    background-color: #f7f9fc;
+    font-family: 'Arial', sans-serif;
+}
+
+.forget-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: #f7f9fc;
+}
+
+.forget-row {
+    display: flex;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 100%;
+}
+
+.forget-form-col, .forget-img-col {
+    padding: 30px;
+    flex: 1;
+}
+
+.forget-form-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+    max-width: 400px;
+}
+
+.forget-brand {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.forget-header {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.forget-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.forget-form-group {
+    margin-bottom: 15px;
+}
+
+.forget-form-label {
+    font-weight: normal;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.forget-form-control {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.forget-alert-danger {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.forget-btn {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-top: 10px;
+}
+
+.forget-btn-primary {
+    background-color: #000;
+    color: #fff;
+    border: none;
+}
+
+.forget-btn-outline-secondary {
+    background-color: #fff;
+    color: #000;
+    border: 1px solid #000;
+}
+
+.forget-btn-block {
+    width: 100%;
+}
+
+.forget-text-center {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.forget-img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (max-width: 767.98px) {
+    .forget-container {
+        padding: 10px;
+    }
+
+    .forget-row {
+        flex-direction: column-reverse;
+    }
+
+    .forget-form-col, .forget-img-col {
+        padding: 20px;
+    }
+}
