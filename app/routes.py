@@ -2,10 +2,7 @@ from flask import Blueprint, render_template, request, url_for, flash, redirect,
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.utils import secure_filename
 import os
-<<<<<<< HEAD
-=======
 import uuid
->>>>>>> main-copy
 
 from .models import Vehicle, Brand, Model, User, Message
 from .forms import SearchForm, AddListingForm, MessageForm, ReplyForm
@@ -16,15 +13,10 @@ main = Blueprint('main', __name__)
 @main.route('/')
 def index():
     brands = Brand.query.all()
-<<<<<<< HEAD
-    vehicles = Vehicle.query.limit(10).all()  # Fetch the latest 10 vehicles for the ads
-    return render_template('index.html', brands=brands, vehicles=vehicles)
-=======
     vehicles = Vehicle.query.order_by(Vehicle.timestamp.desc()).limit(10).all()  # Fetch the latest 10 vehicles sorted by timestamp
     prices = [price.price for price in Vehicle.query.all()]
     form = MessageForm()
     return render_template('index.html', brands=brands, vehicles=vehicles, prices=prices, form=form)
->>>>>>> main-copy
 
 @main.route('/search', methods=['GET', 'POST'])
 def search_vehicles():
@@ -135,10 +127,6 @@ def send_message():
 
 @main.route('/search_results')
 def search_results():
-<<<<<<< HEAD
-    vehicles = Vehicle.query.all()  # Replace with actual search query results
-    form = MessageForm()  # Instantiate the MessageForm
-=======
     form = SearchForm()
     make = request.args.get('make')
     model = request.args.get('model')
@@ -155,7 +143,6 @@ def search_results():
 
     vehicles = query.all()
 
->>>>>>> main-copy
     return render_template('search_results.html', vehicles=vehicles, form=form)
 
 @main.route('/add_listing', methods=['GET', 'POST'])
