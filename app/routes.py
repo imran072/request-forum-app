@@ -174,12 +174,6 @@ def add_listing():
         form.model.choices = [(0, 'Select a model')]
 
     if form.validate_on_submit():
-<<<<<<< HEAD
-        image_file = form.image.data
-        filename = secure_filename(image_file.filename)
-        image_path = os.path.join(current_app.root_path, 'static/img', filename)
-        image_file.save(image_path)
-=======
         # Process the image file
         image_file = form.image.data
         if image_file:
@@ -189,7 +183,6 @@ def add_listing():
             image_file.save(image_path)
 
         # Create a new listing and save to the database
->>>>>>> main-copy
         new_vehicle = Vehicle(
             make=form.make.data,
             model=form.model.data,
@@ -202,11 +195,7 @@ def add_listing():
             car_type=form.car_type.data,
             top_speed=form.top_speed.data,
             acceleration=form.acceleration.data,
-<<<<<<< HEAD
-            image_url=url_for('static', filename='img/' + filename),
-=======
             image_url=url_for('static', filename='img/' + unique_filename),
->>>>>>> main-copy
             seller_id=session['user_id']
         )
         db.session.add(new_vehicle)
@@ -215,13 +204,6 @@ def add_listing():
         return redirect(url_for('main.index'))
     return render_template('add_listing.html', form=form)
 
-<<<<<<< HEAD
-@main.route('/get_models/<int:brand_id>')
-def get_models(brand_id):
-    models = Model.query.filter_by(brand_id=brand_id).all()
-    models_list = [{'id': model.id, 'name': model.name} for model in models]
-    return jsonify(models_list)
-=======
 @main.route('/get_brands')
 def get_brands():
     brands = Brand.query.all()  # Adjust this line based on how you fetch brands
@@ -231,7 +213,6 @@ def get_brands():
 def get_models(brand_id):
     models = Model.query.filter_by(brand_id=brand_id).all()  # Adjust this line based on your model fetching logic
     return jsonify([{'id': model.id, 'name': model.name} for model in models])
->>>>>>> main-copy
 
 @main.route('/profile')
 @login_required
@@ -287,8 +268,4 @@ def delete_listing(id):
 
 @main.route('/contactus')
 def contactus():
-<<<<<<< HEAD
     return render_template('contactus.html')
-=======
-    return render_template('contactus.html')
->>>>>>> main-copy
