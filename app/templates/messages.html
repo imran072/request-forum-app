@@ -3,6 +3,15 @@
 {% block content %}
 <h2>Messages</h2>
 
+<form method="GET" action="{{ url_for('main.search_messages') }}">
+    <div class="form-group">
+        <input type="text" name="query" class="form-control" placeholder="Search messages">
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
     <div class="alert alert-{{ messages[0][0] }}" role="alert">
@@ -10,21 +19,6 @@
     </div>
   {% endif %}
 {% endwith %}
-
-<form method="POST" action="{{ url_for('main.messages') }}">
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        {{ form.recipient.label }}<br>
-        {{ form.recipient(class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ form.body.label }}<br>
-        {{ form.body(class="form-control") }}
-    </div>
-    <div class="form-group">
-        {{ form.submit(class="btn btn-primary") }}
-    </div>
-</form>
 
 <h3>Sent Messages</h3>
 <ul>
@@ -73,9 +67,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         $('#replyModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var recipientUsername = button.data('recipient'); // Extract info from data-* attributes
-
+            var button = $(event.relatedTarget);
+            var recipientUsername = button.data('recipient');
             var modal = $(this);
             modal.find('#replyRecipientUsername').val(recipientUsername);
             modal.find('#replyRecipientName').text(recipientUsername);

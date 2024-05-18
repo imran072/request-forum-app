@@ -124,6 +124,21 @@ def send_message():
         flash('Failed to send message. Please check the form.', 'danger')
     return redirect(url_for('main.messages'))
 
+@main.route('/search_messages', methods=['GET'])
+@login_required
+def search_messages():
+    query = request.args.get('query', '')
+    reply_form = ReplyForm()
+
+    if query:
+        received_messages = Message.query.filter(Message.recipient_id == current_user.id, Message.body.ilike(f'%{query}%')).all()
+        sent_messages = Message.query.filter(Message.sender_id == current_user.id, Message.body.ilike(f'%{query}%')).all()
+    else:
+        received_messages = Message.query.filter_by(recipient_id=current_user.id).all()
+        sent_messages = Message.query.filter_by(sender_id=current_user.id).all()
+
+    return render_template('messages.html', received_messages=received_messages, sent_messages=sent_messages, reply_form=reply_form)
+
 
 @main.route('/search_results')
 def search_results():
