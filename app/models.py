@@ -37,15 +37,16 @@ class User(UserMixin, db.Model):
 class Offer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Numeric(10, 2), nullable=False)
-    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id'), nullable=False)
-    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    vehicle_id = db.Column(db.Integer, db.ForeignKey('vehicle.id', name='fk_offer_vehicle_id', ondelete='CASCADE'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id', name='fk_offer_sender_id'), nullable=False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('user.id', name='fk_offer_recipient_id'), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     status = db.Column(db.String(10), default='Pending')  # 'Pending', 'Accepted', 'Rejected'
     vehicle = db.relationship('Vehicle', backref='offers')
 
     def __repr__(self):
         return f'<Offer {self.amount} from {self.sender_id} to {self.recipient_id}>'
+
 
 class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)

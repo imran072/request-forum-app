@@ -314,15 +314,23 @@ def edit_listing(id):
 
     return render_template('edit_listing.html', form=form, vehicle=vehicle)
 
+
 @main.route('/delete_listing/<int:id>', methods=['POST'])
 @login_required
 def delete_listing(id):
-    vehicle = Vehicle.query.get(id)
-    if vehicle:
-        db.session.delete(vehicle)
-        db.session.commit()
-        return jsonify(success=True)
-    return jsonify(success=False, message="Vehicle not found"), 404
+    vehicle = Vehicle.query.get_or_404(id)
+    if vehicle.seller_id != current_user.id:
+        abort(403)
+
+    # Delete related offers
+    offers = Offer.query.filter_by(vehicle_id=id).all()
+    for offer in offers:
+        db.session.delete(offer)
+
+    db.session.delete(vehicle)
+    db.session.commit()
+    flash('Your listing has been deleted.', 'success')
+    return redirect(url_for('main.profile'))
 
 @main.route('/contactus')
 def contactus():
