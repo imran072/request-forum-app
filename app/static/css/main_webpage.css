@@ -394,12 +394,12 @@ button:hover {
 .google-maps-placeholder {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .map-container {
-    width: 40%;
-    height: 450px;
+    width: 150px;
+    height: 150px;
     border: 1px solid #ddd;
     border-radius: 8px;
     overflow: hidden;
@@ -413,39 +413,88 @@ button:hover {
 
 /* footer */
 .site-footer {
-    background-color: #004e89;
-    color: #ffffff;
-    padding: 20px 50px; 
-    font-size: 16px; 
-    line-height: 1.6;
+    background-color: #26272b;
+    padding: 45px 0;
+    font-size: 15px;
+    line-height: 24px;
+    color: #737373;
 }
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.site-footer hr {
+    border-top-color: #bbb;
+    opacity: 0.5;
 }
-
-.footer-links {
-    list-style: none;
-    padding: 0; 
+.site-footer hr.small {
+    margin: 20px 0;
 }
-
-.footer-links li {
-    display: inline;
-    margin-left: 20px;
+.site-footer h6 {
+    color: #fff;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin-top: 5px;
+    letter-spacing: 2px;
 }
-
-.footer-links a {
-    color: #ffffff; 
+.site-footer a {
+    color: #737373;
+}
+.site-footer a:hover {
+    color: #3366cc;
     text-decoration: none;
 }
-
-.footer-links a:hover {
-    text-decoration: underline; 
+.footer-links {
+    padding-left: 0;
+    list-style: none;
+}
+.footer-links li {
+    display: block;
+}
+.footer-links a {
+    color: #737373;
+}
+.footer-links a:active, .footer-links a:focus, .footer-links a:hover {
+    color: #3366cc;
+    text-decoration: none;
+}
+.footer-links.inline li {
+    display: inline-block;
 }
 
+.subscribe-form {
+    display: flex;
+    align-items: center;
+}
+.subscribe-form input[type="email"] {
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+.subscribe-form button {
+    background-color: #3366cc;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+}
 
+.site-footer .map-container {
+    margin-right: 50px; /* Adjust the value as needed to move the map slightly to the left */
+}
+
+.site-footer .subscribe-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 0px; /* Adjust the spacing as needed */
+}
+
+.site-footer .subscribe-form input {
+    width: 100%;
+    margin-bottom: 10px; /* Spacing between input and button */
+}
+
+.site-footer .subscribe-form button {
+    align-self: flex-end;
+}
 
 /* Search.html filters */
 .vehicle-results {
