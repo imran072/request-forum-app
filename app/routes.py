@@ -275,10 +275,12 @@ def get_models(brand_id):
 @main.route('/profile')
 @login_required
 def profile():
-    user_id = current_user.id
-    user = User.query.get(user_id)
-    listings = Vehicle.query.filter_by(seller_id=user_id).all()
-    return render_template('profile.html', user=user, listings=listings)
+    page = request.args.get('page', 1, type=int)
+    per_page = 6
+    listings = Vehicle.query.filter_by(seller_id=current_user.id).all()
+    total = len(listings)
+    listings = listings[(page - 1) * per_page: page * per_page]
+    return render_template('profile.html', listings=listings, user=current_user, page=page, per_page=per_page, total=total)
 
 @main.route('/edit_listing/<int:id>', methods=['GET', 'POST'])
 @login_required

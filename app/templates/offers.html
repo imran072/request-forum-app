@@ -1,33 +1,49 @@
 {% extends "default.html" %}
 
 {% block content %}
-<div class="container mt-5">
-    <h2>Your Offers</h2>
-    <h3>Received Offers</h3>
-    <ul>
-        {% for offer in received_offers %}
-        <li>
-            <strong>{{ offer.sender.username }}</strong> offered ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }})
-            <form method="POST" action="{{ url_for('main.accept_offer', offer_id=offer.id) }}" style="display:inline;">
-                <button type="submit" class="btn btn-success btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Accept</button>
-            </form>
-            <form method="POST" action="{{ url_for('main.reject_offer', offer_id=offer.id) }}" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Reject</button>
-            </form>
-            {% if offer.status != 'Pending' %}
-            <span class="badge bg-secondary">{{ offer.status }}</span>
-            {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-
-    <h3>Sent Offers</h3>
-    <ul>
-        {% for offer in sent_offers %}
-        <li>
-            <strong>{{ offer.recipient.username }}</strong> - ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }}) - {{ offer.status }}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+<section class="vh-100" style="background-image: url('{{ url_for('static', filename='img/background.jpg') }}'); background-size: cover; background-position: center;">
+    <div class="container my-5 flex-grow-1">
+        <div class="form-container-profile bg-white p-4 rounded">
+            <h2>Your Offers</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <h3>Received Offers</h3>
+                    <div class="list-group">
+                        {% for offer in received_offers %}
+                        <div class="list-group-item">
+                            <h5 class="mb-1"><strong>{{ offer.sender.username }}</strong> offered ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }})</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <form method="POST" action="{{ url_for('main.accept_offer', offer_id=offer.id) }}" class="d-inline">
+                                        <button type="submit" class="btn btn-success btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Accept</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('main.reject_offer', offer_id=offer.id) }}" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm" {% if offer.status != 'Pending' %}disabled{% endif %}>Reject</button>
+                                    </form>
+                                </div>
+                                {% if offer.status != 'Pending' %}
+                                <span class="badge bg-secondary">{{ offer.status }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <h3>Sent Offers</h3>
+                    <div class="list-group">
+                        {% for offer in sent_offers %}
+                        <div class="list-group-item">
+                            <h5 class="mb-1"><strong>{{ offer.recipient.username }}</strong> - ${{ offer.amount }} for {{ offer.vehicle.brand.name }} {{ offer.vehicle.model_rel.name }} ({{ offer.vehicle.year }})</h5>
+                            <span class="badge bg-primary">{{ offer.status }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}

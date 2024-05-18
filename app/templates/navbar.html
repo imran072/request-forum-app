@@ -18,6 +18,12 @@
                     <a class="nav-link" href="{{ url_for('main.profile') }}">Profile</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.messages') }}">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.offers') }}">Offers</a>
+                </li>
+                <li class="nav-item">
                     <!-- Secure Logout Form -->
                     <form action="{{ url_for('auth.logout') }}" method="post" style="all: unset;">
                         <button type="submit" class="nav-link">Logout</button>
@@ -33,9 +39,6 @@
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('main.add_listing') }}">Sell My EV</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.contactus') }}">Contact Us</a>
                 </li>
             </ul>
         </div>
