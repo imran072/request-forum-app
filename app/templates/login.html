@@ -19,7 +19,7 @@ Login | EV Marketplace
                     
                     <!-- Email field -->
                     <div class="form-group mb-4">
-                      <i class="fa fa-user" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      <i class="fa fa-user" style="position: relative; left: 25px; top: 40%; transform: translateY(10%);"></i>
                       {{ form.email(class="form-control form-control-lg", id="emailInput", placeholder="Email address") }}
                       {% if form.email.errors %}
                           {% for error in form.email.errors %}
@@ -30,7 +30,7 @@ Login | EV Marketplace
                     
                     <!-- Password field -->
                     <div class="form-group mb-4">
-                      <i class="fa fa-lock" style="position: relative; left: 10px; top: 50%; transform: translateY(-50%);"></i>
+                      <i class="fa fa-lock" style="position: relative; left: 25px; top: 40%; transform: translateY(10%);"></i>
                       {{ form.password(class="form-control form-control-lg", id="passwordInput", placeholder="Password") }}
                       {% if form.password.errors %}
                           {% for error in form.password.errors %}

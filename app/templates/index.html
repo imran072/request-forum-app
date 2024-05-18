@@ -132,6 +132,13 @@
             <i class="bi bi-envelope" style="font-size: 3rem;"></i>
         </div>
     </a>
+    <a href="{{ url_for('main.offers') }}" class="function-link">
+        <div class="function-box">
+            <h3>Make an Offer</h3>
+            <p>Submit an offer for the vehicles you are interested in.</p>
+            <i class="bi bi-currency-exchange" style="font-size: 3rem;"></i>
+        </div>
+    </a>
     <a href="{{ url_for('auth.signup') }}" class="function-link">
         <div class="function-box">
             <h3>Create an Account</h3>
@@ -173,18 +180,5 @@
         <img src="../static/img/brand_logos/BMW.png" alt="BMW">
     </div>
 </div>
-
-<div class="divider"></div>
-
-<!-- Header for Google Maps -->
-<div class="section-header bg-primary text-white p-3 rounded">
-    <h2>Find Us Here</h2>
-</div>
-
-<section class="google-maps-placeholder">
-    <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384.3447172414562!2d115.81720306427914!3d-31.978669482495704!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32a4ee6e7380e9%3A0xf04f0b618f28290!2sThe%20University%20of%20Western%20Australia!5e0!3m2!1sen!2sau!4v1715940154628!5m2!1sen!2sau" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
-</section>
 
 {% endblock %}
