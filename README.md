@@ -4,8 +4,8 @@ This is a web application that serves as a request forum, allowing users to crea
 
 ## Features
 
-- Search function: Users can search for their ideal car with various filters provided.
-- Built-in message communication: Sellers and buyers can communicate with each other within the web application.
+- Search Function: Users can search for their ideal car with various filters provided.
+- Built-in Message Communication: Sellers and buyers can communicate with each other within the web application.
 - Make-an-offer: The buyer can offer a price to make the experience smooth and efficient.
 - User Authentication: Users can register, log in, and reset their passwords.
 - Listing Management: Users can create, edit, and delete vehicle listings.
