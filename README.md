@@ -153,3 +153,6 @@ For a full list of dependencies, refer to `requirements.txt`.
 | 23733728 | Zhanerken Azimbayev   | zhanerken       |
 | 23985879 | Scarlett Peng         | jialipeng8      |
 | 23827824 | Phoebus Lee           | pbuslee         |
+
+## Reference 
+AI Tools such as ChatGPT 4 and CodePilot were used in the development of this project
