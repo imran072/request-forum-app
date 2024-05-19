@@ -97,8 +97,8 @@ To run the tests for your Flask application, follow these steps:
     - Assumption: Chromedriver for Selenium is installed and is in $PATH
 
     ```bash
-    pytest test_app.py
-    pytest test_selenium.py
+    python3 -m unittest test_app.py 
+    python3 test_selenium.py
     ```
 
 By following these steps, you should be able to set up the environment, run the Flask application, and execute the tests successfully.
