@@ -30,7 +30,8 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
 1. Clone the repository:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/imran072/request-forum-app.git
+   cd request-forum-app
    ```
 
 2. Set up a virtual environment:
@@ -51,10 +52,10 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
    Create a `.env` file in the root directory and add necessary environment variables:
 
    ```ini
-   FLASK_APP=run.py
    FLASK_ENV=development
-   SECRET_KEY=your_secret_key
+   SECRET_KEY=your_secret_key_here
    SQLALCHEMY_DATABASE_URI=sqlite:///marketplace.db
+
    ```
 
 5. Initialize the database:
@@ -78,19 +79,13 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
 
 To run the tests for your Flask application, follow these steps:
 
-1. Set up the virtual environment:
-    - Create and activate a virtual environment to isolate your dependencies.
+## Running Tests
 
+To run the tests for your Flask application, follow these steps:
+
+1. Activate the virtual environment:
     ```bash
-    python3 -m venv venv
     source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-    ```
-
-2. Install dependencies:
-    - Install the required dependencies from the `requirements.txt` file.
-
-    ```bash
-    pip install -r requirements.txt
     ```
 
 3. Run the tests:
