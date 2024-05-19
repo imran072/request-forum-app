@@ -47,7 +47,8 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
    pip install -r requirements.txt
    ```
 
-4. Set up environment variables:
+4. SKIP THIS STEP IF YOU ARE USING LMS version of the project: 
+Set up environment variables:
 
    Create a `.env` file in the root directory and add necessary environment variables:
 
@@ -58,7 +59,8 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
 
    ```
 
-5. Initialize the database:
+5. SKIP THIS STEP IF YOU HAVE A DUMMY DATABASE (LMS version HAS a dummy DB): 
+Initialize the database:
 
    ```bash
    flask db init
