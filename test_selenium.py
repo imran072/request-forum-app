@@ -2,9 +2,11 @@ import unittest
 from flask import Flask
 from multiprocessing import Process
 import os
+import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
 from app import create_app, db
 from app.models import User
 
@@ -28,9 +30,9 @@ class TestUserInterface(unittest.TestCase):
     def setUpClass(cls):
         cls.server_process = Process(target=run_server)
         cls.server_process.start()
+        time.sleep(5)  # Wait for server to start
         print("Server started")
-        service = Service(executable_path="/Users/kazimdimran/Desktop/UWA/projects/request-forum-app/chromedriver")
-        cls.driver = webdriver.Chrome(service=service)
+        cls.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
         cls.driver.implicitly_wait(5)
 
     @classmethod

@@ -21,3 +21,5 @@ SQLAlchemy==2.0.29
 typing_extensions==4.11.0
 Werkzeug==3.0.2
 WTForms==3.1.2
+selenium==4.1.0
+webdriver-manager
