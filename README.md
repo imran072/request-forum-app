@@ -1,4 +1,4 @@
-# Request Forum App
+# EV Marketplace Web Application
 
 This is a web application that serves as a request forum, allowing users to create accounts, post their own requests, and answer other people's requests. The application aims to provide an engaging, effective, and intuitive platform for users to interact and exchange requests within a specific context or community.
 
