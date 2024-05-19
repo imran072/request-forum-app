@@ -9,6 +9,8 @@ This is a web application that serves as a request forum, allowing users to crea
 - Make-an-offer: The buyer can offer a price to make the experience smooth and efficient.
 - User Authentication: Users can register, log in, and reset their passwords.
 - Listing Management: Users can create, edit, and delete vehicle listings.
+- Profile: User has own account profile with all relevant information in it
+- Admin Dashboard: Provides maintenance tools for a User with admin rights. 
 
 ## Technologies Used
 
@@ -29,7 +31,6 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
 
    ```bash
    git clone <repository_url>
-   cd ev-marketplace
    ```
 
 2. Set up a virtual environment:
@@ -53,7 +54,7 @@ Ensure you have Python 3.x installed on your system. It's recommended to use a v
    FLASK_APP=run.py
    FLASK_ENV=development
    SECRET_KEY=your_secret_key
-   SQLALCHEMY_DATABASE_URI=sqlite:///site.db
+   SQLALCHEMY_DATABASE_URI=sqlite:///marketplace.db
    ```
 
 5. Initialize the database:
@@ -92,66 +93,13 @@ To run the tests for your Flask application, follow these steps:
     pip install -r requirements.txt
     ```
 
-3. Set up the database:
-    - Populate the database using the provided scripts.
-
-    ```bash
-    python populate_db.py
-    python create_admin.py
-    ```
-
-4. Run the Flask application:
-    - Start your Flask application.
-
-    ```bash
-    python run.py
-    ```
-
-5. Run the tests:
-    - Execute the tests using the appropriate test framework. Your files indicate the use of Selenium for integration tests and possibly pytest for unit tests.
+3. Run the tests:
+    - Assumption: Chromedriver for Selenium is installed and is in $PATH
 
     ```bash
     pytest test_app.py
     pytest test_selenium.py
     ```
-
-### Additional Information
-
-- Configuring the Database: Ensure your `config.py` file is set up correctly to point to your SQLite database or another database system you are using.
-- Environment Variables: If your application requires specific environment variables, ensure they are set. You can use a `.env` file for this purpose.
-
-### Example .env File
-
-If your application uses environment variables, create a `.env` file in your project root:
-
-```ini
-FLASK_APP=run.py
-FLASK_ENV=development
-DATABASE_URL=sqlite:///dummy_car_listing.db
-SECRET_KEY=your_secret_key
-```
-
-### Example Commands to Run All Steps
-
-```bash
-# 1. Set up virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Set up the database
-python populate_db.py
-python create_admin.py
-
-# 4. Run the Flask application
-python run.py
-
-# 5. Run the tests
-pytest test_app.py
-pytest test_selenium.py
-```
 
 By following these steps, you should be able to set up the environment, run the Flask application, and execute the tests successfully.
 
@@ -171,13 +119,31 @@ By following these steps, you should be able to set up the environment, run the 
 
 The application uses the following key dependencies:
 
-- Flask
-- Flask-Admin
-- Flask-Login
-- Flask-Mail
-- Flask-Migrate
-- Flask-SQLAlchemy
-- Flask-WTF
+- alembic==1.13.1
+- blinker==1.8.1
+- click==8.1.7
+- dnspython==2.6.1
+- email_validator==2.1.1
+- Flask==3.0.3
+- Flask-Admin==1.6.1
+- Flask-Login==0.6.3
+- Flask-Mail==0.9.1
+- Flask-Migrate==4.0.7
+- Flask-SQLAlchemy==3.1.1
+- Flask-Testing==0.8.1
+- Flask-WTF==1.2.1
+- idna==3.7
+- itsdangerous==2.2.0
+- Jinja2==3.1.3
+- Mako==1.3.3
+- MarkupSafe==2.1.5
+- python-dotenv==1.0.1
+- SQLAlchemy==2.0.29
+- typing_extensions==4.11.0
+- Werkzeug==3.0.2
+- WTForms==3.1.2
+- selenium==4.1.0
+- webdriver-manager
 
 For a full list of dependencies, refer to `requirements.txt`.
 
