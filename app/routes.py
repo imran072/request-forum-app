@@ -47,7 +47,8 @@ def search_vehicles():
         if acceleration != 'any':
             query = query.filter(Vehicle.acceleration == acceleration)
         if price != 'any':
-            query = query.filter(Vehicle.price == price)
+            price = float(price)
+            query = query.filter(Vehicle.price <= int(price))
         if color != 'any':
             query = query.filter(Vehicle.color == color)
 
@@ -210,6 +211,7 @@ def search_results():
     if model and model != 'any':
         query = query.filter_by(model=model)
     if price and price != 'any':
+        price = float(price)
         query = query.filter(Vehicle.price <= int(price))
 
     vehicles = query.all()
